@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>મારો પોર્ટફોલિયો V3.5.1</title>
+<title>મારો પોર્ટફોલિયો V3.5</title>
 <style>
 body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
 h1{font-size:20px;text-align:center}
@@ -32,8 +32,8 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <body>
 <img src="logo.png" class="logo">
 <div class="logotext">MF Investment - જય સ્વામિનારાયણ</div>
-<h1>📊 મારો પોર્ટફોલિયો V3.5.1</h1>
-<div class="top" id="total">લોડ થાય છે...</div>
+<h1>📊 મારો પોર્ટફોલિયો V3.5</h1>
+<div class="top" id="total"></div>
 <div class="diffbox" id="diffBox">
 <div style="font-size:14px;color:#7C2D12;font-weight:700">જય સ્વામિનારાયણ - ગઈકાલ કરતાં આજે કેટલો ફરક?</div>
 <div class="big" id="diffTotal">હજુ અપડેટ નથી કર્યું</div>
@@ -70,8 +70,7 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <button onclick="document.getElementById('file').click()" style="background:#555">બેકઅપ પાછો લાવો</button>
 </div>
 <input type="file" id="file" hidden onchange="importData(event)">
-<div id="list" style="margin-top:12px">લોડ થાય છે... જો આમ જ રહે તો પેજ રિફ્રેશ કરો.</div>
-<div id="debug" class="small" style="text-align:center;margin-top:10px"></div>
+<div id="list" style="margin-top:12px"></div>
 <script>
 let defaultFunds=[
 {name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2655,prevNav:10.2317},
@@ -105,63 +104,54 @@ let defaultFunds=[
 {name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:729.006,prevNav:719.34},
 {name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0213,prevNav:210.0817}
 ];
-let funds = null;
-try{
-  funds = JSON.parse(localStorage.getItem('myFundsV33') || 'null');
-}catch(e){ funds = null; }
-if(!funds || !Array.isArray(funds) || funds.length===0){
-  try{
-    let old = JSON.parse(localStorage.getItem('myFundsV32') || 'null') || JSON.parse(localStorage.getItem('myFundsV31') || 'null');
-    funds = (old && old.length>0) ? old : defaultFunds;
-  }catch(e){ funds = defaultFunds; }
+let funds = JSON.parse(localStorage.getItem('myFundsV33') || 'null');
+if(!funds){
+  let old = JSON.parse(localStorage.getItem('myFundsV32') || 'null') || JSON.parse(localStorage.getItem('myFundsV31') || 'null');
+  funds = old || defaultFunds;
   funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; });
-  try{ localStorage.setItem('myFundsV33',JSON.stringify(funds)); }catch(e){}
+  localStorage.setItem('myFundsV33',JSON.stringify(funds));
 }
 let selectedScheme = "all";
 function buildDropdown(){
   let sel = document.getElementById('schemeSelect');
-  sel.innerHTML='<option value="all">-- બધી સ્કીમ જુઓ --</option>';
   let seen = {};
-  funds.forEach(function(f){
+  funds.forEach(f=>{
     if(!seen[f.name]){ seen[f.name]=true; let o=document.createElement('option'); o.value=f.name; o.textContent=f.name; sel.appendChild(o); }
   });
-  sel.value = "all";
 }
-function onSchemeChange(){ selectedScheme = document.getElementById('schemeSelect').value; render(); }
+function rebuildDropdown(){ document.getElementById('schemeSelect').innerHTML='<option value="all">-- બધી સ્કીમ જુઓ --</option>'; buildDropdown(); }
+function onSchemeChange(){ selectedScheme = document.getElementById('schemeSelect').value; render(); document.getElementById('groupBox').scrollIntoView({behavior:'smooth'}); }
 function showAllSchemes(){ selectedScheme="all"; document.getElementById('schemeSelect').value="all"; render(); }
-function save(){ try{ localStorage.setItem('myFundsV33',JSON.stringify(funds)); }catch(e){} render(); }
+function save(){ localStorage.setItem('myFundsV33',JSON.stringify(funds)); render(); }
 function render(){
-try{
 let ti=0,tc=0,html='',tdiff=0;
 let gInv=0,gCur=0,gDiff=0,gCount=0;
-for(let i=0;i<funds.length;i++){
-let f=funds[i];
+funds.forEach((f,i)=>{
 let cur=f.units*f.nav; ti+=f.inv; tc+=cur;
 let pl=cur-f.inv; let pct=f.inv?((pl/f.inv)*100).toFixed(2):0;
 let prev = f.prevNav || f.nav;
 let d = (f.nav-prev)*f.units;
 tdiff += d;
-if(selectedScheme!=="all" && f.name!==selectedScheme) continue;
+if(selectedScheme!=="all" && f.name!==selectedScheme) return;
 gInv+=f.inv; gCur+=cur; gDiff+=d; gCount++;
 let dTxt = '';
 if(f.prevNav && f.prevNav!==f.nav){
-  dTxt = d>=0 ? '<div class="up">ગઈકાલ કરતાં આજે: + ₹'+Math.round(d).toLocaleString('en-IN')+'</div>' : '<div class="down">ગઈકાલ કરતાં આજે: - ₹'+Math.round(Math.abs(d)).toLocaleString('en-IN')+'</div>';
+  dTxt = d>=0 ? `<div class="up">ગઈકાલ કરતાં આજે: + ₹${Math.round(d).toLocaleString('en-IN')}</div>` : `<div class="down">ગઈકાલ કરતાં આજે: - ₹${Math.round(Math.abs(d)).toLocaleString('en-IN')}</div>`;
 } else {
-  dTxt = '<div class="small">ગઈકાલ કરતાં ફરક: અપડેટ પછી દેખાશે</div>';
+  dTxt = `<div class="small">ગઈકાલ કરતાં ફરક: અપડેટ પછી દેખાશે</div>`;
 }
-html+='<div class="card"><b>'+f.name+'</b><div class="small">'+(f.folio||'')+' | Units: '+f.units+' | NAV: '+f.nav+' | ગઈકાલ NAV: '+prev+'</div><div>Invested: ₹'+f.inv.toLocaleString('en-IN')+' | Current: ₹'+Math.round(cur).toLocaleString('en-IN')+'</div><div>Profit: ₹'+Math.round(pl).toLocaleString('en-IN')+' ('+pct+'%)</div>'+dTxt+'<button class="del" onclick="delFund('+i+')">Delete</button></div>';
-}
-if(html==="") html='<div class="card">કોઈ સ્કીમ મળી નથી. બધી સ્કીમ બતાવો દબાવો.</div>';
+html+=`<div class="card"><b>${f.name}</b><div class="small">${f.folio||''} | Units: ${f.units} | NAV: ${f.nav} | ગઈકાલ NAV: ${prev}</div><div>Invested: ₹${f.inv.toLocaleString('en-IN')} | Current: ₹${Math.round(cur).toLocaleString('en-IN')}</div><div>Profit: ₹${Math.round(pl).toLocaleString('en-IN')} (${pct}%)</div>${dTxt}<button class="del" onclick="delFund(${i})">Delete</button></div>`;
+});
+if(html==="") html=`<div class="card">કોઈ સ્કીમ મળી નથી. બધી સ્કીમ બતાવો દબાવો.</div>`;
 document.getElementById('list').innerHTML=html;
 let tp=tc-ti; let tpp=ti?((tp/ti)*100).toFixed(2):0;
-document.getElementById('total').innerHTML='Total Invested: ₹'+Math.round(ti).toLocaleString('en-IN')+'<br>Total Current: ₹'+Math.round(tc).toLocaleString('en-IN')+'<br>Profit: ₹'+Math.round(tp).toLocaleString('en-IN')+' ('+tpp+'%)<br><span style="font-size:12px;font-weight:400">Last Updated: '+new Date().toLocaleString('en-IN')+'</span>';
-document.getElementById('debug').innerText = 'કુલ ફંડ: '+funds.length+' | દેખાય છે: '+gCount+' | ફિલ્ટર: '+selectedScheme;
+document.getElementById('total').innerHTML=`Total Invested: ₹${Math.round(ti).toLocaleString('en-IN')}<br>Total Current: ₹${Math.round(tc).toLocaleString('en-IN')}<br>Profit: ₹${Math.round(tp).toLocaleString('en-IN')} (${tpp}%)<br><span style="font-size:12px;font-weight:400">Last Updated: ${new Date().toLocaleString('en-IN')}</span>`;
 if(selectedScheme!=="all"){
   let gPl=gCur-gInv; let gPct=gInv?((gPl/gInv)*100).toFixed(2):0;
   document.getElementById('groupBox').style.display='block';
-  document.getElementById('groupTitle').innerText = '📊 ' + selectedScheme + ' - ' + gCount + ' ફોલિયોનો ટોટલ';
-  document.getElementById('groupTotal').innerHTML = 'Invested: ₹'+Math.round(gInv).toLocaleString('en-IN')+'<br>Current: ₹'+Math.round(gCur).toLocaleString('en-IN')+'<br>Profit: ₹'+Math.round(gPl).toLocaleString('en-IN')+' ('+gPct+'%)';
-  document.getElementById('groupSub').innerText = gDiff>=0 ? 'ગઈકાલ કરતાં આ સ્કીમમાં આજે: + ₹'+Math.round(gDiff).toLocaleString('en-IN') : 'ગઈકાલ કરતાં આ સ્કીમમાં આજે: - ₹'+Math.round(Math.abs(gDiff)).toLocaleString('en-IN');
+  document.getElementById('groupTitle').innerText = "📊 " + selectedScheme + " - " + gCount + " ફોલિયોનો ટોટલ";
+  document.getElementById('groupTotal').innerHTML = `Invested: ₹${Math.round(gInv).toLocaleString('en-IN')}<br>Current: ₹${Math.round(gCur).toLocaleString('en-IN')}<br>Profit: ₹${Math.round(gPl).toLocaleString('en-IN')} (${gPct}%)`;
+  document.getElementById('groupSub').innerText = gDiff>=0 ? `ગઈકાલ કરતાં આ સ્કીમમાં આજે: + ₹${Math.round(gDiff).toLocaleString('en-IN')}` : `ગઈકાલ કરતાં આ સ્કીમમાં આજે: - ₹${Math.round(Math.abs(gDiff)).toLocaleString('en-IN')}`;
 } else {
   document.getElementById('groupBox').style.display='none';
 }
@@ -169,14 +159,11 @@ let hasDiff = funds.some(f=>f.prevNav && f.prevNav!==f.nav);
 if(hasDiff){
   let cls = tdiff>=0 ? '#15803D' : '#DC2626';
   let sign = tdiff>=0 ? '+' : '-';
-  document.getElementById('diffTotal').innerHTML='<span style="color:'+cls+'">'+sign+' ₹'+Math.round(Math.abs(tdiff)).toLocaleString('en-IN')+'</span>';
+  document.getElementById('diffTotal').innerHTML=`<span style="color:${cls}">${sign} ₹${Math.round(Math.abs(tdiff)).toLocaleString('en-IN')}</span>`;
   document.getElementById('diffSub').innerText = tdiff>=0 ? 'મહંત સ્વામી મહારાજની કૃપાથી ગઈકાલ કરતાં આજે આટલો ફાયદો' : 'ગઈકાલ કરતાં આજે આટલો ઘટાડો';
 } else {
   document.getElementById('diffTotal').innerText='હજુ અપડેટ નથી કર્યું';
   document.getElementById('diffSub').innerText='લીલું બટન દબાવો એટલે ફરક અહીં આવી જશે';
-}
-}catch(err){
-  document.getElementById('list').innerHTML='<div class="card">એરર: '+err.message+'</div>';
 }
 }
 function addFund(){
@@ -186,15 +173,15 @@ let iv=parseFloat(document.getElementById('inv').value);
 let nv=parseFloat(document.getElementById('nav').value);
 if(!n||!u||!iv||!nv){alert('બધું ભરો');return;}
 funds.push({name:n,folio:document.getElementById('folio').value,units:u,inv:iv,nav:nv,prevNav:nv});
-['name','folio','units','inv','nav'].forEach(id=>document.getElementById(id).value=''); save(); buildDropdown();
+['name','folio','units','inv','nav'].forEach(id=>document.getElementById(id).value=''); save(); rebuildDropdown();
 }
-function delFund(i){ if(confirm('કાઢી નાખવું છે?')){ funds.splice(i,1); save(); buildDropdown(); showAllSchemes(); } }
+function delFund(i){ if(confirm('કાઢી નાખવું છે?')){ funds.splice(i,1); save(); rebuildDropdown(); showAllSchemes(); } }
 function exportData(){
 let b=new Blob([JSON.stringify(funds)],{type:'application/json'});
 let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='portfolio-backup.json'; a.click();
 }
 function importData(e){
-let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; }); save(); buildDropdown(); }; r.readAsText(e.target.files[0]);
+let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; }); save(); rebuildDropdown(); }; r.readAsText(e.target.files[0]);
 }
 function exportExcel(){
 let csv="Scheme,Folio,Units,Invested,NAV,Prev NAV,Current Value,Profit,Profit %,Yesterday Diff\n";
@@ -219,4 +206,32 @@ for(let i=0;i<funds.length;i++){
 try{
 let code=null;
 if(funds[i].name.includes('ICICI Prudential Value')) code='120323';
-if(funds[i].name.includes('J
+if(funds[i].name.includes('Jio Flexi')) code='153859';
+let d=null;
+if(code){
+d=await fetch('https://api.mfapi.in/mf/'+code+'/latest').then(r=>r.json());
+}else{
+let q=funds[i].name.replace(/Direct Plan|Direct Growth|Direct|Growth|Plan/gi,'').trim();
+let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)).then(r=>r.json());
+if(s && s.length>0){
+let pick=s.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || s[0];
+d=await fetch('https://api.mfapi.in/mf/'+pick.schemeCode+'/latest').then(r=>r.json());
+}
+}
+if(d && d.data && d.data[0]){
+let newNav=parseFloat(d.data[0].nav);
+if(newNav){ funds[i].nav=newNav; updated++; }
+}
+document.getElementById('status').innerText=`અપડેટ થાય છે... ${i+1} / ${funds.length} થયું`;
+}catch(e){}
+await new Promise(r=>setTimeout(r,200));
+}
+save();
+document.getElementById('status').innerText=`થઈ ગયું! ${updated} ફંડનો NAV અપડેટ થયો. ઉપર ફરક જોઈ લો.`;
+alert('NAV અપડેટ થઈ ગયો! ઉપર ગઈકાલ કરતાં ફરક જોઈ લો.');
+}
+buildDropdown();
+render();
+</script>
+</body>
+</html>
