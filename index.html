@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>મારો પોર્ટફોલિયો V2</title>
+<title>મારો પોર્ટફોલિયો V3.1</title>
 <style>
 body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
 h1{font-size:20px;text-align:center}
@@ -14,16 +14,14 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 .small{font-size:13px;color:#555}
 .del{background:#ff3b30;margin-top:8px}
 .row{display:flex;gap:8px}.row button{flex:1}
-.update{background:#0a7a42}.excel{background:#107c41}.exp{background:#0a7a42}
+.update{background:#0a7a42}.excel{background:#107c41}
 </style>
 </head>
 <body>
-<h1>📊 મારો પોર્ટફોલિયો V2</h1>
+<h1>📊 મારો પોર્ટફોલિયો V3.1</h1>
 <div class="top" id="total"></div>
-
 <button class="update" onclick="updateAllNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button>
-<p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ. 30 સ્કીમ માટે 30-40 સેકન્ડ લાગશે.</p>
-
+<p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p>
 <div class="card">
 <h3>+ નવું ફંડ ઉમેરો</h3>
 <input id="name" placeholder="સ્કીમનું નામ">
@@ -33,7 +31,6 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <input id="nav" type="number" placeholder="NAV">
 <button onclick="addFund()">Add Fund</button>
 </div>
-
 <div class="row">
 <button class="excel" onclick="exportExcel()">📗 Excel માં Export કરો</button>
 <button onclick="exportData()">💾 બેકઅપ લો</button>
@@ -42,13 +39,11 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <button onclick="document.getElementById('file').click()" style="background:#555">બેકઅપ પાછો લાવો</button>
 </div>
 <input type="file" id="file" hidden onchange="importData(event)">
-
 <div id="list" style="margin-top:12px"></div>
-
 <script>
 let defaultFunds=[
 {name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2317},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:31000,nav:121.95},
+{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75},
 {name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:48.7951},
 {name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.8087},
 {name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:181.308},
@@ -78,9 +73,9 @@ let defaultFunds=[
 {name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:719.34},
 {name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0817}
 ];
-let funds = JSON.parse(localStorage.getItem('myFundsV2') || 'null');
-if(!funds){ funds=defaultFunds; localStorage.setItem('myFundsV2',JSON.stringify(funds)); }
-function save(){ localStorage.setItem('myFundsV2',JSON.stringify(funds)); render(); }
+let funds = JSON.parse(localStorage.getItem('myFundsV31') || 'null');
+if(!funds){ funds=defaultFunds; localStorage.setItem('myFundsV31',JSON.stringify(funds)); }
+function save(){ localStorage.setItem('myFundsV31',JSON.stringify(funds)); render(); }
 function render(){
 let ti=0,tc=0,html='';
 funds.forEach((f,i)=>{
@@ -109,7 +104,6 @@ let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='po
 function importData(e){
 let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); save(); }; r.readAsText(e.target.files[0]);
 }
-// --- EXCEL EXPORT ---
 function exportExcel(){
 let csv="Scheme,Folio,Units,Invested,NAV,Current Value,Profit,Profit %\n";
 let ti=0,tc=0;
@@ -121,24 +115,30 @@ csv+=`"${f.name}","${f.folio||''}",${f.units},${f.inv},${f.nav},${Math.round(cur
 csv+=`\n"TOTAL","","",${ti},"",${Math.round(tc)},${Math.round(tc-ti)},""\n`;
 let b=new Blob(["\ufeff"+csv],{type:'text/csv'});
 let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='My-Portfolio.csv'; a.click();
-alert('Excel ફાઈલ ડાઉનલોડ થઈ ગઈ. એને Excel માં ખોલી શકશો.');
+alert('Excel ફાઈલ ડાઉનલોડ થઈ ગઈ.');
 }
-// --- AUTO NAV UPDATE ---
 async function updateAllNAV(){
 document.getElementById('status').innerText='અપડેટ થાય છે... થોડી રાહ જુઓ...';
 let updated=0;
 for(let i=0;i<funds.length;i++){
 try{
+let code=null;
+if(funds[i].name.includes('ICICI Prudential Value')) code='120323';
+if(funds[i].name.includes('Jio Flexi')) code='153859';
+let d=null;
+if(code){
+d=await fetch('https://api.mfapi.in/mf/'+code+'/latest').then(r=>r.json());
+}else{
 let q=funds[i].name.replace(/Direct Plan|Direct Growth|Direct|Growth|Plan/gi,'').trim();
 let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)).then(r=>r.json());
 if(s && s.length>0){
-// સૌથી પહેલો Direct Growth વાળો શોધો
 let pick=s.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || s[0];
-let d=await fetch('https://api.mfapi.in/mf/'+pick.schemeCode+'/latest').then(r=>r.json());
+d=await fetch('https://api.mfapi.in/mf/'+pick.schemeCode+'/latest').then(r=>r.json());
+}
+}
 if(d && d.data && d.data[0]){
 let newNav=parseFloat(d.data[0].nav);
 if(newNav){ funds[i].nav=newNav; updated++; }
-}
 }
 document.getElementById('status').innerText=`અપડેટ થાય છે... ${i+1} / ${funds.length} થયું`;
 }catch(e){}
