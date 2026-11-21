@@ -3,25 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="IMG-20261121-WA4153.jpg">
-  <title>મારો પોર્ટફોલિયો V3.1</title>
+<title>મારો પોર્ટફોલિયો V3.2</title>
 <style>
 body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
 h1{font-size:20px;text-align:center}
 .card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px #0001}
 .top{background:#111;color:#fff;padding:14px;border-radius:12px;margin-bottom:12px;line-height:1.6;font-weight:700}
+.diffbox{background:#FFF7ED;border:2px solid #F59E0B;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}
+.diffbox .big{font-size:26px;font-weight:800;color:#15803D}
 input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
 button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;color:#fff;font-size:16px;font-weight:700;margin-bottom:8px}
 .small{font-size:13px;color:#555}
 .del{background:#ff3b30;margin-top:8px}
 .row{display:flex;gap:8px}.row button{flex:1}
 .update{background:#0a7a42}.excel{background:#107c41}
+.up{color:#15803D;font-weight:700}.down{color:#DC2626;font-weight:700}
 </style>
 </head>
 <body>
-<img src="IMG-20261121-WA4153.jpg" style="width:110px;display:block;margin:0 auto;border-radius:15px">
-  <h1>📊 મારો પોર્ટફોલિયો V3.1</h1>
+<h1>📊 મારો પોર્ટફોલિયો V3.2</h1>
 <div class="top" id="total"></div>
+<div class="diffbox" id="diffBox">
+<div style="font-size:14px;color:#7C2D12;font-weight:700">જય સ્વામિનારાયણ - ગઈકાલ કરતાં આજે કેટલો ફરક?</div>
+<div class="big" id="diffTotal">હજુ અપડેટ નથી કર્યું</div>
+<div class="small" id="diffSub">લીલું બટન દબાવો એટલે 19-20 વાળો ફરક અહીં આવી જશે</div>
+</div>
 <button class="update" onclick="updateAllNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button>
 <p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p>
 <div class="card">
@@ -44,50 +50,74 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <div id="list" style="margin-top:12px"></div>
 <script>
 let defaultFunds=[
-{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2317},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75},
-{name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:48.7951},
-{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.8087},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:181.308},
-{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:49.153},
-{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:42.901},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.3652},
-{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:4924.4535},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:105.4488},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:105.4488},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.3652},
-{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:731.8341},
-{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.4034},
-{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:471.6231},
-{name:"Quant PSU Fund - Direct Growth",folio:"",units:1358.41,inv:150005,nav:10.7219},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.646},
-{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:27.8251},
-{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"",units:500.022,inv:45000,nav:120.427},
-{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5578},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Rajendra",units:2153.09,inv:135000,nav:94.6945},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Komalben",units:2682.30,inv:60000,nav:32.837},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Rajendra",units:896.29,inv:20000,nav:32.837},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Komalben",units:269.94,inv:25000,nav:94.6945},
-{name:"DSP Small Cap Fund - Direct Growth",folio:"",units:809.87,inv:99716,nav:247.245},
-{name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:719.34},
-{name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0817}
+{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2317,prevNav:10.2317},
+{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75,prevNav:537.75},
+{name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:48.7951,prevNav:48.7951},
+{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.8087,prevNav:42.8087},
+{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:181.308,prevNav:181.308},
+{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:49.153,prevNav:49.153},
+{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:42.901,prevNav:42.901},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.3652,prevNav:203.3652},
+{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:4924.4535,prevNav:4924.4535},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:105.4488,prevNav:105.4488},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:105.4488,prevNav:105.4488},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.3652,prevNav:203.3652},
+{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:731.8341,prevNav:731.8341},
+{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.4034,prevNav:310.4034},
+{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:471.6231,prevNav:471.6231},
+{name:"Quant PSU Fund - Direct Growth",folio:"",units:1358.41,inv:150005,nav:10.7219,prevNav:10.7219},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.646,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.646,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.646,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.646,prevNav:56.646},
+{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:27.8251,prevNav:27.8251},
+{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"",units:500.022,inv:45000,nav:120.427,prevNav:120.427},
+{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5578,prevNav:17.5578},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Rajendra",units:2153.09,inv:135000,nav:94.6945,prevNav:94.6945},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Komalben",units:2682.30,inv:60000,nav:32.837,prevNav:32.837},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Rajendra",units:896.29,inv:20000,nav:32.837,prevNav:32.837},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Komalben",units:269.94,inv:25000,nav:94.6945,prevNav:94.6945},
+{name:"DSP Small Cap Fund - Direct Growth",folio:"",units:809.87,inv:99716,nav:247.245,prevNav:247.245},
+{name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:719.34,prevNav:719.34},
+{name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0817,prevNav:210.0817}
 ];
-let funds = JSON.parse(localStorage.getItem('myFundsV31') || 'null');
-if(!funds){ funds=defaultFunds; localStorage.setItem('myFundsV31',JSON.stringify(funds)); }
-function save(){ localStorage.setItem('myFundsV31',JSON.stringify(funds)); render(); }
+let funds = JSON.parse(localStorage.getItem('myFundsV32') || 'null');
+if(!funds){
+  let old = JSON.parse(localStorage.getItem('myFundsV31') || 'null');
+  funds = old || defaultFunds;
+  funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; });
+  localStorage.setItem('myFundsV32',JSON.stringify(funds));
+}
+function save(){ localStorage.setItem('myFundsV32',JSON.stringify(funds)); render(); }
 function render(){
-let ti=0,tc=0,html='';
+let ti=0,tc=0,html='',tdiff=0;
 funds.forEach((f,i)=>{
 let cur=f.units*f.nav; ti+=f.inv; tc+=cur;
 let pl=cur-f.inv; let pct=f.inv?((pl/f.inv)*100).toFixed(2):0;
-html+=`<div class="card"><b>${f.name}</b><div class="small">${f.folio||''} | Units: ${f.units} | NAV: ${f.nav}</div><div>Invested: ₹${f.inv.toLocaleString('en-IN')} | Current: ₹${Math.round(cur).toLocaleString('en-IN')}</div><div>Profit: ₹${Math.round(pl).toLocaleString('en-IN')} (${pct}%)</div><button class="del" onclick="delFund(${i})">Delete</button></div>`;
+let prev = f.prevNav || f.nav;
+let d = (f.nav-prev)*f.units;
+tdiff += d;
+let dTxt = '';
+if(f.prevNav && f.prevNav!==f.nav){
+  dTxt = d>=0 ? `<div class="up">ગઈકાલ કરતાં આજે: + ₹${Math.round(d).toLocaleString('en-IN')}</div>` : `<div class="down">ગઈકાલ કરતાં આજે: - ₹${Math.round(Math.abs(d)).toLocaleString('en-IN')}</div>`;
+} else {
+  dTxt = `<div class="small">ગઈકાલ કરતાં ફરક: અપડેટ પછી દેખાશે</div>`;
+}
+html+=`<div class="card"><b>${f.name}</b><div class="small">${f.folio||''} | Units: ${f.units} | NAV: ${f.nav} | ગઈકાલ NAV: ${prev}</div><div>Invested: ₹${f.inv.toLocaleString('en-IN')} | Current: ₹${Math.round(cur).toLocaleString('en-IN')}</div><div>Profit: ₹${Math.round(pl).toLocaleString('en-IN')} (${pct}%)</div>${dTxt}<button class="del" onclick="delFund(${i})">Delete</button></div>`;
 });
 document.getElementById('list').innerHTML=html;
 let tp=tc-ti; let tpp=ti?((tp/ti)*100).toFixed(2):0;
 document.getElementById('total').innerHTML=`Total Invested: ₹${Math.round(ti).toLocaleString('en-IN')}<br>Total Current: ₹${Math.round(tc).toLocaleString('en-IN')}<br>Profit: ₹${Math.round(tp).toLocaleString('en-IN')} (${tpp}%)<br><span style="font-size:12px;font-weight:400">Last Updated: ${new Date().toLocaleString('en-IN')}</span>`;
+let hasDiff = funds.some(f=>f.prevNav && f.prevNav!==f.nav);
+if(hasDiff){
+  let cls = tdiff>=0 ? '#15803D' : '#DC2626';
+  let sign = tdiff>=0 ? '+' : '-';
+  document.getElementById('diffTotal').innerHTML=`<span style="color:${cls}">${sign} ₹${Math.round(Math.abs(tdiff)).toLocaleString('en-IN')}</span>`;
+  document.getElementById('diffSub').innerText = tdiff>=0 ? 'મહંત સ્વામી મહારાજની કૃપાથી ગઈકાલ કરતાં આજે આટલો ફાયદો' : 'ગઈકાલ કરતાં આજે આટલો ઘટાડો';
+} else {
+  document.getElementById('diffTotal').innerText='હજુ અપડેટ નથી કર્યું';
+  document.getElementById('diffSub').innerText='લીલું બટન દબાવો એટલે 19-20 વાળો ફરક અહીં આવી જશે';
+}
 }
 function addFund(){
 let n=document.getElementById('name').value.trim();
@@ -95,7 +125,7 @@ let u=parseFloat(document.getElementById('units').value);
 let iv=parseFloat(document.getElementById('inv').value);
 let nv=parseFloat(document.getElementById('nav').value);
 if(!n||!u||!iv||!nv){alert('બધું ભરો');return;}
-funds.push({name:n,folio:document.getElementById('folio').value,units:u,inv:iv,nav:nv});
+funds.push({name:n,folio:document.getElementById('folio').value,units:u,inv:iv,nav:nv,prevNav:nv});
 ['name','folio','units','inv','nav'].forEach(id=>document.getElementById(id).value=''); save();
 }
 function delFund(i){ if(confirm('કાઢી નાખવું છે?')){ funds.splice(i,1); save(); } }
@@ -104,23 +134,26 @@ let b=new Blob([JSON.stringify(funds)],{type:'application/json'});
 let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='portfolio-backup.json'; a.click();
 }
 function importData(e){
-let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); save(); }; r.readAsText(e.target.files[0]);
+let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; }); save(); }; r.readAsText(e.target.files[0]);
 }
 function exportExcel(){
-let csv="Scheme,Folio,Units,Invested,NAV,Current Value,Profit,Profit %\n";
+let csv="Scheme,Folio,Units,Invested,NAV,Prev NAV,Current Value,Profit,Profit %,Yesterday Diff\n";
 let ti=0,tc=0;
 funds.forEach(f=>{
 let cur=f.units*f.nav; let pl=cur-f.inv; let pct=f.inv?((pl/f.inv)*100).toFixed(2):0;
+let d=(f.nav-(f.prevNav||f.nav))*f.units;
 ti+=f.inv; tc+=cur;
-csv+=`"${f.name}","${f.folio||''}",${f.units},${f.inv},${f.nav},${Math.round(cur)},${Math.round(pl)},${pct}%\n`;
+csv+=`"${f.name}","${f.folio||''}",${f.units},${f.inv},${f.nav},${f.prevNav||f.nav},${Math.round(cur)},${Math.round(pl)},${pct}%,${Math.round(d)}\n`;
 });
-csv+=`\n"TOTAL","","",${ti},"",${Math.round(tc)},${Math.round(tc-ti)},""\n`;
+csv+=`\n"TOTAL","","",${ti},"","",${Math.round(tc)},${Math.round(tc-ti)},""\n`;
 let b=new Blob(["\ufeff"+csv],{type:'text/csv'});
 let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='My-Portfolio.csv'; a.click();
 alert('Excel ફાઈલ ડાઉનલોડ થઈ ગઈ.');
 }
 async function updateAllNAV(){
 document.getElementById('status').innerText='અપડેટ થાય છે... થોડી રાહ જુઓ...';
+funds.forEach(f=>{ f.prevNav=f.nav; });
+save();
 let updated=0;
 for(let i=0;i<funds.length;i++){
 try{
@@ -147,8 +180,8 @@ document.getElementById('status').innerText=`અપડેટ થાય છે...
 await new Promise(r=>setTimeout(r,200));
 }
 save();
-document.getElementById('status').innerText=`થઈ ગયું! ${updated} ફંડનો NAV અપડેટ થયો.`;
-alert('NAV અપડેટ થઈ ગયો!');
+document.getElementById('status').innerText=`થઈ ગયું! ${updated} ફંડનો NAV અપડેટ થયો. ઉપર ફરક જોઈ લો.`;
+alert('NAV અપડેટ થઈ ગયો! ઉપર ગઈકાલ કરતાં ફરક જોઈ લો.');
 }
 render();
 </script>
