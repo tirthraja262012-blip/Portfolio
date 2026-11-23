@@ -42,6 +42,27 @@ table, tr, td{
 }
 </style>
  <script>
+// AUTO FIX - સફેદ પર સફેદ હોય તો કાળો કરી દે
+function fixWhite(){
+  document.querySelectorAll('div, p, span, b, td').forEach(el=>{
+    let bg = getComputedStyle(el).backgroundColor;
+    if(bg==='rgb(255, 255, 255)' || bg==='rgb(248, 249, 250)' || bg.includes('255, 255')){
+      el.style.color = '#111111';
+    }
+  });
+  document.querySelectorAll('div').forEach(el=>{
+    let bg = getComputedStyle(el).backgroundColor;
+    if(bg==='rgb(255, 255, 255)' || bg==='rgb(248, 249, 250)'){
+      el.style.backgroundColor = '#ffffff';
+      el.style.color = '#111111';
+    }
+  });
+}
+setTimeout(fixWhite, 500);
+setTimeout(fixWhite, 1500);
+setInterval(fixWhite, 2000);
+</script>
+ <script>
 window.prompt = function(){ return null; };
  </script>
 <meta charset="UTF-8">
