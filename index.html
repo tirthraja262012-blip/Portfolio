@@ -77,7 +77,28 @@ function smartFix2(){
 setInterval(smartFix2, 500);
 setTimeout(smartFix2, 300);
 </script>
-<meta charset="UTF-8">
+<script>
+function fixFD(){
+  document.querySelectorAll('*').forEach(el=>{
+    let t = el.textContent || '';
+    if(t.includes(' FD') || t.includes('Maturity Date') || t.includes('Amount: Rs')){
+      let node = el;
+      for(let i=0;i<5 && node;i++){
+        node.style.setProperty('color', '#111111', 'important');
+        node = node.parentElement;
+      }
+      el.style.setProperty('color', '#111111', 'important');
+    }
+    if(el.tagName==='BUTTON' && (el.textContent||'').includes('EDIT')){
+      el.style.setProperty('color', '#111111', 'important');
+      el.style.setProperty('background-color', '#f5d76e', 'important');
+    }
+  });
+}
+setInterval(fixFD, 500);
+setTimeout(fixFD, 300);
+</script>
+ <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RAJA PARIVAR - MF FINAL FIXED</title>
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
