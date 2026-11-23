@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAJA PARIVAR PORTFOLIO - 4.0</title>
+<title>RAJA PARIVAR PORTFOLIO 4.0</title>
 <style>
+*{box-sizing:border-box}
 body{font-family:Arial;background:#FFF8E1;margin:0;padding:10px}
-.header{background:#6B0F1A;color:#fff;text-align:center;padding:18px;border-radius:14px}
-.header h1{color:#FFD700;margin:5px 0;font-size:22px}
+.header{background:#6B0F1A;color:#fff;text-align:center;padding:16px;border-radius:14px}
+.header h1{color:#FFD700;margin:5px 0;font-size:21px}
 .card{background:#fff;border:2px solid #FFD700;border-radius:12px;padding:12px;margin:12px 0}
 .card h2{color:#6B0F1A;margin:0 0 10px;font-size:17px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.box{background:#FFF3CD;padding:10px;border-radius:8px;text-align:center;font-size:14px}
-.box b{font-size:16px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{border:1px solid #ccc;padding:6px;text-align:left}
-th{background:#6B0F1A;color:#fff}
-input{width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;margin:4px 0;box-sizing:border-box}
-.btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
+.item{background:#FFF3CD;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.6}
+.item b{color:#6B0F1A}
+.row{display:flex;justify-content:space-between;gap:8px}
+.box{background:#FFF3CD;padding:10px;border-radius:8px;text-align:center;font-size:13px;flex:1}
 .green{color:green;font-weight:bold} .red{color:red;font-weight:bold}
+input{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin:5px 0}
+.btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
+.tickbtn{background:#fff;border:1px solid #FF8C00;color:#FF8C00;padding:6px 12px;border-radius:8px;font-weight:bold}
 .small{font-size:12px;color:#555}
 #lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
-#lock input{font-size:22px;text-align:center;max-width:220px}
+#lock input{font-size:22px;text-align:center;max-width:240px}
 </style>
 </head>
 <body>
 
 <div id="lock">
-<h2>RAJA PARIVAR PORTFOLIO - 4.0</h2>
+<h2>RAJA PARIVAR PORTFOLIO 4.0</h2>
 <p>Jay Swaminarayan<br>6 Aankda no PIN Nakho</p>
 <input id="pin" type="password" maxlength="6" placeholder="123456">
 <button class="btn" onclick="unlock()">OPEN</button>
@@ -35,75 +35,19 @@ input{width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;margin:4px 
 </div>
 
 <div class="header">
-<div>U</div>
-<h1>RAJA PARIVAR PORTFOLIO - 4.0</h1>
-<p>Jay Swaminarayan | MF + FD + Policy + NCD + Share - FINAL</p>
+<p style="margin:0">U</p>
+<h1>RAJA PARIVAR PORTFOLIO 4.0</h1>
+<p>Jay Swaminarayan | MF + FD + Policy + NCD + Share</p>
 </div>
 
 <div class="card">
-<h2>1. Dashboard - Total + Graph</h2>
-<div class="grid">
-<div class="box">Kul Sampatti<br><b>Rs ____</b></div>
-<div class="box">Varshe Premium<br><b>Rs 7,50,000</b></div>
-<div class="box">Kul FD<br><b>12 FD</b></div>
-<div class="box">Status<br><span class="green">Lilu = Chalu</span><br><span class="red">Lal = Baki</span></div>
-</div>
-<p><b>Graph:</b><br>FD - 40%<br>MF - 25%<br>Policy - 20%<br>NCD - 5%<br>Share - 10%</p>
+<h2>1. Dashboard - Total</h2>
+<div class="row"><div class="box">Kul Sampatti<br><b>Rs ____</b></div><div class="box">Varshe Premium<br><b>Rs 7,50,000</b></div></div>
+<div class="row"><div class="box">Kul FD<br><b>12 FD</b></div><div class="box">Status<br><span class="green">Lilu = Chalu</span><br><span class="red">Lal = Baki</span></div></div>
+<p><b>Graph:</b><br>FD 40% - MF 25% - Policy 20% - NCD 5% - Share 10%</p>
 <p class="small">Pop-up: Premium / FD pakvani tarikh na 1 mahina pehla pop-up avse.</p>
 </div>
 
 <div class="card">
 <h2>2. FD - FD 1 thi FD 12 - Pahela FD</h2>
-<table>
-<tr><th>FD</th><th>Naam</th><th>Bank</th><th>Rakam</th><th>Takavari</th><th>Pakvani</th><th>Tick</th></tr>
-<tr><td>FD 1</td><td>Parivar 1</td><td>HDFC</td><td>100000</td><td>7.50%</td><td>01-01-2027</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-<tr><td>FD 2</td><td>Parivar 2</td><td>HDFC</td><td>100000</td><td>7.50%</td><td>15-02-2027</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-<tr><td>FD 3</td><td>Parivar 3</td><td>ICICI</td><td>200000</td><td>7.75%</td><td>20-11-2026</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-</table>
-<p class="small">Maturity Note: Juni mature thayeli FD aama nathi. Baki ni FD 4 thi 12 aa j format ma chhe.</p>
-</div>
-
-<div class="card">
-<h2>3. Policy / Premium - Rs 7,50,000 / Varsh - Pachhi Policy</h2>
-<h3>A. Life + ULIP - Equity / Debt</h3>
-<table>
-<tr><th>Policy</th><th>Premium Rs</th><th>Kyare Bharvanu</th><th>Ketla Varsh</th><th>Tick</th></tr>
-<tr><td>ULIP - 1</td><td>___</td><td>___</td><td>___ Varsh</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-<tr><td>Life - 1</td><td>___</td><td>___</td><td>___ Varsh</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-</table>
-<h3>B. Mediclaim + Bija Premium</h3>
-<table>
-<tr><th>Policy</th><th>Premium Rs</th><th>Renew Tarikh</th><th>Tick</th></tr>
-<tr><td>Mediclaim</td><td>___</td><td>___</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-<tr><td>Term Plan</td><td>___</td><td>___</td><td><button onclick="this.textContent='DONE'">Tick</button></td></tr>
-</table>
-<p class="small">Pop-up: Premium tarikh na 1 mahina pehla - Aa Policy nu Premium Ave Chhe</p>
-</div>
-
-<div class="card">
-<h2>4. Mutual Fund / SIP</h2>
-<table>
-<tr><th>MF Naam</th><th>Mahine Rs</th><th>Value Rs</th><th>Status</th></tr>
-<tr><td>MF 1</td><td>___</td><td>___</td><td><span class="green">Lilu - Chalu</span></td></tr>
-<tr><td>MF 2</td><td>___</td><td>___</td><td><span class="green">Lilu - Chalu</span></td></tr>
-</table>
-</div>
-
-<div class="card"><h2>5. NCD + Share - Pachhi Share</h2><p>NCD | Share nu Naam | Ketla Share | Value Rs ____</p></div>
-<div class="card"><h2>6. RD + Savings + Sonu + Property + Loan + Parivar</h2><p>Badha 11 mudda aama j chhe</p></div>
-
-<div class="card">
-<h2>7. Report + Transaction</h2>
-<input id="tDesc" placeholder="Su karyu? Da.t. Premium bharyu">
-<input id="tAmt" type="number" placeholder="Rakam Rs">
-<button class="btn" onclick="addTx()">+ Transaction Umero</button>
-<ul id="txList"></ul>
-</div>
-
-<script>
-function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Khoto PIN'); } }
-function addTx(){ let d=document.getElementById('tDesc').value; let a=document.getElementById('tAmt').value; if(!d||!a) return alert('Vigat + Rakam lakho'); let li=document.createElement('li'); li.textContent=d+' - Rs '+a; document.getElementById('txList').appendChild(li); }
-setTimeout(()=>{ alert('Pop-up: Tamari ek Policy nu Premium 1 mahina ma ave chhe - Check karo'); }, 3000);
-</script>
-</body>
-</html>
+<div class="item"><b>FD 1 - Parivar 1</b><br>Bank: HDFC | Rakam: 100000 |
