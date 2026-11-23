@@ -564,5 +564,43 @@ function fdInterestType(){
 setTimeout(fdInterestType, 800);
 setInterval(fdInterestType, 3000);
  </script>
+ <script>
+// FD FINAL FIX - બધામાં EDIT + Interest Type
+function fdFinal(){
+ let items=document.querySelectorAll('#pFD .item');
+ items.forEach(el=>{
+  if(el.querySelector('.fdFinalEdit')) return;
+  let b=document.createElement('button');
+  b.className='fdFinalEdit';
+  b.textContent='EDIT - ALL';
+  b.style.cssText='background:#1565C0;color:white;padding:8px 14px;border:none;border-radius:8px;margin:8px 5px 0 0;font-weight:bold';
+  b.onclick=function(){
+   let t=el.innerText;
+   let nm=prompt("1. Bank Name?", "Equitas");
+   if(nm===null) return;
+   let ow=prompt("2. કેની FD છે? Rajendra / Komal", "Rajendra");
+   if(ow===null) return;
+   let am=prompt("3. Amount?", "73628");
+   if(am===null) return;
+   let dt=prompt("4. Maturity Date?", "2027-02-18");
+   if(dt===null) return;
+   let ma=prompt("5. Maturity Amount - પાકશે ત્યારે કેટલા?", am);
+   if(ma===null) return;
+   let tp=prompt("6. Interest કેવું? Quarterly / Maturity", "Maturity");
+   if(tp===null) return;
+   let isQ=tp.toLowerCase().includes('quart');
+   let intr=Number(ma)-Number(am);
+   let note=isQ ? 'Interest: QUARTERLY - દર 3 મહિને આવશે | દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN') : 'Interest: MATURITY પર - પાકે ત્યારે જ મળશે | કુલ Interest Rs '+intr.toLocaleString('en-IN');
+   el.innerHTML='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b><br>';
+   let b2=document.createElement('button'); b2.className='fdFinalEdit'; b2.textContent='EDIT - ALL'; b2.style.cssText=b.style.cssText; b2.onclick=b.onclick; el.appendChild(b2);
+   let d=document.createElement('button'); d.textContent='DELETE'; d.style.cssText='background:#C62828;color:white;padding:8px 14px;border:none;border-radius:8px;margin:8px 0 0 0;font-weight:bold'; d.onclick=function(){ if(confirm('કાઢી નાખવી?')) el.remove(); }; el.appendChild(d);
+   alert('થઈ ગયું રાજા');
+  };
+  el.appendChild(b);
+ });
+}
+setTimeout(fdFinal, 800);
+setInterval(fdFinal, 2000);
+ </script>
 </body>
 </html>
