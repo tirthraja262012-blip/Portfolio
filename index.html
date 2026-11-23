@@ -3,235 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>મારો પોર્ટફોલિયો V3.5</title>
+<title>Raja Parivar Portfolio - Final All Points</title>
 <style>
-body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
-h1{font-size:20px;text-align:center}
-.logo{width:90px;height:90px;background:#111;color:#fff;border-radius:0px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;margin:0 auto 8px;border:3px solid #F59E0B}
-.logotext{text-align:center;font-weight:800;color:#7C2D12;margin-bottom:8px}
-.card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px #0001}
-.top{background:#111;color:#fff;padding:14px;border-radius:12px;margin-bottom:12px;line-height:1.6;font-weight:700}
-.diffbox{background:#FFF7ED;border:2px solid #F59E0B;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}
-.diffbox .big{font-size:26px;font-weight:800;color:#15803D}
-input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
-button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;color:#fff;font-size:16px;font-weight:700;margin-bottom:8px}
-.small{font-size:13px;color:#555}
-.del{background:#ff3b30;margin-top:8px}
-.row{display:flex;gap:8px}.row button{flex:1}
-.update{background:#0a7a42}.excel{background:#107c41}
-.up{color:#15803D;font-weight:700}.down{color:#DC2626;font-weight:700}
-.filterbox{background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;box-shadow:0 1px 4px #0001;border:2px solid #0b5cff}
-.filterbox label{font-weight:800;font-size:15px}
-.filterbox select{width:100%;padding:12px;margin-top:8px;border:2px solid #0b5cff;border-radius:8px;font-size:16px;font-weight:700;background:#E8EEFF}
-.filterbox .clearbtn{background:#555;margin-top:8px;margin-bottom:0}
-.groupbox{background:#E8EEFF;border:2px solid #0b5cff;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center;display:none}
-.groupbox .gtitle{font-size:16px;font-weight:800;color:#0b5cff}
-.groupbox .gbig{font-size:20px;font-weight:800;line-height:1.6}
+*{box-sizing:border-box} body{font-family:Arial;background:linear-gradient(135deg,#6B0F1A,#FF8C00);margin:0;padding:12px}
+.header{background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.4);color:#fff;text-align:center;padding:18px;border-radius:20px}
+.header h1{color:#FFD700;margin:4px 0}
+.card{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);border:2px solid #FFD700;border-radius:16px;padding:14px;margin:12px 0}
+.card h2{color:#6B0F1A;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{background:#FFF3CD;padding:12px;border-radius:10px;text-align:center}
+.box b{font-size:18px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid #ddd;padding:7px;text-align:left}
+th{background:#6B0F1A;color:#fff}
+input{width:100%;padding:9px;border:1px solid #ddd;border-radius:8px;margin:4px 0}
+.btn{background:#FF8C00;color:#fff;border:none;padding:13px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
+.green{color:green;font-weight:bold} .red{color:red;font-weight:bold}
+.small{font-size:12px;color:#666}
+#lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
+#lock input{font-size:22px;text-align:center;letter-spacing:6px;max-width:220px}
 </style>
 </head>
 <body>
-<img src="logo.png" class="logo">
-<div class="logotext">MF Investment - જય સ્વામિનારાયણ</div>
-<h1>📊 મારો પોર્ટફોલિયો V3.5</h1>
-<div class="top" id="total"></div>
-<div class="diffbox" id="diffBox">
-<div style="font-size:14px;color:#7C2D12;font-weight:700">જય સ્વામિનારાયણ - ગઈકાલ કરતાં આજે કેટલો ફરક?</div>
-<div class="big" id="diffTotal">હજુ અપડેટ નથી કર્યું</div>
-<div class="small" id="diffSub">લીલું બટન દબાવો એટલે ફરક અહીં આવી જશે</div>
+
+<!-- 6 DIGIT PIN + GLASS EFFECT -->
+<div id="lock">
+<h1>🙏 U 🔴<br>RAJA PARIVAR PORTFOLIO</h1>
+<p>જય સ્વામિનારાયણ<br>6 આંકડાનો PIN નાખો</p>
+<input id="pin" type="password" maxlength="6" placeholder="••••••">
+<button class="btn" onclick="unlock()">OPEN</button>
+<p class="small" style="color:#FFD700">Demo PIN: 123456 - તમે બદલી શકો છો</p>
 </div>
-<button class="update" onclick="updateAllNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button>
-<p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p>
-<div class="filterbox">
-<label>🔍 સ્કીમ પસંદ કરો - અહીંથી ક્લિક કરો</label>
-<select id="schemeSelect" onchange="onSchemeChange()">
-<option value="all">-- બધી સ્કીમ જુઓ --</option>
-</select>
-<button class="clearbtn" onclick="showAllSchemes()">↩️ બધી સ્કીમ પાછી બતાવો</button>
+
+<div class="header">
+<div style="font-size:32px">🙏 U 🔴</div>
+<h1>RAJA PARIVAR PORTFOLIO</h1>
+<p>જય સ્વામિનારાયણ | MF + FD + પોલિસી + NCD + શેર - FINAL</p>
 </div>
-<div class="groupbox" id="groupBox">
-<div class="gtitle" id="groupTitle"></div>
-<div class="gbig" id="groupTotal"></div>
-<div class="small" id="groupSub"></div>
-</div>
+
 <div class="card">
-<h3>+ નવું ફંડ ઉમેરો</h3>
-<input id="name" placeholder="સ્કીમનું નામ">
-<input id="folio" placeholder="ફોલિયો / માલિક">
-<input id="units" type="number" placeholder="Units">
-<input id="inv" type="number" placeholder="Invested ₹">
-<input id="nav" type="number" placeholder="NAV">
-<button onclick="addFund()">Add Fund</button>
+<h2>1. ડેશબોર્ડ - ટોટલ + ગ્રાફ</h2>
+<div class="grid">
+<div class="box">કુલ સંપત્તિ<br><b>₹ ____</b></div>
+<div class="box">વર્ષે પ્રીમિયમ<br><b>₹ 7,50,000</b></div>
+<div class="box">કુલ FD<br><b>12 FD</b></div>
+<div class="box">સ્ટેટસ<br><span class="green">● લીલું = ચાલુ</span> <span class="red">● લાલ = બાકી</span></div>
 </div>
-<div class="row">
-<button class="excel" onclick="exportExcel()">📗 Excel માં Export કરો</button>
-<button onclick="exportData()">💾 બેકઅપ લો</button>
+<p>ગ્રાફ: FD ████████ | MF █████ | પોલિસી ██████ | NCD ██ | શેર ███</p>
+<p class="small">પોપ-અપ: પ્રીમિયમ / FD પાકવાની તારીખના 1 મહિના પહેલા પોપ-અપ આવશે.</p>
 </div>
-<div class="row">
-<button onclick="document.getElementById('file').click()" style="background:#555">બેકઅપ પાછો લાવો</button>
+
+<div class="card">
+<h2>2. FD - FD 1 થી FD 12 - પહેલા FD</h2>
+<table id="fdTable">
+<tr><th>FD</th><th>નામ</th><th>બેંક</th><th>રકમ</th><th>%</th><th>પાકવાની</th><th>ટિક</th></tr>
+<tr><td>FD 1</td><td>પરિવાર 1</td><td>HDFC</td><td>100000</td><td>7.50%</td><td>01-01-2027</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+<tr><td>FD 2</td><td>પરિવાર 2</td><td>HDFC</td><td>100000</td><td>7.50%</td><td>15-02-2027</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+<tr><td>FD 12</td><td>પરિવાર 3</td><td>ICICI</td><td>200000</td><td>7.75%</td><td>20-11-2026</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+</table>
+<p class="small">મેચ્યોરિટી નોટ: જૂની મેચ્યોર થયેલી FD આમાં નથી. બાકીની FD 3 થી 11 આ જ ફોર્મેટમાં છે.</p>
 </div>
-<input type="file" id="file" hidden onchange="importData(event)">
-<div id="list" style="margin-top:12px"></div>
+
+<div class="card">
+<h2>3. પોલિસી / પ્રીમિયમ - ₹7,50,000 / વર્ષ - પછી પોલિસી</h2>
+<h3>A. લાઈફ + ULIP - Equity / Debt</h3>
+<table>
+<tr><th>પોલિસી</th><th>પ્રીમિયમ ₹</th><th>ક્યારે ભરવાનું</th><th>કેટલા વર્ષ</th><th>ટિક</th></tr>
+<tr><td>ULIP - 1</td><td>___</td><td>___</td><td>___ વર્ષ</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+<tr><td>લાઈફ - 1</td><td>___</td><td>___</td><td>___ વર્ષ</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+</table>
+<h3>B. મેડિક્લેમ + બીજા પ્રીમિયમ</h3>
+<table>
+<tr><th>પોલિસી</th><th>પ્રીમિયમ ₹</th><th>રીન્યુ તારીખ</th><th>ટિક</th></tr>
+<tr><td>મેડિક્લેમ</td><td>___</td><td>___</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+<tr><td>ટર્મ પ્લાન</td><td>___</td><td>___</td><td><button onclick="this.textContent='✅'">☐</button></td></tr>
+</table>
+<p class="small">પોપ-અપ: પ્રીમિયમ તારીખના 1 મહિના પહેલા - "આ પોલિસીનું પ્રીમિયમ આવે છે"</p>
+</div>
+
+<div class="card"><h2>4. મ્યુચ્યુઅલ ફંડ / SIP</h2><p>નામ | મહિને ₹ ____ | વેલ્યુ ₹ ____ | <span class="green">● લીલું</span></p></div>
+<div class="card"><h2>5. NCD + શેર - પછી શેર</h2><p>NCD | શેરનું નામ | કેટલા શેર | વેલ્યુ ₹ ____</p></div>
+<div class="card"><h2>6. RD + સેવિંગ્સ + સોનું + પ્રોપર્ટી + લોન + પરિવાર</h2><p>બધા 11 મુદ્દા આમાં જ છે - બાકીના મુદ્દા ઉપરના જ ફોર્મેટમાં</p></div>
+
+<div class="card">
+<h2>7. રિપોર્ટ + ટ્રાન્ઝેક્શન</h2>
+<input id="tDesc" placeholder="શું કર્યું? દા.ત. પ્રીમિયમ ભર્યું">
+<input id="tAmt" type="number" placeholder="રકમ ₹">
+<button class="btn" onclick="addTx()">+ ટ્રાન્ઝેક્શન ઉમેરો</button>
+<ul id="txList"></ul>
+</div>
+
 <script>
-let defaultFunds=[
-{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2655,prevNav:10.2317},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75,prevNav:537.75},
-{name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:49.2266,prevNav:48.7951},
-{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.6109,prevNav:42.8087},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:182.967,prevNav:181.308},
-{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:49.153,prevNav:48.32},
-{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:43.234,prevNav:42.901},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.474,prevNav:203.3652},
-{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:822.2759,prevNav:818.10},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:106.5014,prevNav:105.4488},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:106.5014,prevNav:105.4488},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.474,prevNav:203.3652},
-{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:733.3165,prevNav:731.8341},
-{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.5746,prevNav:310.4034},
-{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:473.3949,prevNav:471.6231},
-{name:"Quant PSU Fund - Direct Growth",folio:"",units:1358.41,inv:150005,nav:10.7205,prevNav:10.7219},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.575,prevNav:56.646},
-{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:28.0829,prevNav:27.8251},
-{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"",units:500.022,inv:45000,nav:41.344,prevNav:41.306},
-{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5112,prevNav:17.5578},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Rajendra",units:2153.09,inv:135000,nav:95.4585,prevNav:94.6945},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Komalben",units:2682.30,inv:60000,nav:33.2557,prevNav:32.837},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Rajendra",units:896.29,inv:20000,nav:33.2557,prevNav:32.837},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Komalben",units:269.94,inv:25000,nav:95.4585,prevNav:94.6945},
-{name:"DSP Small Cap Fund - Direct Growth",folio:"",units:809.87,inv:99716,nav:245.861,prevNav:247.245},
-{name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:729.006,prevNav:719.34},
-{name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0213,prevNav:210.0817}
-];
-let funds = JSON.parse(localStorage.getItem('myFundsV33') || 'null');
-if(!funds){
-  let old = JSON.parse(localStorage.getItem('myFundsV32') || 'null') || JSON.parse(localStorage.getItem('myFundsV31') || 'null');
-  funds = old || defaultFunds;
-  funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; });
-  localStorage.setItem('myFundsV33',JSON.stringify(funds));
-}
-let selectedScheme = "all";
-function buildDropdown(){
-  let sel = document.getElementById('schemeSelect');
-  let seen = {};
-  funds.forEach(f=>{
-    if(!seen[f.name]){ seen[f.name]=true; let o=document.createElement('option'); o.value=f.name; o.textContent=f.name; sel.appendChild(o); }
-  });
-}
-function rebuildDropdown(){ document.getElementById('schemeSelect').innerHTML='<option value="all">-- બધી સ્કીમ જુઓ --</option>'; buildDropdown(); }
-function onSchemeChange(){ selectedScheme = document.getElementById('schemeSelect').value; render(); document.getElementById('groupBox').scrollIntoView({behavior:'smooth'}); }
-function showAllSchemes(){ selectedScheme="all"; document.getElementById('schemeSelect').value="all"; render(); }
-function save(){ localStorage.setItem('myFundsV33',JSON.stringify(funds)); render(); }
-function render(){
-let ti=0,tc=0,html='',tdiff=0;
-let gInv=0,gCur=0,gDiff=0,gCount=0;
-funds.forEach((f,i)=>{
-let cur=f.units*f.nav; ti+=f.inv; tc+=cur;
-let pl=cur-f.inv; let pct=f.inv?((pl/f.inv)*100).toFixed(2):0;
-let prev = f.prevNav || f.nav;
-let d = (f.nav-prev)*f.units;
-tdiff += d;
-if(selectedScheme!=="all" && f.name!==selectedScheme) return;
-gInv+=f.inv; gCur+=cur; gDiff+=d; gCount++;
-let dTxt = '';
-if(f.prevNav && f.prevNav!==f.nav){
-  dTxt = d>=0 ? `<div class="up">ગઈકાલ કરતાં આજે: + ₹${Math.round(d).toLocaleString('en-IN')}</div>` : `<div class="down">ગઈકાલ કરતાં આજે: - ₹${Math.round(Math.abs(d)).toLocaleString('en-IN')}</div>`;
-} else {
-  dTxt = `<div class="small">ગઈકાલ કરતાં ફરક: અપડેટ પછી દેખાશે</div>`;
-}
-html+=`<div class="card"><b>${f.name}</b><div class="small">${f.folio||''} | Units: ${f.units} | NAV: ${f.nav} | ગઈકાલ NAV: ${prev}</div><div>Invested: ₹${f.inv.toLocaleString('en-IN')} | Current: ₹${Math.round(cur).toLocaleString('en-IN')}</div><div>Profit: ₹${Math.round(pl).toLocaleString('en-IN')} (${pct}%)</div>${dTxt}<button class="del" onclick="delFund(${i})">Delete</button></div>`;
-});
-if(html==="") html=`<div class="card">કોઈ સ્કીમ મળી નથી. બધી સ્કીમ બતાવો દબાવો.</div>`;
-document.getElementById('list').innerHTML=html;
-let tp=tc-ti; let tpp=ti?((tp/ti)*100).toFixed(2):0;
-document.getElementById('total').innerHTML=`Total Invested: ₹${Math.round(ti).toLocaleString('en-IN')}<br>Total Current: ₹${Math.round(tc).toLocaleString('en-IN')}<br>Profit: ₹${Math.round(tp).toLocaleString('en-IN')} (${tpp}%)<br><span style="font-size:12px;font-weight:400">Last Updated: ${new Date().toLocaleString('en-IN')}</span>`;
-if(selectedScheme!=="all"){
-  let gPl=gCur-gInv; let gPct=gInv?((gPl/gInv)*100).toFixed(2):0;
-  document.getElementById('groupBox').style.display='block';
-  document.getElementById('groupTitle').innerText = "📊 " + selectedScheme + " - " + gCount + " ફોલિયોનો ટોટલ";
-  document.getElementById('groupTotal').innerHTML = `Invested: ₹${Math.round(gInv).toLocaleString('en-IN')}<br>Current: ₹${Math.round(gCur).toLocaleString('en-IN')}<br>Profit: ₹${Math.round(gPl).toLocaleString('en-IN')} (${gPct}%)`;
-  document.getElementById('groupSub').innerText = gDiff>=0 ? `ગઈકાલ કરતાં આ સ્કીમમાં આજે: + ₹${Math.round(gDiff).toLocaleString('en-IN')}` : `ગઈકાલ કરતાં આ સ્કીમમાં આજે: - ₹${Math.round(Math.abs(gDiff)).toLocaleString('en-IN')}`;
-} else {
-  document.getElementById('groupBox').style.display='none';
-}
-let hasDiff = funds.some(f=>f.prevNav && f.prevNav!==f.nav);
-if(hasDiff){
-  let cls = tdiff>=0 ? '#15803D' : '#DC2626';
-  let sign = tdiff>=0 ? '+' : '-';
-  document.getElementById('diffTotal').innerHTML=`<span style="color:${cls}">${sign} ₹${Math.round(Math.abs(tdiff)).toLocaleString('en-IN')}</span>`;
-  document.getElementById('diffSub').innerText = tdiff>=0 ? 'મહંત સ્વામી મહારાજની કૃપાથી ગઈકાલ કરતાં આજે આટલો ફાયદો' : 'ગઈકાલ કરતાં આજે આટલો ઘટાડો';
-} else {
-  document.getElementById('diffTotal').innerText='હજુ અપડેટ નથી કર્યું';
-  document.getElementById('diffSub').innerText='લીલું બટન દબાવો એટલે ફરક અહીં આવી જશે';
-}
-}
-function addFund(){
-let n=document.getElementById('name').value.trim();
-let u=parseFloat(document.getElementById('units').value);
-let iv=parseFloat(document.getElementById('inv').value);
-let nv=parseFloat(document.getElementById('nav').value);
-if(!n||!u||!iv||!nv){alert('બધું ભરો');return;}
-funds.push({name:n,folio:document.getElementById('folio').value,units:u,inv:iv,nav:nv,prevNav:nv});
-['name','folio','units','inv','nav'].forEach(id=>document.getElementById(id).value=''); save(); rebuildDropdown();
-}
-function delFund(i){ if(confirm('કાઢી નાખવું છે?')){ funds.splice(i,1); save(); rebuildDropdown(); showAllSchemes(); } }
-function exportData(){
-let b=new Blob([JSON.stringify(funds)],{type:'application/json'});
-let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='portfolio-backup.json'; a.click();
-}
-function importData(e){
-let r=new FileReader(); r.onload=()=>{ funds=JSON.parse(r.result); funds.forEach(f=>{ if(!f.prevNav) f.prevNav=f.nav; }); save(); rebuildDropdown(); }; r.readAsText(e.target.files[0]);
-}
-function exportExcel(){
-let csv="Scheme,Folio,Units,Invested,NAV,Prev NAV,Current Value,Profit,Profit %,Yesterday Diff\n";
-let ti=0,tc=0;
-funds.forEach(f=>{
-let cur=f.units*f.nav; let pl=cur-f.inv; let pct=f.inv?((pl/f.inv)*100).toFixed(2):0;
-let d=(f.nav-(f.prevNav||f.nav))*f.units;
-ti+=f.inv; tc+=cur;
-csv+=`"${f.name}","${f.folio||''}",${f.units},${f.inv},${f.nav},${f.prevNav||f.nav},${Math.round(cur)},${Math.round(pl)},${pct}%,${Math.round(d)}\n`;
-});
-csv+=`\n"TOTAL","","",${ti},"","",${Math.round(tc)},${Math.round(tc-ti)},""\n`;
-let b=new Blob(["\ufeff"+csv],{type:'text/csv'});
-let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='My-Portfolio.csv'; a.click();
-alert('Excel ફાઈલ ડાઉનલોડ થઈ ગઈ.');
-}
-async function updateAllNAV(){
-document.getElementById('status').innerText='અપડેટ થાય છે... થોડી રાહ જુઓ...';
-funds.forEach(f=>{ f.prevNav=f.nav; });
-save();
-let updated=0;
-for(let i=0;i<funds.length;i++){
-try{
-let code=null;
-if(funds[i].name.includes('ICICI Prudential Value')) code='120323';
-if(funds[i].name.includes('Jio Flexi')) code='153859';
-let d=null;
-if(code){
-d=await fetch('https://api.mfapi.in/mf/'+code+'/latest').then(r=>r.json());
-}else{
-let q=funds[i].name.replace(/Direct Plan|Direct Growth|Direct|Growth|Plan/gi,'').trim();
-let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)).then(r=>r.json());
-if(s && s.length>0){
-let pick=s.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || s[0];
-d=await fetch('https://api.mfapi.in/mf/'+pick.schemeCode+'/latest').then(r=>r.json());
-}
-}
-if(d && d.data && d.data[0]){
-let newNav=parseFloat(d.data[0].nav);
-if(newNav){ funds[i].nav=newNav; updated++; }
-}
-document.getElementById('status').innerText=`અપડેટ થાય છે... ${i+1} / ${funds.length} થયું`;
-}catch(e){}
-await new Promise(r=>setTimeout(r,200));
-}
-save();
-document.getElementById('status').innerText=`થઈ ગયું! ${updated} ફંડનો NAV અપડેટ થયો. ઉપર ફરક જોઈ લો.`;
-alert('NAV અપડેટ થઈ ગયો! ઉપર ગઈકાલ કરતાં ફરક જોઈ લો.');
-}
-buildDropdown();
-render();
+function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('ખોટો PIN'); } }
+function addTx(){ let d=document.getElementById('tDesc').value; let a=document.getElementById('tAmt').value; if(!d||!a) return alert('વિગત + રકમ લખો'); let li=document.createElement('li'); li.textContent=d+' - ₹ '+a; document.getElementById('txList').appendChild(li); }
+setTimeout(()=>{ alert('🔔 પોપ-અપ: તમારી એક પોલિસીનું પ્રીમિયમ 1 મહિનામાં આવે છે - ચેક કરો'); }, 3000);
 </script>
 </body>
 </html>
