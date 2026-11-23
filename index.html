@@ -1,112 +1,56 @@
-<!DOCTYPE html>
-<html lang="gu">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>મારો પોર્ટફોલિયો V3.8</title>
-<style>
-body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
-h1{font-size:20px;text-align:center}
-.logo{width:90px;height:90px;object-fit:contain;display:block;margin:0 auto 8px;border:3px solid #F59E0B;background:#fff}
-.logotext{text-align:center;font-weight:800;color:#7C2D12;margin-bottom:8px}
-.card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 4px #0001}
-.top{background:#111;color:#fff;padding:14px;border-radius:12px;margin-bottom:12px;line-height:1.6;font-weight:700}
-.diffbox{background:#FFF7ED;border:2px solid #F59E0B;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}
-.diffbox .big{font-size:26px;font-weight:800;color:#15803D}
-input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
-button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;color:#fff;font-size:16px;font-weight:700;margin-bottom:8px}
-.small{font-size:13px;color:#555}
-.del{background:#ff3b30;margin-top:8px}
-.row{display:flex;gap:8px}.row button{flex:1}
-.update{background:#0a7a42}.excel{background:#107c41}
-.up{color:#15803D;font-weight:700}.down{color:#DC2626;font-weight:700}
-.filterbox{background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;border:2px solid #0b5cff}
-.filterbox select{width:100%;padding:12px;margin-top:8px;border:2px solid #0b5cff;border-radius:8px;font-size:16px;font-weight:700;background:#E8EEFF}
-.groupbox{background:#E8EEFF;border:2px solid #0b5cff;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center;display:none}
-.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0}
-.tab{flex:1;min-width:62px;padding:11px 5px;background:#fff;border:2px solid #111;border-radius:12px;text-align:center;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
-.tab.active{background:#111;color:#FFD700;border-color:#F59E0B}
-.glass{background:rgba(255,255,255,.9);border:2px solid #F59E0B;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.remain{padding:10px;border-radius:10px;font-weight:800;margin-top:8px;text-align:center}
-.remain.green{background:#DCFCE7;color:#15803D;border:2px solid #15803D}
-.remain.yellow{background:#FEF3C7;color:#92400E;border:2px solid #F59E0B}
-.remain.red{background:#FEE2E2;color:#DC2626;border:2px solid #DC2626}
-.maturity{background:#FEF3C7;border:2px solid #F59E0B;padding:10px;border-radius:10px;margin-top:8px;font-weight:700}
-.emergency{background:#FEE2E2;border:2px solid #DC2626;padding:10px;border-radius:10px;margin-top:8px}
-</style>
-</head>
-<body>
-<img src="logo.png" class="logo">
-<div class="logotext">MF Investment - જય સ્વામિનારાયણ</div>
-<h1>📊 મારો પોર્ટફોલિયો V3.8 - MF + FD</h1>
-<div class="tabs">
-<div class="tab active" id="tabMF" onclick="showTab('MF')">MF</div>
-<div class="tab" id="tabFD" onclick="showTab('FD')">FD</div>
-<div class="tab" id="tabNCD" onclick="showTab('NCD')">NCD</div>
-<div class="tab" id="tabShare" onclick="showTab('Share')">SHARE</div>
-<div class="tab" id="tabPrem" onclick="showTab('Prem')">PREMIUM</div>
-<div class="tab" id="tabGen" onclick="showTab('Gen')">GENERAL</div>
-<div class="tab" id="tabTotal" onclick="showTab('Total')">TOTAL</div>
-</div>
-
-<div id="pageMF">
-<div class="top" id="total">MF લોડ થાય છે...</div>
-<div class="diffbox"><div style="font-size:14px;color:#7C2D12;font-weight:700">જય સ્વામિનારાયણ - ગઈકાલ કરતાં આજે કેટલો ફરક?</div><div class="big" id="diffTotal">હજુ અપડેટ નથી કર્યું</div><div class="small" id="diffSub">લીલું બટન દબાવો એટલે ફરક અહીં આવી જશે</div></div>
-<button class="update" onclick="updateAllNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button>
-<p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p>
-<div class="filterbox"><label><b>🔍 સ્કીમ પસંદ કરો</b></label><select id="schemeSelect" onchange="onSchemeChange()"><option value="all">-- બધી સ્કીમ જુઓ --</option></select><button onclick="showAllSchemes()" style="background:#555;margin-top:8px;margin-bottom:0">↩️ બધી સ્કીમ પાછી બતાવો</button></div>
-<div class="groupbox" id="groupBox"><div id="groupTitle"></div><div id="groupTotal"></div><div class="small" id="groupSub"></div></div>
-<div class="card"><h3>+ નવું ફંડ ઉમેરો</h3><input id="name" placeholder="સ્કીમનું નામ"><input id="folio" placeholder="ફોલિયો / માલિક"><input id="units" type="number" placeholder="Units"><input id="inv" type="number" placeholder="Invested ₹"><input id="nav" type="number" placeholder="NAV"><button onclick="addFund()">Add Fund</button></div>
-<div class="row"><button class="excel" onclick="exportExcel()">📗 Excel માં Export કરો</button><button onclick="exportData()">💾 બેકઅપ લો</button></div>
-<div class="row"><button onclick="document.getElementById('file').click()" style="background:#555">બેકઅપ પાછો લાવો</button></div>
-<input type="file" id="file" hidden onchange="importData(event)">
-<div id="list" style="margin-top:12px"></div>
-</div>
-
-<div id="pageFD" style="display:none">
-<div class="card glass"><h3>🏦 FD - કુલ</h3><div id="fdTotal"></div></div>
-<div id="fdList"></div>
-<div class="card glass"><h3>+ નવી FD ઉમેરો</h3>
-<input id="fdBank" placeholder="બેંક નું નામ"><input id="fdNum" placeholder="FD નંબર / સર્ટિફિકેટ નંબર"><input id="fdOwner" placeholder="કોનાના નામે - રાજેન્દ્ર / કોમલબેન"><input id="fdAmt" type="number" placeholder="રકમ ₹"><input id="fdRate" type="number" placeholder="ટકાવારી %"><label class="small">શરૂ તારીખ</label><input id="fdStart" type="date"><label class="small">પાકવાની તારીખ</label><input id="fdMat" type="date"><input id="fdMatAmt" type="number" placeholder="પાકશે ત્યારે કેટલા મળશે ₹"><input id="fdEmerg" placeholder="ઇમરજન્સી નોટ"><button onclick="addFD()">+ FD ઉમેરો</button></div>
-</div>
-
-<div id="pageNCD" style="display:none"><div class="card glass"><h3>NCD</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
-<div id="pageShare" style="display:none"><div class="card glass"><h3>SHARE</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
-<div id="pagePrem" style="display:none"><div class="card glass"><h3>PREMIUM</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
-<div id="pageGen" style="display:none"><div class="card glass"><h3>GENERAL</h3><p>80D ની જગ્યાએ GENERAL. ફોર્મેટ તૈયાર છે.</p></div></div>
-<div id="pageTotal" style="display:none"><div class="card glass"><h3>TOTAL</h3><div id="totalBox2"></div><button onclick="calcTotal2()">TOTAL જુઓ</button></div></div>
-
+<!DOCTYPE html><html lang="gu"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V3.8.1 MF+FD</title><style>body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}h1{font-size:20px;text-align:center}.logo{width:90px;display:block;margin:0 auto;border:3px solid #F59E0B}.card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px}.top{background:#111;color:#fff;padding:14px;border-radius:12px;margin-bottom:12px;font-weight:700;line-height:1.6}.diffbox{background:#FFF7ED;border:2px solid #F59E0B;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;color:#fff;font-size:16px;font-weight:700;margin-bottom:8px}.small{font-size:13px;color:#555}.del{background:#ff3b30}.up{color:#15803D;font-weight:700}.down{color:#DC2626;font-weight:700}.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0}.tab{flex:1;min-width:62px;padding:11px 5px;background:#fff;border:2px solid #111;border-radius:12px;text-align:center;font-weight:800;font-size:12px}.tab.active{background:#111;color:#FFD700}.glass{border:2px solid #F59E0B;box-shadow:0 8px 24px #0002}.remain{padding:10px;border-radius:10px;font-weight:800;margin-top:8px;text-align:center}.green{background:#DCFCE7}.yellow{background:#FEF3C7}.red{background:#FEE2E2}</style></head><body>
+<img src="logo.png" class="logo"><div style="text-align:center;font-weight:800;color:#7C2D12">MF Investment - જય સ્વામિનારાયણ</div>
+<h1>📊 મારો પોર્ટફોલિયો V3.8.1</h1>
+<div class="tabs"><div class="tab active" id="tabMF" onclick="showTab('MF')">MF</div><div class="tab" id="tabFD" onclick="showTab('FD')">FD</div><div class="tab" id="tabNCD" onclick="showTab('NCD')">NCD</div><div class="tab" id="tabShare" onclick="showTab('Share')">SHARE</div><div class="tab" id="tabPrem" onclick="showTab('Prem')">PREMIUM</div><div class="tab" id="tabGen" onclick="showTab('Gen')">GENERAL</div><div class="tab" id="tabTotal" onclick="showTab('Total')">TOTAL</div></div>
+<div id="pageMF"><div class="top" id="total">MF લોડ થાય છે...</div><div class="diffbox"><div>જય સ્વામિનારાયણ - ગઈકાલ કરતાં ફરક?</div><div id="diffTotal" style="font-size:24px;font-weight:800;color:#15803D">હજુ અપડેટ નથી કર્યું</div></div><button style="background:#0a7a42" onclick="updateNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button><p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p><div class="card" style="border:2px solid #0b5cff"><b>🔍 સ્કીમ પસંદ કરો</b><select id="schemeSelect" onchange="onCh()" style="width:100%;padding:12px;margin-top:8px;font-size:16px;font-weight:700"><option value="all">-- બધી સ્કીમ જુઓ --</option></select><button onclick="showAll()" style="background:#555;margin-bottom:0">↩️ બધી સ્કીમ પાછી બતાવો</button></div><div id="list"></div><div class="card"><h3>+ નવું ફંડ ઉમેરો</h3><input id="name" placeholder="સ્કીમનું નામ"><input id="folio" placeholder="ફોલિયો / માલિક"><input id="units" type="number" placeholder="Units"><input id="inv" type="number" placeholder="Invested ₹"><input id="nav" type="number" placeholder="NAV"><button onclick="addFund()">Add Fund</button></div></div>
+<div id="pageFD" style="display:none"><div class="card glass"><h3>🏦 FD - કુલ</h3><div id="fdTotal"></div></div><div id="fdList"></div><div class="card glass"><h3>+ નવી FD ઉમેરો</h3><input id="fdBank" placeholder="બેંક નું નામ"><input id="fdNum" placeholder="FD નંબર"><input id="fdOwner" placeholder="કોનાના નામે"><input id="fdAmt" type="number" placeholder="રકમ ₹"><input id="fdRate" type="number" placeholder="ટકાવારી %"><label class="small">શરૂ તારીખ</label><input id="fdStart" type="date"><label class="small">પાકવાની તારીખ</label><input id="fdMat" type="date"><input id="fdMatAmt" type="number" placeholder="પાકશે ત્યારે કેટલા ₹"><input id="fdEmerg" placeholder="ઇમરજન્સી નોટ"><button onclick="addFD()">+ FD ઉમેરો</button></div></div>
+<div id="pageNCD" style="display:none"><div class="card glass"><h3>NCD</h3><p>ફોર્મેટ તૈયાર છે.</p></div></div><div id="pageShare" style="display:none"><div class="card glass"><h3>SHARE</h3><p>ફોર્મેટ તૈયાર છે.</p></div></div><div id="pagePrem" style="display:none"><div class="card glass"><h3>PREMIUM</h3><p>ફોર્મેટ તૈયાર છે.</p></div></div><div id="pageGen" style="display:none"><div class="card glass"><h3>GENERAL</h3><p>80D ની જગ્યાએ GENERAL. ફોર્મેટ તૈયાર છે.</p></div></div><div id="pageTotal" style="display:none"><div class="card glass"><h3>TOTAL</h3><div id="totalBox2"></div><button onclick="calcT()">TOTAL જુઓ</button></div></div>
 <script>
-function showTab(t){ var p=['MF','FD','NCD','Share','Prem','Gen','Total']; for(var i=0;i<p.length;i++){ document.getElementById('page'+p[i]).style.display=(p[i]===t?'block':'none'); document.getElementById('tab'+p[i]).className=(p[i]===t?'tab active':'tab'); } if(t==='Total') calcTotal2(); }
-// FD
-var fds=[]; try{ fds=JSON.parse(localStorage.getItem('myFDs')||'[]'); }catch(e){ fds=[]; }
-function renderFD(){ var html=''; var tot=0,totMat=0; for(var i=0;i<fds.length;i++){ var f=fds[i]; tot+=Number(f.amt||0); totMat+=Number(f.matAmt||0); var d=9999; if(f.mat) d=Math.ceil((new Date(f.mat)-new Date())/(1000*60*60*24)); var cls='green',txt='પાકવામાં '+d+' દિવસ બાકી'; if(d===9999){cls='yellow';txt='પાકવાની તારીખ નથી';} else if(d<0){cls='red';txt='પાકી ગઈ છે!';} else if(d<=7){cls='red';txt='⚠️ માત્ર '+d+' દિવસ બાકી';} else if(d<=30){cls='yellow';txt='⏰ '+d+' દિવસ બાકી';} html+='<div class="card glass"><b>'+f.bank+'</b> - '+(f.owner||'')+'<div class="small">FD No: '+(f.num||'-')+' | શરૂ: '+(f.start||'-')+'</div><div>રકમ: ₹'+Number(f.amt||0).toLocaleString('en-IN')+' | '+(f.rate||'')+'%</div><div class="maturity">📅 પાકવાની તારીખ: '+(f.mat||'-')+'<br>પાકશે ત્યારે: ₹'+Number(f.matAmt||0).toLocaleString('en-IN')+'</div><div class="remain '+cls+'">'+txt+'</div>'+(f.emerg?'<div class="emergency">🚨 '+f.emerg+'</div>':'')+'<button class="del" onclick="delFD('+i+')">Delete</button></div>'; } document.getElementById('fdList').innerHTML=html||'<div class="card">હજુ કોઈ FD નથી.</div>'; document.getElementById('fdTotal').innerHTML='કુલ FD: ₹'+tot.toLocaleString('en-IN')+'<br>પાકશે ત્યારે કુલ: ₹'+totMat.toLocaleString('en-IN')+'<br>કુલ FD: '+fds.length; }
-function addFD(){ var b=document.getElementById('fdBank').value.trim(); var a=document.getElementById('fdAmt').value; if(!b||!a){alert('બેંક અને રકમ ભરો');return;} fds.push({bank:b,num:document.getElementById('fdNum').value,owner:document.getElementById('fdOwner').value,amt:a,rate:document.getElementById('fdRate').value,start:document.getElementById('fdStart').value,mat:document.getElementById('fdMat').value,matAmt:document.getElementById('fdMatAmt').value,emerg:document.getElementById('fdEmerg').value}); localStorage.setItem('myFDs',JSON.stringify(fds)); var ids=['fdBank','fdNum','fdOwner','fdAmt','fdRate','fdStart','fdMat','fdMatAmt','fdEmerg']; for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).value=''; renderFD(); alert('FD ઉમેરાઈ ગઈ ✅'); }
-function delFD(i){ if(confirm('કાઢી નાખવી છે?')){ fds.splice(i,1); localStorage.setItem('myFDs',JSON.stringify(fds)); renderFD(); } }
-function calcTotal2(){ var mf=0; for(var i=0;i<funds.length;i++) mf+=(funds[i].units||0)*(funds[i].nav||0); var fd=0; for(var j=0;j<fds.length;j++) fd+=Number(fds[j].amt||0); document.getElementById('totalBox2').innerHTML='MF Current: ₹'+Math.round(mf).toLocaleString('en-IN')+'<br>FD Total: ₹'+fd.toLocaleString('en-IN')+'<br><b>કુલ: ₹'+Math.round(mf+fd).toLocaleString('en-IN')+'</b>'; }
-// MF - તમારું જૂનું જ, કંઈ બદલ્યું નથી
+function showTab(t){var p=['MF','FD','NCD','Share','Prem','Gen','Total'];for(var i=0;i<p.length;i++){document.getElementById('page'+p[i]).style.display=(p[i]===t?'block':'none');document.getElementById('tab'+p[i]).className=(p[i]===t?'tab active':'tab');}if(t==='Total')calcT();}
+var fds=[];try{fds=JSON.parse(localStorage.getItem('myFDs')||'[]')}catch(e){fds=[]}
+function renderFD(){var h='',tot=0,totM=0;for(var i=0;i<fds.length;i++){var f=fds[i];tot+=Number(f.amt||0);totM+=Number(f.matAmt||0);var d=9999;if(f.mat)d=Math.ceil((new Date(f.mat)-new Date())/86400000);var c='green',tx='પાકવામાં '+d+' દિવસ બાકી';if(d===9999){c='yellow';tx='તારીખ નથી'}else if(d<0){c='red';tx='પાકી ગઈ છે!'}else if(d<=7){c='red';tx='માત્ર '+d+' દિવસ બાકી'}else if(d<=30){c='yellow';tx=d+' દિવસ બાકી'}h+='<div class="card glass"><b>'+f.bank+'</b> - '+(f.owner||'')+'<div>રકમ ₹'+Number(f.amt||0).toLocaleString('en-IN')+' | '+(f.rate||'')+'%</div><div>પાકવાની: '+(f.mat||'-')+' | પાકશે ત્યારે ₹'+Number(f.matAmt||0).toLocaleString('en-IN')+'</div><div class="remain '+c+'">'+tx+'</div>'+(f.emerg?'<div>'+f.emerg+'</div>':'')+'<button class="del" onclick="delFD('+i+')">Delete</button></div>'}document.getElementById('fdList').innerHTML=h||'<div class="card">હજુ કોઈ FD નથી.</div>';document.getElementById('fdTotal').innerHTML='કુલ FD ₹'+tot.toLocaleString('en-IN')+'<br>પાકશે ત્યારે ₹'+totM.toLocaleString('en-IN')}
+function addFD(){var b=document.getElementById('fdBank').value.trim(),a=document.getElementById('fdAmt').value;if(!b||!a){alert('બેંક અને રકમ ભરો');return}fds.push({bank:b,num:document.getElementById('fdNum').value,owner:document.getElementById('fdOwner').value,amt:a,rate:document.getElementById('fdRate').value,start:document.getElementById('fdStart').value,mat:document.getElementById('fdMat').value,matAmt:document.getElementById('fdMatAmt').value,emerg:document.getElementById('fdEmerg').value});localStorage.setItem('myFDs',JSON.stringify(fds));renderFD();alert('FD ઉમેરાઈ ગઈ ✅')}
+function delFD(i){if(confirm('કાઢવી છે?')){fds.splice(i,1);localStorage.setItem('myFDs',JSON.stringify(fds));renderFD()}}
+function calcT(){var mf=0;for(var i=0;i<funds.length;i++)mf+=funds[i].units*funds[i].nav;var fd=0;for(var j=0;j<fds.length;j++)fd+=Number(fds[j].amt||0);document.getElementById('totalBox2').innerHTML='MF ₹'+Math.round(mf).toLocaleString('en-IN')+'<br>FD ₹'+fd.toLocaleString('en-IN')+'<br><b>કુલ ₹'+Math.round(mf+fd).toLocaleString('en-IN')+'</b>'}
 var funds=[
-{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2655,prevNav:10.2317},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75,prevNav:537.75},
-{name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:49.2266,prevNav:48.7951},
-{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.6109,prevNav:42.8087},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:182.967,prevNav:181.308},
-{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:49.153,prevNav:48.32},
-{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:43.234,prevNav:42.901},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.474,prevNav:203.3652},
-{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:822.2759,prevNav:818.10},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:106.5014,prevNav:105.4488},
-{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:106.5014,prevNav:105.4488},
-{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.474,prevNav:203.3652},
-{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:733.3165,prevNav:731.8341},
-{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.5746,prevNav:310.4034},
-{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:473.3949,prevNav:471.6231},
-{name:"Quant PSU Fund - Direct Growth",folio:"",units:1358.41,inv:150005,nav:10.7205,prevNav:10.7219},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.575,prevNav:56.646},
-{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.575,prevNav:56.646},
-{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:28.0829,prevNav:27.8251},
-{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"",units:500.022,inv:45000,nav:41.344,prevNav:41.306},
-{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5112,prevNav:17.5578},
-{name:"Parag Parikh Flexi Cap Fund
+["Jio Flexi Cap Fund - Direct Growth","",824.55,8001,10.2655,10.2317],
+["ICICI Prudential Value Fund - Direct Growth","RAJENDRA - 28065193",260.55,100000,537.75,537.75],
+["Tata Digital India Fund Direct Growth","RAJENDRA - 5524942",2299.99,94000,49.2266,48.7951],
+["Tata Small Cap Fund - Direct Growth","KOMALBEN - 9135304",1720.38,50000,42.6109,42.8087],
+["Mirae Asset Large and Midcap Fund - Direct Growth","",3751.519,327687,182.967,181.308],
+["Mirae Asset NYSE FANG+ ETF FoF - Direct Growth","",8256.226,119994,49.153,48.32],
+["Mirae Asset Midcap Fund - Direct Growth","",2846.887,83217,43.234,42.901],
+["Nippon India Small Cap Fund - Direct Growth","Folio 1",4706.74,597493,203.474,203.3652],
+["Nippon India Growth Mid Cap Fund - Direct Growth","",16.863,60000,822.2759,818.10],
+["Nippon India Large Cap Fund - Direct Growth","Folio 1",2876.531,226000,106.5014,105.4488],
+["Nippon India Large Cap Fund - Direct Growth","Folio 2",824.529,55010,106.5014,105.4488],
+["Nippon India Small Cap Fund - Direct Growth","Folio 2",421.289,50000,203.474,203.3652],
+["Quant Multi Cap Fund - Direct Growth","",123.36,60000,733.3165,731.8341],
+["Quant Small Cap Fund - Direct Growth","",2153.126,510000,310.5746,310.4034],
+["Quant ELSS Tax Saver Fund - Direct Growth","",472.628,150000,473.3949,471.6231],
+["Quant PSU Fund - Direct Growth","",1358.41,150005,10.7205,10.7219],
+["Bandhan Small Cap Fund - Direct Growth","Komalben - 4350827",11580.61,490000,56.575,56.646],
+["Bandhan Small Cap Fund - Direct Growth","Rajendra - 4799767",3992.48,185000,56.575,56.646],
+["Bandhan Small Cap Fund - Direct Growth","Komalben - 7116567",1043.72,60000,56.575,56.646],
+["Bandhan Small Cap Fund - Direct Growth","Komalben - 10060201",918.26,52500,56.575,56.646],
+["Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth","",2215.147,55000,28.0829,27.8251],
+["Motilal Oswal Midcap Fund - Direct Growth","",500.022,45000,41.344,41.306],
+["Motilal Oswal Small Cap Fund - Direct Growth","",6999.65,70000,17.5112,17.5578],
+["Parag Parikh Flexi Cap Fund - Direct Growth","Rajendra",2153.09,135000,95.4585,94.6945],
+["Parag Parikh ELSS Tax Saver Fund - Direct Growth","Komalben",2682.30,60000,33.2557,32.837],
+["Parag Parikh ELSS Tax Saver Fund - Direct Growth","Rajendra",896.29,20000,33.2557,32.837],
+["Parag Parikh Flexi Cap Fund - Direct Growth","Komalben",269.94,25000,95.4585,94.6945],
+["DSP Small Cap Fund - Direct Growth","",809.87,99716,245.861,247.245],
+["DSP Large and Mid Cap Fund - Direct Growth","",70.75,16451,729.006,719.34],
+["SBI Small Cap Fund - Direct Growth","",1184.88,156000,210.0213,210.0817]
+];
+var sel="all";
+function build(){var s=document.getElementById('schemeSelect');s.innerHTML='<option value="all">-- બધી સ્કીમ જુઓ --</option>';var seen={};for(var i=0;i<funds.length;i++){if(!seen[funds[i][0]]){seen[funds[i][0]]=1;var o=document.createElement('option');o.value=funds[i][0];o.textContent=funds[i][0];s.appendChild(o)}}}
+function onCh(){sel=document.getElementById('schemeSelect').value;render()}
+function showAll(){sel='all';document.getElementById('schemeSelect').value='all';render()}
+function render(){var ti=0,tc=0,td=0,h='';for(var i=0;i<funds.length;i++){var f=funds[i];var cur=f[2]*f[4];ti+=f[3];tc+=cur;var pl=cur-f[3];var d=(f[4]-f[5])*f[2];td+=d;if(sel!=='all'&&f[0]!==sel)continue;var dt=d>=0?'<div class="up">ગઈકાલ કરતાં: + ₹'+Math.round(d).toLocaleString('en-IN')+'</div>':'<div class="down">ગઈકાલ કરતાં: - ₹'+Math.round(Math.abs(d)).toLocaleString('en-IN')+'</div>';h+='<div class="card"><b>'+f[0]+'</b><div class="small">'+f[1]+' | Units '+f[2]+' | NAV '+f[4]+'</div><div>Invested ₹'+f[3].toLocaleString('en-IN')+' | Current ₹'+Math.round(cur).toLocaleString('en-IN')+'</div><div class="'+(pl>=0?'up':'down')+'">Profit ₹'+Math.round(pl).toLocaleString('en-IN')+'</div>'+dt+'<button class="del" onclick="delF('+i+')">Delete</button></div>'}document.getElementById('list').innerHTML=h;var tp=tc-ti;document.getElementById('total').innerHTML='Total Invested ₹'+Math.round(ti).toLocaleString('en-IN')+'<br>Total Current ₹'+Math.round(tc).toLocaleString('en-IN')+'<br>Profit ₹'+Math.round(tp).toLocaleString('en-IN');document.getElementById('diffTotal').innerText=(td>=0?'+ ₹': '- ₹')+Math.round(Math.abs(td)).toLocaleString('en-IN')}
+function addFund(){var n=document.getElementById('name').value.trim(),u=parseFloat(document.getElementById('units').value),iv=parseFloat(document.getElementById('inv').value),nv=parseFloat(document.getElementById('nav').value);if(!n||!u||!iv||!nv){alert('બધું ભરો');return}funds.push([n,document.getElementById('folio').value,u,iv,nv,nv]);build();render();alert('Add થઈ ગયું ✅')}
+function delF(i){if(confirm('કાઢવું છે?')){funds.splice(i,1);build();render()}}
+async function updateNAV(){document.getElementById('status').innerText='અપડેટ થાય છે...';for(var i=0;i<funds.length;i++){try{var q=funds[i][0].replace(/Direct Plan|Direct Growth|Direct|Growth|Plan/gi,'').trim();var s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)).then(function(r){return r.json()});if(s&&s.length>0){var pick=s[0];for(var k=0;k<s.length;k++){if(s[k].schemeName.toLowerCase().indexOf('direct')>=0&&s[k].schemeName.toLowerCase().indexOf('growth')>=0){pick=s[k];break}}var d=await fetch('https://api.mfapi.in/mf/'+pick.schemeCode+'/latest').then(function(r){return r.json()});if(d&&d.data&&d.data[0]){var nn=parseFloat(d.data[0].nav);if(nn){funds[i][5]=funds[i][4];funds[i][4]=nn}}}}catch(e){}document.getElementById('status').innerText='અપડેટ '+(i+1)+' / '+funds.length}render();alert('NAV અપડેટ થઈ ગયો!')}
+build();render();renderFD();
+</script></body></html>
