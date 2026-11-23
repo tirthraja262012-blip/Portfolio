@@ -1,108 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAJA PARIVAR - 5 TAB LIVE</title>
+<title>RAJA PARIVAR - FINAL 6 TAB</title>
 <style>
 *{box-sizing:border-box}
 body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .header{background:#6B0F1A;color:#fff;text-align:center;padding:14px;border-radius:14px}
 .header h1{color:#FFD700;margin:5px 0;font-size:20px}
-.logo{width:56px;height:56px;background:#fff;color:#6B0F1A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;margin:0 auto}
 .tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
-.tab{flex:1;min-width:70px;padding:10px 6px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:13px;cursor:pointer;white-space:nowrap}
+.tab{flex:1;min-width:68px;padding:10px 4px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:12px;cursor:pointer;white-space:nowrap}
 .tab.active{background:#6B0F1A;color:#fff}
-.card{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0}
-.item{background:rgba(255,248,225,.85);backdrop-filter:blur(6px);border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.7}
+.card{background:#fff;border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0}
+.item{background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.7}
 .small{font-size:12px;color:#555}
 .btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
 .live{color:green;font-weight:bold;background:#E8F5E9;padding:4px 8px;border-radius:6px;display:inline-block}
-input,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:8px 6px;border-bottom:1px solid #eee;text-align:left}
-th{background:#111;color:#fff}
 #lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
 #lock input{font-size:22px;text-align:center;max-width:240px}
+.totalBox{background:#6B0F1A;color:#fff;border-radius:12px;padding:14px;margin:10px 0;font-size:16px;line-height:2}
+.totalBox b{color:#FFD700}
 </style>
 </head>
 <body>
-<div id="lock"><div class="logo">U</div><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>Enter PIN</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
-<div class="header"><div class="logo">U</div><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
+<div id="lock"><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>PIN Nakho</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
+<div class="header"><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
+
 <div class="tabs">
-<div class="tab active" id="tMF" onclick="show('MF')">MF</div>
+<div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
+<div class="tab" id="tMF" onclick="show('MF')">MF</div>
 <div class="tab" id="tFD" onclick="show('FD')">FD</div>
 <div class="tab" id="tNCD" onclick="show('NCD')">NCD</div>
 <div class="tab" id="tShare" onclick="show('Share')">SHARE</div>
 <div class="tab" id="tPrem" onclick="show('Prem')">PREMIUM</div>
 </div>
 
-<div id="pMF">
-<div class="card"><h2>MF - LIVE <span class="live">● LIVE</span></h2>
-<p><b>Total Investment:</b> Rs 41,11,074<br><b>Current Value:</b> <span id="mfTotal">Rs 64,21,945</span> <span class="small">- Changes with NAV</span><br><button class="btn" onclick="refreshLive()">🔄 Refresh LIVE NAV</button></p>
-<p class="small">Your funds are here. Press LIVE button to get new NAV.</p></div><div id="mfList"></div>
+<div id="pTotal">
+<div class="totalBox"><b>TOTAL PORTFOLIO</b><br>MF: <span id="tMFVal">Rs 64,21,945</span><br>FD: <span id="tFDVal">Rs 0</span><br>NCD: <span id="tNCDVal">Rs 0</span><br>SHARE: <span id="tShareVal">Rs 0</span><br>PREMIUM / Varsh: Rs 7,50,000<br><hr><b>KUL TOTAL: <span id="tAll">Rs 64,21,945</span></b></div>
+<div class="card"><p class="small">TOTAL = MF + FD + NCD + SHARE. MF LIVE thase etle TOTAL pan badlase. FD / NCD / SHARE no rakam tamme pachi mukso etle TOTAL ma avi jase.</p><button class="btn" onclick="refreshLive()">🔄 LIVE NAV Refresh Karo</button></div>
+</div>
+
+<div id="pMF" style="display:none">
+<div class="card"><h2>MF - 30 Schemes <span class="live">● LIVE</span></h2><p><b>Kul Rokaan:</b> Rs 41,11,074<br><b>Atyarni Kimat:</b> <span id="mfTotal">Rs 64,21,945</span><br><button class="btn" onclick="refreshLive()">🔄 LIVE NAV Refresh Karo</button></p><p class="small">16 juna fund LIVE thase, 14 nava fund tamaro aapelo NAV j raheshe.</p></div><div id="mfList"></div>
 </div>
 
 <div id="pFD" style="display:none">
-<div class="card">
-<h2>FD - 11 FDs</h2>
-<label>Filter by Bank</label>
-<select id="bankFilter" onchange="renderFD()"><option value="All">All Banks</option><option>Equitas Small Finance Bank</option><option>Shriram Finance</option><option>Unity Small Finance Bank</option><option>Suryoday Small Finance Bank</option><option>AU Small Finance Bank</option></select>
-<label>Sort By</label>
-<select id="sortBy" onchange="renderFD()"><option value="maturity">Maturity Date</option><option value="amount">FD Amount</option><option value="bank">Bank Name</option></select>
-<p><b id="fdTotals"></b></p>
-<table><thead><tr><th>No</th><th>Bank</th><th>FD Amount</th><th>Rate</th><th>Maturity Date</th><th>Maturity Amount</th></tr></thead><tbody id="fdBody"></tbody></table>
-<p class="small">Quarterly FDs: Maturity = Principal. Interest comes quarterly in account.</p>
-</div>
-<div class="card"><h3>Add FD Manually</h3>
-<input id="nBank" placeholder="Bank Name"><input id="nAmt" type="number" placeholder="FD Amount"><input id="nRate" type="number" step="0.01" placeholder="Rate %"><input id="nMatDate" type="date"><input id="nMatAmt" type="number" placeholder="Maturity Amount"><button class="btn" onclick="addFD()">+ Add FD</button>
-</div>
+<div class="card"><h2>FD - 11 FD</h2><p class="small">Equitas 2 + Shriram 1 + Unity 4 + Suryoday 3 + AU 1 = 11 FD</p></div>
+<div class="item"><b>1. Equitas FD - 1</b><br>Bank: Equitas | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>2. Equitas FD - 2</b><br>Bank: Equitas | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>3. Shriram FD - 1</b><br>Bank: Shriram | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>4. Unity FD - 1</b><br>Bank: Unity | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>5. Unity FD - 2</b><br>Bank: Unity | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>6. Unity FD - 3</b><br>Bank: Unity | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>7. Unity FD - 4</b><br>Bank: Unity | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>8. Suryoday FD - 1</b><br>Bank: Suryoday | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>9. Suryoday FD - 2</b><br>Bank: Suryoday | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>10. Suryoday FD - 3</b><br>Bank: Suryoday | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
+<div class="item"><b>11. AU FD - 1</b><br>Bank: AU | Rakam: ___ | Takavari: ___% | Pakvani: ___</div>
 </div>
 
-<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><div class="item"><b>NCD 1</b><br>Name: ___ | Amount: ___ | Rate: ___%</div></div></div>
-<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Name: ___ | Quantity: ___ | Value: Rs ____</div></div></div>
-<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM - Rs 7,50,000 / Year</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Date: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renewal: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renewal: ___</div></div></div>
+<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><div class="item"><b>NCD 1</b><br>Naam: ___ | Rakam: ___ | Takavari: ___%</div></div></div>
+
+<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Naam: ___ | Ketla: ___ | Value: Rs ____</div></div></div>
+
+<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM - Rs 7,50,000 / Varsh</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Kyare: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renew: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renew: ___</div></div></div>
 
 <script>
-let MF=[
-{"name":"Jio Flexi Cap Fund","code":"154638","units":824.55,"inv":8001,"nav":10.2655},
-{"name":"ICICI Prudential Value Fund","code":"120716","units":260.55,"inv":100000,"nav":537.75},
-{"name":"Tata Digital India Fund","code":"119533","units":2299.99,"inv":94000,"nav":49.2266},
-{"name":"Tata Small Cap Fund","code":"147207","units":1720.38,"inv":50000,"nav":42.6109},
-{"name":"Mirae Asset Large and Midcap Fund","code":"118825","units":3751.519,"inv":327687,"nav":182.967},
-{"name":"Mirae Asset NYSE FANG+ ETF FoF","code":"142203","units":8256.226,"inv":119994,"nav":46.647},
-{"name":"Mirae Asset Midcap Fund","code":"118989","units":2846.887,"inv":83217,"nav":182.967},
-{"name":"Nippon India Small Cap Fund","code":"120716","units":4706.74,"inv":597493,"nav":203.474},
-{"name":"Nippon India Large Cap Fund","code":"118921","units":2876.531,"inv":226000,"nav":106.5014},
-{"name":"Quant Small Cap Fund","code":"120847","units":2153.126,"inv":510000,"nav":310.5746},
-{"name":"Quant ELSS Tax Saver Fund","code":"120846","units":472.628,"inv":150000,"nav":473.3949},
-{"name":"Bandhan Small Cap Fund","code":"125354","units":11580.61,"inv":490000,"nav":56.575},
-{"name":"Parag Parikh Flexi Cap Fund","code":"120503","units":2153.09,"inv":135000,"nav":94.6945},
-{"name":"Parag Parikh ELSS Tax Saver Fund","code":"126609","units":2682.3,"inv":60000,"nav":33.2557},
-{"name":"DSP Small Cap Fund","code":"118594","units":809.87,"inv":99716,"nav":245.861},
-{"name":"SBI Small Cap Fund","code":"119869","units":1184.88,"inv":156000,"nav":210.0213}
-];
-let fds=[
-{bank:"Equitas Small Finance Bank",amt:73628,rate:7.1,mat:"2027-02-18",matAmt:80211},
-{bank:"Shriram Finance",amt:50000,rate:8.15,mat:"2027-05-07",matAmt:61257.37},
-{bank:"Unity Small Finance Bank",amt:250000,rate:9.0,mat:"2027-06-01",matAmt:250000},
-{bank:"Unity Small Finance Bank",amt:200000,rate:9.5,mat:"2027-06-10",matAmt:200000},
-{bank:"Unity Small Finance Bank",amt:200000,rate:9.5,mat:"2027-06-11",matAmt:200000},
-{bank:"AU Small Finance Bank",amt:283367.53,rate:6.25,mat:"2027-10-02",matAmt:306208.53},
-{bank:"Unity Small Finance Bank",amt:200000,rate:8.6,mat:"2027-12-13",matAmt:200000},
-{bank:"Suryoday Small Finance Bank",amt:200000,rate:9.6,mat:"2028-07-29",matAmt:200000},
-{bank:"Suryoday Small Finance Bank",amt:200000,rate:9.1,mat:"2028-07-29",matAmt:200000},
-{bank:"Suryoday Small Finance Bank",amt:100000,rate:9.1,mat:"2028-08-05",matAmt:156816},
-{bank:"Equitas Small Finance Bank",amt:120000,rate:8.5,mat:"2029-07-15",matAmt:154515},
-];
-function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
-function show(t){ ['MF','FD','NCD','Share','Prem'].forEach(x=>{ document.getElementById('p'+x).style.display = x===t ? 'block':'none'; document.getElementById('t'+x).className = x===t ? 'tab active':'tab'; }); }
-function renderMF(){ let html=''; let tot=0; MF.forEach((m,i)=>{ let cur=m.units*m.nav; tot+=cur; let gain=cur-m.inv; html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Investment: Rs '+m.inv.toLocaleString('en-IN')+' | Current Value: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Gain: Rs '+Math.round(gain).toLocaleString('en-IN')+'</div></div>'; }); document.getElementById('mfList').innerHTML=html; document.getElementById('mfTotal').textContent='Rs '+Math.round(tot).toLocaleString('en-IN'); }
-async function refreshLive(){ alert('Fetching LIVE NAV... Please wait 5 sec'); for(let m of MF){ try{ let r=await fetch('https://api.mfapi.in/mf/'+m.code); let j=await r.json(); if(j.data && j.data[0]) m.nav=parseFloat(j.data[0].nav); }catch(e){} } renderMF(); alert('LIVE Update Done!'); }
-function fmt(n){return "Rs "+Number(n).toLocaleString("en-IN",{minimumFractionDigits:2})}
-function renderFD(){ let f=document.getElementById("bankFilter").value; let s=document.getElementById("sortBy").value; let list=fds.filter(x=>f==="All"||x.bank===f); if(s==="maturity") list.sort((a,b)=>a.mat.localeCompare(b.mat)); if(s==="amount") list.sort((a,b)=>b.amt-a.amt); if(s==="bank") list.sort((a,b)=>a.bank.localeCompare(b.bank)); let tb=document.getElementById("fdBody"); tb.innerHTML=""; let ta=0,tm=0; list.forEach((x,i)=>{ta+=x.amt; tm+=x.matAmt; tb.innerHTML+=`<tr><td>${i+1}</td><td>${x.bank}</td><td>${fmt(x.amt)}</td><td>${x.rate}%</td><td>${x.mat}</td><td>${fmt(x.matAmt)}</td></tr>`}); document.getElementById("fdTotals").innerHTML=`Total FDs: ${list.length} | Total Investment: ${fmt(ta)} | Total Maturity: ${fmt(tm)}`; }
-function addFD(){ let b=document.getElementById("nBank").value, a=parseFloat(document.getElementById("nAmt").value), r=parseFloat(document.getElementById("nRate").value), d=document.getElementById("nMatDate").value, m=parseFloat(document.getElementById("nMatAmt").value); if(!b||!a||!d||!m){alert("Fill Bank, Amount, Maturity Date, Maturity Amount");return;} fds.push({bank:b,amt:a,rate:r||0,mat:d,matAmt:m}); document.getElementById("bankFilter").value="All"; renderFD(); alert("FD Added!"); }
-renderMF(); renderFD();
+let MF=[{"name":"Jio Flexi Cap Fund - Direct Growth","folio":"","units":824.55,"inv":8001,"nav":10.2655,"code":"154638"},{"name":"ICICI Prudential Value Fund - Direct Plan - Growth","folio":"RAJENDRA - 28065193","units":260.55,"inv":100000,"nav":537.75,"code":"120716"},{"name":"Tata Digital India Fund Direct Plan Growth","folio":"RAJENDRA - 5524942","units":2299.99,"inv":94000,"nav":49.2266,"code":"119533"},{"name":"Tata Small Cap Fund - Direct Plan - Growth","folio":"KOMALBEN - 9135304","units":1720.38,"inv":50000,"nav":42.6109,"code":"147207"},{"name":"Mirae Asset Large and Midcap Fund - Direct Growth","folio":"","units":3751.519,"inv":327687,"nav":182.967,"code":"118825"},{"name":"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth","folio":"","units":8256.226,"inv":119994,"nav":46.647,"code":"142203"},{"name":"Mirae Asset Midcap Fund - Direct Growth","folio":"","units":2846.887,"inv":83217,"nav":182.967,"code":"118989"},{"name":"Nippon India Small Cap Fund - Direct Growth","folio":"Folio 1","units":4706.74,"inv":597493,"nav":203.474,"code":"120716"},{"name":"Nippon India Growth Mid Cap Fund - Direct Growth","folio":"","units":16.863,"inv":60000,"nav":822.2759,"code":""},{"name":"Nippon India Large Cap Fund - Direct Growth","folio":"Folio 1","units":2876.531,"inv":226000,"nav":106.5014,"code":"118921"},{"name":"Nippon India Large Cap Fund - Direct Growth","folio":"Folio 2","units":824.529,"inv":55010,"nav":106.5014,"code":"118921"},{"name":"Nippon India Small Cap Fund - Direct Growth","folio":"Folio 2","units":421.289,"inv":50000,"nav":203.474,"code":"120716"},{"name":"Quant Multi Cap Fund - Direct Growth","folio":"","units":123.36,"inv":60000,"nav":733.3165,"code":""},{"name":"Quant Small Cap Fund - Direct Growth","folio":"","units":2153.126,"inv":510000,"nav":310.5746,"code":"120847"},{"name":"Quant ELSS Tax Saver Fund - Direct Growth","folio":"","units":472.628,"inv":150000,"nav":473.3949,"code":"120846"},{"name":"Quant PSU Fund - Direct Growth","folio":"","units":1358.41,"inv":150005,"nav":10.7205,"code":""},{"name":"Bandhan Small Cap Fund - Direct Growth","folio":"Komalben - 4350827","units":11580.61,"inv":490000,"nav":56.575,"code":"125354"},{"name":"Bandhan Small Cap Fund - Direct Growth","folio":"Rajendra - 4799767","units":3992.48,"inv":185000,"nav":56.575,"code":"125354"},{"name":"Bandhan Small Cap Fund - Direct Growth","folio":"Komalben - 7116567","units":1043.72,"inv":60000,"nav":56.575,"code":"125354"},{"name":"Bandhan Small Cap Fund - Direct Growth","folio":"Komalben - 10060201","units":918.26,"inv":52500,"nav":56.575,"code":"125354"},{"name":"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth","folio":"","units":2215.147,"inv":55000,"nav":28.0829,"code":""},{"name":"Motilal Oswal Midcap Fund - Direct Growth","folio":"","units":500.022,"inv":45000,"nav":41.344,"code":""},{"name":"Motilal Oswal Small Cap Fund - Direct Growth","folio":"","units":6999.65,"inv":70000,"nav":17.5112,"code":""},{"name":"Parag Parikh Flexi Cap Fund - Direct Growth","folio":"Rajendra","units":2153.09,"inv":135000,"nav":94.6945,"code":"120503"},{"name":"Parag Parikh ELSS Tax Saver Fund - Direct Growth","folio":"Komalben","units":2682.3,"inv":60000,"nav":33.2557,"code":"126609"},{"name":"Parag Parikh ELSS Tax Saver Fund - Direct Growth","folio":"Rajendra","units":896.29,"inv":20000,"nav":33.2557,"code":"126609"},{"name":"Parag Parikh Flexi Cap Fund - Direct Growth","folio":"Komalben","units":269.94,"inv":25000,"nav":94.6945,"code":"120503"},{"name":"DSP Small Cap Fund - Direct Growth","folio":"","units":809.87,"inv":99716,"nav":245.861,"code":"118594"},{"name":"DSP Large and Mid Cap Fund - Direct Growth","folio":"","units":70.75,"inv":16451,"nav":729.006,"code":""},{"name":"SBI Small Cap Fund - Direct Growth","folio":"","units":1184.88,"inv":156000,"nav":210.0213,"code":"119869"}];
+function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Khoto PIN'); } }
+function show(t){
+ ['Total','MF','FD','NCD','Share','Prem'].forEach(x=>{
+  document.getElementById('p'+x).style.display = x===t ? 'block':'none';
+  document.getElementById('t'+x).className = x===t ? 'tab active':'tab';
+ });
+}
+function render(){
+ let html=''; let tot=0;
+ MF.forEach((m,i)=>{
+  let cur=m.units*m.nav; tot+=cur; let gain=cur-m.inv;
+  html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Folio: '+(m.folio||'-')+'<br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Rokaan: Rs '+m.inv.toLocaleString('en-IN')+' | Kimat: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Faydo: Rs '+Math.round(gain).toLocaleString('en-IN')+'</div></div>';
+ });
+ document.getElementById('mfList').innerHTML=html;
+ document.getElementById('mfTotal').textContent='Rs '+Math.round(tot).toLocaleString('en-IN');
+ document.getElementById('tMFVal').textContent='Rs '+Math.round(tot).toLocaleString('en-IN');
+ document.getElementById('tAll').textContent='Rs '+Math.round(tot).toLocaleString('en-IN');
+}
+async function refreshLive(){
+ alert('LIVE NAV lai rahyo chhu...');
+ for(let m of MF){
+  if(!m.code) continue;
+  try{ let r=await fetch('https://api.mfapi.in/mf/'+m.code); let j=await r.json(); if(j.data && j.data[0]) m.nav=parseFloat(j.data[0].nav); }catch(e){}
+ }
+ render(); alert('LIVE Update thai gayu!');
+}
+render();
 </script>
 </body>
 </html>
