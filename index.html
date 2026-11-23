@@ -76,33 +76,17 @@ setTimeout(realFix2, 1000);
 setInterval(realFix2, 1200);
 new MutationObserver(realFix2).observe(document.body, {childList:true, subtree:true});
 </script>
-<script>
+ <script>
 function fixNumbers(){
   document.querySelectorAll('h1, h2').forEach(h=>{
     h.querySelectorAll('*').forEach(s=>{
       s.style.setProperty('color', '#f5d76e', 'important');
     });
   });
-  document.querySelectorAll('p').forEach(p=>{
-    let node = p;
-    while(node){
-      let c = getComputedStyle(node).backgroundColor;
-      let m = c.match(/\d+/g);
-      if(m){
-        let bright = (parseInt(m[0])*0.299 + parseInt(m[1])*0.587 + parseInt(m[2])*0.114);
-        if(bright < 120){
-          p.style.setProperty('color', '#ffffff', 'important');
-          p.querySelectorAll('*').forEach(s=> s.style.setProperty('color', '#ffffff', 'important'));
-        }
-        break;
-      }
-      node = node.parentElement;
-    }
-  });
 }
 setInterval(fixNumbers, 800);
 setTimeout(fixNumbers, 500);
-</script> 
+ </script>
 window.prompt = function(){ return null; };
  </script>
 <meta charset="UTF-8">
