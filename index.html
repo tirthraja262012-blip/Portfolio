@@ -32,10 +32,33 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 #lock input{font-size:22px;text-align:center;max-width:240px}
 .totalBox{background:#6B0F1A;color:#fff;border-radius:12px;padding:14px;margin:10px 0;font-size:16px;line-height:2}
 .totalBox b{color:#FFD700}
+#editBox{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}
+#editInner{background:#fff;width:100%;max-width:420px;border-radius:14px;padding:16px;max-height:92vh;overflow-y:auto}
+#editInner label{font-weight:bold;font-size:13px;color:#6B0F1A;display:block;margin-top:10px}
+#editInner input{width:100%;padding:12px;border:2px solid #6B0F1A;border-radius:8px;font-size:15px;margin-top:4px}
+.btnSave{background:#1B5E20;color:#fff;border:none;padding:14px;width:100%;border-radius:10px;font-size:17px;font-weight:bold;margin-top:14px}
+.btnCancel{background:#fff;color:#6B0F1A;border:2px solid #6B0F1A;padding:12px;width:100%;border-radius:10px;font-size:15px;font-weight:bold;margin-top:8px}
 </style>
 </head>
 <body>
 <div id="lock"><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>Enter PIN</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
+
+<div id="editBox"><div id="editInner">
+<h3 style="margin:0;color:#6B0F1A">EDIT FUND - જે બદલવું હોય એ જ બદલો, બાકીનું અડશો નહીં</h3>
+<label>Fund Name - બદલવું ના હોય તો એમનું એમ રાખો</label>
+<input id="eName">
+<label>Folio / Name - Rajendra / Komal / Folio Number</label>
+<input id="eFolio" placeholder="Rajendra / Komal / Folio No.">
+<label>Units</label>
+<input id="eUnits" type="number" step="any">
+<label>NAV</label>
+<input id="eNav" type="number" step="any">
+<label>Cost / Invested</label>
+<input id="eInv" type="number" step="any">
+<button class="btnSave" onclick="saveEdit()">SAVE - બસ આટલું જ</button>
+<button class="btnCancel" onclick="closeEdit()">CANCEL - કંઈ નથી બદલવું</button>
+</div></div>
+
 <div class="header"><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
 <div class="tabs">
 <div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
@@ -79,70 +102,40 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 <div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Date: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renewal: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renewal: ___</div></div></div>
 <script>
 let MF = [
-// 1
 {name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655},
-// 2
 {name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75},
-// 3
 {name:"Tata Digital India Fund Direct Plan Growth", folio:"RAJENDRA - 5524942", units:2299.99, inv:94000, nav:49.2266},
-// 4
 {name:"Tata Small Cap Fund - Direct Plan - Growth", folio:"KOMALBEN - 9135304", units:1720.38, inv:50000, nav:42.6109},
-// 5
 {name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967},
-// 6
 {name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth", folio:"", units:8256.226, inv:119994, nav:46.647},
-// 7
 {name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967},
-// 8
 {name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 1", units:4706.74, inv:597493, nav:203.474},
-// 9
 {name:"Nippon India Growth Mid Cap Fund - Direct Growth", folio:"", units:16.863, inv:60000, nav:822.2759},
-// 10
 {name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 1", units:2876.531, inv:226000, nav:106.5014},
-// 11
 {name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 2", units:824.529, inv:55010, nav:106.5014},
-// 12
 {name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 2", units:421.289, inv:50000, nav:203.474},
-// 13
 {name:"Quant Multi Cap Fund - Direct Growth", folio:"", units:123.36, inv:60000, nav:733.3165},
-// 14
 {name:"Quant Small Cap Fund - Direct Growth", folio:"", units:2153.126, inv:510000, nav:310.5746},
-// 15
 {name:"Quant ELSS Tax Saver Fund - Direct Growth", folio:"", units:472.628, inv:150000, nav:473.3949},
-// 16
 {name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205},
-// 17
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 4350827", units:11580.61, inv:490000, nav:56.575},
-// 18
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Rajendra - 4799767", units:3992.48, inv:185000, nav:56.575},
-// 19
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 7116567", units:1043.72, inv:60000, nav:56.575},
-// 20
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 10060201", units:918.26, inv:52500, nav:56.575},
-// 21
 {name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth", folio:"", units:2215.147, inv:55000, nav:28.0829},
-// 22
 {name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Rajendra", units:1043.842, inv:115015, nav:120.5351},
-// 23
 {name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Komal", units:500.022, inv:45000, nav:120.5351},
-// 24
 {name:"Motilal Oswal Small Cap Fund - Direct Growth", folio:"", units:6999.65, inv:70000, nav:17.5112},
-// 25
 {name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Rajendra", units:2153.09, inv:135000, nav:94.6945},
-// 26
 {name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Komalben", units:2682.3, inv:60000, nav:33.2557},
-// 27
 {name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Rajendra", units:896.29, inv:20000, nav:33.2557},
-// 28
 {name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Komalben", units:269.94, inv:25000, nav:94.6945},
-// 29
 {name:"DSP Small Cap Fund - Direct Growth", folio:"", units:809.87, inv:99716, nav:245.861},
-// 30
 {name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006},
-// 31
 {name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213}
 ];
 let curFilter='All';
+let editIndex=-1;
 function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
 function show(t){
  ['Total','MF','FD','NCD','Share','Prem'].forEach(x=>{
@@ -190,18 +183,28 @@ function deleteFund(i){
  if(confirm('Delete '+MF[i].name+' - '+(MF[i].folio||'')+' ?')){ MF.splice(i,1); render(); alert('Deleted. TOTAL auto updated.'); }
 }
 function editFund(i){
- let m=MF[i];
- let name=prompt('1/5 - Edit FUND NAME - Old:\n'+m.name+'\nNew Name lakho:', m.name); if(name===null) return;
- let folio=prompt('2/5 - Edit FOLIO / NAME - Old: '+(m.folio||'')+'\nNew Folio lakho:', m.folio||''); if(folio===null) return;
- let units=prompt('3/5 - Edit UNITS - Old: '+m.units+'\nNew Units lakho:', m.units); if(units===null) return;
- let nav=prompt('4/5 - Edit NAV - Old: '+m.nav+'\nNew NAV lakho:', m.nav); if(nav===null) return;
- let inv=prompt('5/5 - Edit COST / Invested - Old: '+m.inv+'\nNew Cost lakho:', m.inv); if(inv===null) return;
- if(name) m.name=name;
- m.folio=folio;
- if(parseFloat(units)>0) m.units=parseFloat(units);
- if(parseFloat(nav)>0) m.nav=parseFloat(nav);
- if(parseFloat(inv)>0) m.inv=parseFloat(inv);
- render(); alert('Updated ALL! TOTAL auto updated.');
+ editIndex=i; let m=MF[i];
+ document.getElementById('eName').value=m.name;
+ document.getElementById('eFolio').value=m.folio||'';
+ document.getElementById('eUnits').value=m.units;
+ document.getElementById('eNav').value=m.nav;
+ document.getElementById('eInv').value=m.inv;
+ document.getElementById('editBox').style.display='flex';
+}
+function closeEdit(){ document.getElementById('editBox').style.display='none'; editIndex=-1; }
+function saveEdit(){
+ if(editIndex<0) return;
+ let m=MF[editIndex];
+ let n=document.getElementById('eName').value.trim();
+ if(n) m.name=n;
+ m.folio=document.getElementById('eFolio').value.trim();
+ let u=parseFloat(document.getElementById('eUnits').value);
+ let nv=parseFloat(document.getElementById('eNav').value);
+ let iv=parseFloat(document.getElementById('eInv').value);
+ if(u>0) m.units=u;
+ if(nv>0) m.nav=nv;
+ if(iv>0) m.inv=iv;
+ closeEdit(); render(); alert('Saved! TOTAL auto updated.');
 }
 async function addFund(){
  let q=prompt('New Fund - MF API ma Search karo:\nThodu naam lakho - e.g. Motilal Midcap, Nippon Small, Quant PSU'); if(!q) return;
