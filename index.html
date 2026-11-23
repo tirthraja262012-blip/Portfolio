@@ -42,11 +42,12 @@ table, tr, td{
 }
 </style>
 <script>
-function smartFix(){
-  document.querySelectorAll('h1,h2,h3,h4,p,span,div,button,label,li,td,th,a').forEach(el=>{
-    if(el.children.length>0) return;
+function smartFix2(){
+  document.querySelectorAll('*').forEach(el=>{
+    if(['SCRIPT','STYLE','HEAD','HTML','BODY'].includes(el.tagName)) return;
+    // હવે 12 ડગલા સુધી જુઓ
     let node = el, bg = null, hops = 0;
-    while(node && hops < 4){
+    while(node && hops < 12){
       let c = getComputedStyle(node).backgroundColor;
       let m = c.match(/[\d.]+/g);
       if(m && parseFloat(m[3]||1) > 0.9){
@@ -57,20 +58,24 @@ function smartFix(){
     if(!bg) return;
     let m = bg.match(/\d+/g);
     let bright = (parseInt(m[0])*0.299 + parseInt(m[1])*0.587 + parseInt(m[2])*0.114);
-    if(bright > 180){
-      el.style.setProperty('color', '#111111', 'important');
-    } else if(bright > 90){
-      el.style.setProperty('color', '#ffffff', 'important');
-    } else {
+    let col = bright > 160 ? '#111111' : (bright > 90 ? '#ffffff' : '#f5d76e');
+    // હેડિંગ સિવાય બધાને આ કલર
+    if(el.tagName==='H1'||el.tagName==='H2'){
       el.style.setProperty('color', '#f5d76e', 'important');
+    } else {
+      el.style.setProperty('color', col, 'important');
+    }
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT'){
+      el.style.setProperty('color', '#111111', 'important');
+      el.style.setProperty('background-color', '#ffffff', 'important');
     }
   });
   document.querySelectorAll('h1,h2').forEach(h=>{
     h.querySelectorAll('*').forEach(s=> s.style.setProperty('color', '#f5d76e', 'important'));
   });
 }
-setInterval(smartFix, 1000);
-setTimeout(smartFix, 500);
+setInterval(smartFix2, 500);
+setTimeout(smartFix2, 300);
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
