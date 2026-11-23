@@ -10,6 +10,8 @@
 body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .header{background:#6B0F1A;color:#fff;text-align:center;padding:14px;border-radius:14px}
 .header h1{color:#FFD700;margin:5px 0;font-size:20px}
+.logo{width:64px;height:64px;background:#fff;border-radius:50%;margin:0 auto;overflow:hidden;border:2px solid #FFD700}
+.logo img{width:100%;height:100%;object-fit:cover}
 .tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto;padding-bottom:4px}
 .tab{flex:1;min-width:78px;padding:10px 4px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:11px;cursor:pointer;white-space:nowrap}
 .tab.active{background:#6B0F1A;color:#fff}
@@ -25,6 +27,8 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .btnDel{background:#D32F2F;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px}
 .btnFilter{background:#fff;border:2px solid #6B0F1A;padding:8px 10px;border-radius:8px;font-weight:bold;font-size:13px;margin:3px;cursor:pointer}
 .btnFilter.active{background:#6B0F1A;color:#fff}
+.btnYear{background:#fff;border:2px solid #00695C;padding:10px 16px;border-radius:10px;font-weight:bold;font-size:15px;margin:4px;cursor:pointer}
+.btnYear.active{background:#00695C;color:#fff}
 .filterBar{display:flex;flex-wrap:wrap;gap:2px;margin-top:8px}
 .searchBox{width:100%;padding:10px;border:2px solid #6B0F1A;border-radius:8px;font-size:15px;margin-top:8px}
 .green{color:#1B5E20;font-weight:bold}
@@ -67,7 +71,7 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <button class="btnCancel" onclick="closeEdit()">CANCEL - કંઈ નથી બદલવું</button>
 </div></div>
 
-<div class="header"><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
+<div class="header"><div class="logo"><img src="logo.jpg"></div><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
 <div class="tabs">
 <div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
 <div class="tab" id="tMF" onclick="show('MF')">MF</div>
@@ -124,12 +128,13 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 </div>
 
 <div id="pAnalysis" style="display:none">
-<div class="card"><h2>INVESTMENT ANALYSIS - 12 મહિનાનું આખું ટેબલ</h2>
-<p>છેલ્લા 6 મહિના / 12 મહિના - એક જ ટેબલમાં બધું દેખાશે રાજા.<br>12 મહિના પૂરા થાય એટલે 1 વર્ષ પૂરું - નીચે વર્ષનો સરવાળો આવી જશે.</p>
+<div class="card"><h2>INVESTMENT ANALYSIS - વર્ષ પસંદ કરો, 12 મહિના દેખાશે</h2>
+<p>નીચે વર્ષ દબાવો રાજા - એ વર્ષના 12 મહિના આખું ટેબલ ખૂલી જશે.<br>જેમ કે 2026 દબાવો - તો 2026 ના Jan થી Dec - બધું દેખાશે.</p>
+<div id="yearButtons" style="text-align:center"></div>
 <div id="analysisSummary"></div>
 <div class="scrollX" id="analysisTable"></div>
 <button class="btnAll" onclick="exportAll()">EXPORT ALL - ANALYSIS પણ Excel માં આવશે</button>
-<p class="small">MONTHLY માં SAVE THIS MONTH દબાવશો એટલે આ ટેબલ આપોઆપ વધતું જશે. હમણાં 1 મહિનો છે - Nov 2026, Dec માં બીજો આવશે, એમ 12 મહિના થશે.</p>
+<p class="small">MONTHLY માં SAVE THIS MONTH દબાવશો એટલે આ ટેબલ આપોઆપ વધતું જશે. હમણાં 2026 માં 1 મહિનો છે - Nov 2026, Dec માં બીજો આવશે, એમ 12 મહિના થશે.</p>
 </div>
 </div>
 
@@ -185,6 +190,11 @@ let MONTHLY = [
 ];
 let curFilter='All';
 let editIndex=-1;
+let selectedYear='2026';
+function getYearOf(m){
+ if(m.date && m.date.length>=4) return m.date.slice(0,4);
+ let mm=m.month.match(/20\d\d/); return mm?mm[0]:'2026';
+}
 function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
 function show(t){
  ['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis'].forEach(x=>{
@@ -281,25 +291,72 @@ function renderMonthly(){
  }
  document.getElementById('monthlyList').innerHTML=html;
 }
+function setYear(y){ selectedYear=y; renderAnalysis(); }
 function renderAnalysis(){
- let last = MONTHLY[MONTHLY.length-1];
- let first = MONTHLY[0];
- let totalNew = last.inv - first.inv;
+ let years=[...new Set(MONTHLY.map(m=>getYearOf(m)))].sort();
+ if(!years.includes(selectedYear) && years.length) selectedYear=years[years.length-1];
+ let yb='';
+ years.forEach(y=>{ yb+='<button class="btnYear '+(y===selectedYear?'active':'')+'" onclick="setYear(\''+y+'\')">'+y+'</button>'; });
+ yb+='<button class="btnYear '+(selectedYear==='ALL'?'active':'')+'" onclick="setYear(\'ALL\')">ALL YEARS</button>';
+ document.getElementById('yearButtons').innerHTML=yb;
+ let list = selectedYear==='ALL' ? MONTHLY : MONTHLY.filter(m=>getYearOf(m)===selectedYear);
+ if(!list.length){ document.getElementById('analysisSummary').innerHTML='<div class="card">Aa varsh ma haju koi mahino save nathi thayo.</div>'; document.getElementById('analysisTable').innerHTML=''; return; }
+ let first=list[0]; let last=list[list.length-1];
+ let totalNew = last.inv - MONTHLY[0].inv;
+ if(selectedYear!=='ALL'){
+  let idxFirst = MONTHLY.indexOf(first);
+  let prev = idxFirst>0 ? MONTHLY[idxFirst-1] : null;
+  if(prev){ totalNew = last.inv - prev.inv; }
+  else { totalNew = 0; }
+  let sumNew=0; let sumMarket=0;
+  list.forEach((mm,ii)=>{
+   let globalIdx = MONTHLY.indexOf(mm);
+   let p = globalIdx>0 ? MONTHLY[globalIdx-1] : null;
+   if(p && ii>0 || (ii===0 && p && selectedYear!=='ALL' && MONTHLY.indexOf(mm)>0)){ }
+  });
+ }
  let totalValChange = last.val - first.val;
- let totalMarketGain = totalValChange - totalNew;
+ let totalMarketGain = 0; let sumNewYear=0;
+ list.forEach((mm,ii)=>{
+  let gi = MONTHLY.indexOf(mm);
+  let p = gi>0 ? MONTHLY[gi-1] : null;
+  if(!p) return;
+  if(ii===0 && selectedYear!=='ALL' && gi>0){
+   let newInv = mm.inv - p.inv;
+   let valCh = mm.val - p.val;
+   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
+  } else if(ii>0){
+   let prevInList = list[ii-1];
+   let newInv = mm.inv - prevInList.inv;
+   let valCh = mm.val - prevInList.val;
+   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
+  }
+ });
+ if(selectedYear==='ALL'){
+  sumNewYear = last.inv - MONTHLY[0].inv;
+  totalMarketGain = (last.val - MONTHLY[0].val) - sumNewYear;
+ }
  let totalProfitChange = last.gain - first.gain;
- let months = MONTHLY.length;
- let yearStatus = months>=12 ? '1 VARSH PURU - 12 Mahina Thai Gaya ✅' : (12-months)+' mahina baki che 1 varsh puru thava ma - Hav  '+months+' / 12 mahina thaya che';
- let html='<div class="totalBox"><b>'+yearStatus+'</b><br>Starting: '+first.month+' - Value Rs '+first.val.toLocaleString('en-IN')+'<br>Latest: '+last.month+' - Value Rs '+last.val.toLocaleString('en-IN')+'<br><hr><b>AA PERIOD MA:</b><br>Total Navu Nakhyu: <b style="color:#7CBBFF">Rs '+totalNew.toLocaleString('en-IN')+'</b><br>Market thi Vadhyu: <b style="color:#A5D6A7">Rs '+totalMarketGain.toLocaleString('en-IN')+'</b><br>Total Value Vadhi: <b>Rs '+totalValChange.toLocaleString('en-IN')+'</b><br>Chokkho Profit Vadhyo: <b>Rs '+totalProfitChange.toLocaleString('en-IN')+'</b></div>';
+ let yearLabel = selectedYear==='ALL' ? 'BADHA VARSH' : selectedYear+' - '+list.length+' / 12 Mahina';
+ let status = list.length>=12 ? selectedYear+' - 1 VARSH PURU - 12 Mahina Thai Gaya ✅' : selectedYear+' - '+list.length+' / 12 Mahina Thaya - '+(12-list.length)+' Mahina Baki Che';
+ let html='<div class="totalBox"><b>'+status+'</b><br>'+yearLabel+'<br>Starting: '+first.month+' - Value Rs '+first.val.toLocaleString('en-IN')+'<br>Latest: '+last.month+' - Value Rs '+last.val.toLocaleString('en-IN')+'<br><hr><b>AA VARSH MA:</b><br>Total Navu Nakhyu: <b style="color:#7CBBFF">Rs '+sumNewYear.toLocaleString('en-IN')+'</b><br>Market thi Vadhyu: <b style="color:#A5D6A7">Rs '+totalMarketGain.toLocaleString('en-IN')+'</b><br>Total Value Vadhi: <b>Rs '+(last.val-first.val).toLocaleString('en-IN')+'</b><br>Chokkho Profit: <b>Rs '+last.gain.toLocaleString('en-IN')+'</b></div>';
  document.getElementById('analysisSummary').innerHTML=html;
  let t='<table><tr><th>No</th><th>Mahino</th><th>Total Investment</th><th>Aa Mahine Navu</th><th>Value</th><th>Chokkho Profit</th><th>Market Gain</th></tr>';
- MONTHLY.forEach((mm,i)=>{
-  let prev=i>0?MONTHLY[i-1]:null;
-  let newInv=prev?mm.inv-prev.inv:0;
-  let valCh=prev?mm.val-prev.val:0;
-  let mkt=prev?valCh-newInv:0;
+ list.forEach((mm,ii)=>{
+  let gi = MONTHLY.indexOf(mm);
+  let p = gi>0 ? MONTHLY[gi-1] : null;
+  let newInv=0; let mkt=0;
+  if(ii===0){
+   if(p){ newInv = mm.inv - p.inv; let valCh = mm.val - p.val; mkt = valCh - newInv; }
+   else { newInv=0; mkt=0; }
+  } else {
+   let prevInList=list[ii-1];
+   newInv = mm.inv - prevInList.inv;
+   let valCh = mm.val - prevInList.val;
+   mkt = valCh - newInv;
+  }
   let mktCls=mkt>=0?'green':'red';
-  t+='<tr><td>'+(i+1)+'</td><td><b>'+mm.month+'</b></td><td>Rs '+mm.inv.toLocaleString('en-IN')+'</td><td style="color:#0D47A1;font-weight:bold">Rs '+newInv.toLocaleString('en-IN')+'</td><td><b>Rs '+mm.val.toLocaleString('en-IN')+'</b></td><td style="color:#1B5E20;font-weight:bold">Rs '+mm.gain.toLocaleString('en-IN')+'</td><td class="'+mktCls+'">Rs '+mkt.toLocaleString('en-IN')+'</td></tr>';
+  t+='<tr><td>'+(ii+1)+'</td><td><b>'+mm.month+'</b></td><td>Rs '+mm.inv.toLocaleString('en-IN')+'</td><td style="color:#0D47A1;font-weight:bold">Rs '+newInv.toLocaleString('en-IN')+'</td><td><b>Rs '+mm.val.toLocaleString('en-IN')+'</b></td><td style="color:#1B5E20;font-weight:bold">Rs '+mm.gain.toLocaleString('en-IN')+'</td><td class="'+mktCls+'">Rs '+mkt.toLocaleString('en-IN')+'</td></tr>';
  });
  t+='</table>';
  document.getElementById('analysisTable').innerHTML=t;
@@ -311,6 +368,7 @@ function saveMonth(){
  let label=prompt('Month nu naam lakho - e.g. Nov 2026, Dec 2026:', monthName); if(!label) return;
  let dateStr=d.toISOString().slice(0,10);
  MONTHLY.push({month:label, date:dateStr, inv:c.inv, val:c.tot, gain:c.tot-c.inv});
+ selectedYear=getYearOf(MONTHLY[MONTHLY.length-1]);
  renderMonthly();
  alert('Month Saved!\n'+label+'\nValue: Rs '+c.tot.toLocaleString('en-IN')+'\nProfit: Rs '+(c.tot-c.inv).toLocaleString('en-IN'));
 }
