@@ -495,5 +495,35 @@ async function updateLive(){
 render();
 renderMonthly();
 </script>
+ <script>
+// FD ADD - જૂના કોડમાં કંઈ કાઢ્યા વગર ઉમેરેલું
+function fdAddNew(){
+ let nm=prompt("Bank Name? - Equitas / Unity / AU / Suryoday");
+ if(!nm) return;
+ let ow=prompt("કેની FD છે? - Rajendra / Komal");
+ let am=prompt("Amount કેટલા? - 100000");
+ let dt=prompt("Maturity Date? - 2027-01-01 જેવી");
+ let ma=prompt("Maturity Amount કેટલું મળશે?");
+ if(!am) return;
+ let div=document.createElement('div');
+ div.className='item';
+ div.innerHTML='<b>'+nm+' FD</b><br>નામ: '+(ow||'-')+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+(dt||'')+'<br>Maturity Amount: Rs '+Number(ma||am).toLocaleString('en-IN')+'<br><button class="btnEdit" onclick="this.parentElement.remove()">DELETE</button>';
+ document.getElementById('pFD').appendChild(div);
+ alert('FD ઉમેરાઈ ગઈ રાજા');
+}
+function fdMakeButtons(){
+ let p=document.getElementById('pFD');
+ if(!p || document.getElementById('fdAddBtn')) return;
+ let b=document.createElement('button');
+ b.id='fdAddBtn'; b.className='btnAdd'; b.textContent='+ ADD NEW FD';
+ b.onclick=fdAddNew;
+ p.insertBefore(b, p.children[1]);
+ let s=document.createElement('input');
+ s.className='searchBox'; s.placeholder='Search FD - Unity, Equitas, Rajendra...';
+ s.oninput=function(){ let v=this.value.toLowerCase(); document.querySelectorAll('#pFD .item').forEach(el=>{ el.style.display=el.textContent.toLowerCase().includes(v)?'block':'none'; }); };
+ p.insertBefore(s, p.children[2]);
+}
+setTimeout(fdMakeButtons, 500);
+</script>
 </body>
 </html>
