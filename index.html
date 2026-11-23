@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="gu">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAJA PARIVAR - 6 TAB LIVE</title>
+<title>RAJA PARIVAR - 5 TAB LIVE</title>
 <style>
 *{box-sizing:border-box}
 body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
@@ -11,65 +11,57 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .header h1{color:#FFD700;margin:5px 0;font-size:20px}
 .logo{width:56px;height:56px;background:#fff;color:#6B0F1A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;margin:0 auto}
 .tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
-.tab{flex:1;min-width:70px;padding:10px 6px;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:13px;cursor:pointer;white-space:nowrap}
+.tab{flex:1;min-width:70px;padding:10px 6px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:13px;cursor:pointer;white-space:nowrap}
 .tab.active{background:#6B0F1A;color:#fff}
-.card{background:rgba(255,255,255,0.75);backdrop-filter:blur(12px);border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
-.item{background:rgba(255,248,225,0.8);backdrop-filter:blur(8px);border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.7}
+.card{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0}
+.item{background:rgba(255,248,225,.85);backdrop-filter:blur(6px);border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.7}
 .small{font-size:12px;color:#555}
 .btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
 .live{color:green;font-weight:bold;background:#E8F5E9;padding:4px 8px;border-radius:6px;display:inline-block}
+input,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid #eee;text-align:left}
+th{background:#111;color:#fff}
 #lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
 #lock input{font-size:22px;text-align:center;max-width:240px}
-.totalBox{background:linear-gradient(135deg,#6B0F1A,#8B1A1A);color:#fff;padding:14px;border-radius:12px;text-align:center}
-.totalBox b{color:#FFD700;font-size:20px}
-.alert{background:#FFE0E0;border:2px solid red !important}
-.alert b{color:red}
-.soon{background:#FFF3CD;border:2px solid #FF8C00 !important}
-.barWrap{margin:8px 0}
-.barBg{background:#eee;border-radius:10px;height:22px;overflow:hidden}
-.barFill{height:22px;color:#fff;font-size:12px;font-weight:bold;text-align:right;padding-right:6px;line-height:22px}
 </style>
 </head>
 <body>
-<div id="lock"><div class="logo">U</div><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>PIN Nakho</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
-
+<div id="lock"><div class="logo">U</div><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>Enter PIN</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
 <div class="header"><div class="logo">U</div><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
-
 <div class="tabs">
 <div class="tab active" id="tMF" onclick="show('MF')">MF</div>
 <div class="tab" id="tFD" onclick="show('FD')">FD</div>
 <div class="tab" id="tNCD" onclick="show('NCD')">NCD</div>
 <div class="tab" id="tShare" onclick="show('Share')">SHARE</div>
 <div class="tab" id="tPrem" onclick="show('Prem')">PREMIUM</div>
-<div class="tab" id="tTotal" onclick="show('Total')">TOTAL</div>
 </div>
 
 <div id="pMF">
 <div class="card"><h2>MF - LIVE <span class="live">● LIVE</span></h2>
-<p><b>Kul Rokaan:</b> Rs 41,11,074<br><b>Atyarni Kimat:</b> <span id="mfTotal">Rs 64,21,945</span><br><button class="btn" onclick="refreshLive()">🔄 LIVE NAV Refresh Karo</button></p>
-</div><div id="mfList"></div>
+<p><b>Total Investment:</b> Rs 41,11,074<br><b>Current Value:</b> <span id="mfTotal">Rs 64,21,945</span> <span class="small">- Changes with NAV</span><br><button class="btn" onclick="refreshLive()">🔄 Refresh LIVE NAV</button></p>
+<p class="small">Your funds are here. Press LIVE button to get new NAV.</p></div><div id="mfList"></div>
 </div>
 
 <div id="pFD" style="display:none">
-<div class="card"><h2>FD - 12 FD</h2>
-<div class="totalBox">Kul FD Mudi<br><b>Rs 20,76,996</b><br><span style="font-size:12px">🔴 = 3 Mahina ma Pakse Che - Dhyan Aapo</span></div>
-<div id="fdList"></div>
+<div class="card">
+<h2>FD - 11 FDs</h2>
+<label>Filter by Bank</label>
+<select id="bankFilter" onchange="renderFD()"><option value="All">All Banks</option><option>Equitas Small Finance Bank</option><option>Shriram Finance</option><option>Unity Small Finance Bank</option><option>Suryoday Small Finance Bank</option><option>AU Small Finance Bank</option></select>
+<label>Sort By</label>
+<select id="sortBy" onchange="renderFD()"><option value="maturity">Maturity Date</option><option value="amount">FD Amount</option><option value="bank">Bank Name</option></select>
+<p><b id="fdTotals"></b></p>
+<table><thead><tr><th>No</th><th>Bank</th><th>FD Amount</th><th>Rate</th><th>Maturity Date</th><th>Maturity Amount</th></tr></thead><tbody id="fdBody"></tbody></table>
+<p class="small">Quarterly FDs: Maturity = Principal. Interest comes quarterly in account.</p>
+</div>
+<div class="card"><h3>Add FD Manually</h3>
+<input id="nBank" placeholder="Bank Name"><input id="nAmt" type="number" placeholder="FD Amount"><input id="nRate" type="number" step="0.01" placeholder="Rate %"><input id="nMatDate" type="date"><input id="nMatAmt" type="number" placeholder="Maturity Amount"><button class="btn" onclick="addFD()">+ Add FD</button>
 </div>
 </div>
 
-<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><div class="item"><b>NCD 1</b><br>Naam: ___ | Rakam: ___ | Takavari: ___%</div></div></div>
-<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Naam: ___ | Ketla: ___ | Value: Rs ____</div></div></div>
-<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM - Rs 7,50,000 / Varsh</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Kyare: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renew: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renew: ___</div></div></div>
-
-<div id="pTotal" style="display:none">
-<div class="card"><h2>TOTAL - BADHU BHEDU</h2>
-<div class="totalBox">KUL SAMPATTI<br><b id="grandTotal">Rs --</b></div>
-<div id="totalList"></div>
-<h3>📊 GRAPH - Kone Ketlu %</h3>
-<div id="graph"></div>
-<p class="small">NCD / SHARE / PREMIUM ma atyare 0 che etle 0% batavse. Tame data nakhso etle % apoaap badlai jase.</p>
-</div>
-</div>
+<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><div class="item"><b>NCD 1</b><br>Name: ___ | Amount: ___ | Rate: ___%</div></div></div>
+<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Name: ___ | Quantity: ___ | Value: Rs ____</div></div></div>
+<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM - Rs 7,50,000 / Year</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Date: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renewal: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renewal: ___</div></div></div>
 
 <script>
 let MF=[
@@ -90,83 +82,27 @@ let MF=[
 {"name":"DSP Small Cap Fund","code":"118594","units":809.87,"inv":99716,"nav":245.861},
 {"name":"SBI Small Cap Fund","code":"119869","units":1184.88,"inv":156000,"nav":210.0213}
 ];
-// FD DATA - Certificate Pramane
-let FD=[
-{bank:"UNITY",no:"UNITY - 13/12/2027",amt:200000,rate:8.6,mat:"2027-12-13",matShow:"13/12/2027",matAmt:200000},
-{bank:"FD 085313026241",no:"085313026241",amt:283367.53,rate:6.25,mat:"2027-10-02",matShow:"02/10/2027",matAmt:283367.53},
-{bank:"UNITY",no:"UNITY - 01/06/2027",amt:250000,rate:9,mat:"2027-06-01",matShow:"01/06/2027",matAmt:250000},
-{bank:"UNITY",no:"UNITY - 11/06/2027",amt:200000,rate:9.5,mat:"2027-06-11",matShow:"11/06/2027",matAmt:200000},
-{bank:"UNITY",no:"UNITY - 10/06/2027",amt:200000,rate:9.5,mat:"2027-06-10",matShow:"10/06/2027",matAmt:200000},
-{bank:"SURYODAY",no:"233000095801",amt:200000,rate:9.6,mat:"2028-07-29",matShow:"29/07/2028",matAmt:200000},
-{bank:"SURYODAY",no:"233000095758",amt:200000,rate:9.6,mat:"2028-07-29",matShow:"29/07/2028",matAmt:200000},
-{bank:"SURYODAY",no:"233000095746",amt:200000,rate:9.1,mat:"2028-07-29",matShow:"29/07/2028",matAmt:200000},
-{bank:"SURYODAY",no:"233000102997",amt:100000,rate:9.1,mat:"2028-08-05",matShow:"05/08/2028",matAmt:156816},
-{bank:"SHRIRAM FINANCE",no:"SFL-61111774",amt:50000,rate:8.15,mat:"2027-05-07",matShow:"07/05/2027",matAmt:61257},
-{bank:"EQUITAS",no:"300017061999-1",amt:120000,rate:8.5,mat:"2029-07-15",matShow:"15/07/2029",matAmt:154515},
-{bank:"EQUITAS",no:"300007504047-3",amt:73628,rate:7.1,mat:"2027-02-18",matShow:"18/02/2027",matAmt:80211}
+let fds=[
+{bank:"Equitas Small Finance Bank",amt:73628,rate:7.1,mat:"2027-02-18",matAmt:80211},
+{bank:"Shriram Finance",amt:50000,rate:8.15,mat:"2027-05-07",matAmt:61257.37},
+{bank:"Unity Small Finance Bank",amt:250000,rate:9.0,mat:"2027-06-01",matAmt:250000},
+{bank:"Unity Small Finance Bank",amt:200000,rate:9.5,mat:"2027-06-10",matAmt:200000},
+{bank:"Unity Small Finance Bank",amt:200000,rate:9.5,mat:"2027-06-11",matAmt:200000},
+{bank:"AU Small Finance Bank",amt:283367.53,rate:6.25,mat:"2027-10-02",matAmt:306208.53},
+{bank:"Unity Small Finance Bank",amt:200000,rate:8.6,mat:"2027-12-13",matAmt:200000},
+{bank:"Suryoday Small Finance Bank",amt:200000,rate:9.6,mat:"2028-07-29",matAmt:200000},
+{bank:"Suryoday Small Finance Bank",amt:200000,rate:9.1,mat:"2028-07-29",matAmt:200000},
+{bank:"Suryoday Small Finance Bank",amt:100000,rate:9.1,mat:"2028-08-05",matAmt:156816},
+{bank:"Equitas Small Finance Bank",amt:120000,rate:8.5,mat:"2029-07-15",matAmt:154515},
 ];
-let NCD_TOTAL=0, SHARE_TOTAL=0, PREM_TOTAL=750000;
-
-function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Khoto PIN'); } }
-function show(t){
- ['MF','FD','NCD','Share','Prem','Total'].forEach(x=>{
-  document.getElementById('p'+x).style.display = x===t ? 'block':'none';
-  document.getElementById('t'+x).className = x===t ? 'tab active':'tab';
- });
- if(t==='Total') renderTotal();
-}
-function daysLeft(d){ return Math.ceil((new Date(d)-new Date())/(1000*60*60*24)); }
-function renderFD(){
- let h='';
- FD.forEach((f,i)=>{
-  let d=daysLeft(f.mat);
-  let cls='', tag='';
-  if(d<=90){ cls='alert'; tag='<br><b>🔴 PAKVANI NAJIK CHE - '+d+' Divas Baki - 3 Mahina ma Pakse Che!</b>'; }
-  else if(d<=180){ cls='soon'; tag='<br><b>🟡 6 Mahina ma Pakse Che</b>'; }
-  h+='<div class="item '+cls+'"><b>'+(i+1)+'. '+f.bank+'</b><br>FD No: '+f.no+'<br>Rakam: Rs '+f.amt.toLocaleString('en-IN')+' | Takavari: '+f.rate+'%<br>Pakvani: '+f.matShow+' | Pakse Tyare: Rs '+f.matAmt.toLocaleString('en-IN')+tag+'</div>';
- });
- document.getElementById('fdList').innerHTML=h;
-}
-function getMFTotal(){ let t=0; MF.forEach(m=>t+=m.units*m.nav); return Math.round(t); }
-function render(){
- let html=''; let tot=0;
- MF.forEach((m,i)=>{
-  let cur=m.units*m.nav; tot+=cur; let gain=cur-m.inv;
-  html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Rokaan: Rs '+m.inv.toLocaleString('en-IN')+' | Kimat: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Faydo: Rs '+Math.round(gain).toLocaleString('en-IN')+'</div></div>';
- });
- document.getElementById('mfList').innerHTML=html;
- document.getElementById('mfTotal').textContent='Rs '+Math.round(tot).toLocaleString('en-IN');
-}
-function renderTotal(){
- let mf=getMFTotal();
- let fd=0; FD.forEach(f=>fd+=f.amt);
- let grand=mf+fd+NCD_TOTAL+SHARE_TOTAL;
- document.getElementById('grandTotal').textContent='Rs '+grand.toLocaleString('en-IN');
- let arr=[
-  {n:"MF - LIVE",v:mf,c:"#6B0F1A"},
-  {n:"FD - 12 FD",v:fd,c:"#FF8C00"},
-  {n:"NCD",v:NCD_TOTAL,c:"#2E7D32"},
-  {n:"SHARE",v:SHARE_TOTAL,c:"#1565C0"},
-  {n:"PREMIUM / Varsh",v:PREM_TOTAL,c:"#7B1FA2"}
- ];
- let h='', g='';
- arr.forEach(a=>{
-  let p=grand>0? (a.v/grand*100).toFixed(1):"0.0";
-  h+='<div class="item"><b>'+a.n+'</b><br>Rs '+a.v.toLocaleString('en-IN')+' - <b>'+p+'%</b></div>';
-  let w=grand>0? Math.max(a.v/grand*100, a.v>0?3:0):0;
-  g+='<div class="barWrap"><b>'+a.n+' - '+p+'%</b><div class="barBg"><div class="barFill" style="width:'+w+'%;background:'+a.c+'">'+p+'%</div></div></div>';
- });
- document.getElementById('totalList').innerHTML=h;
- document.getElementById('graph').innerHTML=g;
-}
-async function refreshLive(){
- alert('LIVE NAV lai rahyo chhu... 5 sec raho');
- for(let m of MF){
-  try{ let r=await fetch('https://api.mfapi.in/mf/'+m.code); let j=await r.json(); if(j.data && j.data[0]) m.nav=parseFloat(j.data[0].nav); }catch(e){}
- }
- render(); renderTotal(); alert('LIVE Update thai gayu!');
-}
-render(); renderFD(); renderTotal();
+function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
+function show(t){ ['MF','FD','NCD','Share','Prem'].forEach(x=>{ document.getElementById('p'+x).style.display = x===t ? 'block':'none'; document.getElementById('t'+x).className = x===t ? 'tab active':'tab'; }); }
+function renderMF(){ let html=''; let tot=0; MF.forEach((m,i)=>{ let cur=m.units*m.nav; tot+=cur; let gain=cur-m.inv; html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Investment: Rs '+m.inv.toLocaleString('en-IN')+' | Current Value: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Gain: Rs '+Math.round(gain).toLocaleString('en-IN')+'</div></div>'; }); document.getElementById('mfList').innerHTML=html; document.getElementById('mfTotal').textContent='Rs '+Math.round(tot).toLocaleString('en-IN'); }
+async function refreshLive(){ alert('Fetching LIVE NAV... Please wait 5 sec'); for(let m of MF){ try{ let r=await fetch('https://api.mfapi.in/mf/'+m.code); let j=await r.json(); if(j.data && j.data[0]) m.nav=parseFloat(j.data[0].nav); }catch(e){} } renderMF(); alert('LIVE Update Done!'); }
+function fmt(n){return "Rs "+Number(n).toLocaleString("en-IN",{minimumFractionDigits:2})}
+function renderFD(){ let f=document.getElementById("bankFilter").value; let s=document.getElementById("sortBy").value; let list=fds.filter(x=>f==="All"||x.bank===f); if(s==="maturity") list.sort((a,b)=>a.mat.localeCompare(b.mat)); if(s==="amount") list.sort((a,b)=>b.amt-a.amt); if(s==="bank") list.sort((a,b)=>a.bank.localeCompare(b.bank)); let tb=document.getElementById("fdBody"); tb.innerHTML=""; let ta=0,tm=0; list.forEach((x,i)=>{ta+=x.amt; tm+=x.matAmt; tb.innerHTML+=`<tr><td>${i+1}</td><td>${x.bank}</td><td>${fmt(x.amt)}</td><td>${x.rate}%</td><td>${x.mat}</td><td>${fmt(x.matAmt)}</td></tr>`}); document.getElementById("fdTotals").innerHTML=`Total FDs: ${list.length} | Total Investment: ${fmt(ta)} | Total Maturity: ${fmt(tm)}`; }
+function addFD(){ let b=document.getElementById("nBank").value, a=parseFloat(document.getElementById("nAmt").value), r=parseFloat(document.getElementById("nRate").value), d=document.getElementById("nMatDate").value, m=parseFloat(document.getElementById("nMatAmt").value); if(!b||!a||!d||!m){alert("Fill Bank, Amount, Maturity Date, Maturity Amount");return;} fds.push({bank:b,amt:a,rate:r||0,mat:d,matAmt:m}); document.getElementById("bankFilter").value="All"; renderFD(); alert("FD Added!"); }
+renderMF(); renderFD();
 </script>
 </body>
 </html>
