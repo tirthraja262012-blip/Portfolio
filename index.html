@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>મારો પોર્ટફોલિયો V3.7.1 - MF પાછું</title>
+<title>મારો પોર્ટફોલિયો V3.8</title>
 <style>
 body{font-family:system-ui;padding:12px;background:#f6f6f6;margin:0}
 h1{font-size:20px;text-align:center}
@@ -20,19 +20,13 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 .row{display:flex;gap:8px}.row button{flex:1}
 .update{background:#0a7a42}.excel{background:#107c41}
 .up{color:#15803D;font-weight:700}.down{color:#DC2626;font-weight:700}
-.filterbox{background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;box-shadow:0 1px 4px #0001;border:2px solid #0b5cff}
-.filterbox label{font-weight:800;font-size:15px}
+.filterbox{background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;border:2px solid #0b5cff}
 .filterbox select{width:100%;padding:12px;margin-top:8px;border:2px solid #0b5cff;border-radius:8px;font-size:16px;font-weight:700;background:#E8EEFF}
-.filterbox .clearbtn{background:#555;margin-top:8px;margin-bottom:0}
 .groupbox{background:#E8EEFF;border:2px solid #0b5cff;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center;display:none}
-.groupbox .gtitle{font-size:16px;font-weight:800;color:#0b5cff}
-.groupbox .gbig{font-size:20px;font-weight:800;line-height:1.6}
-.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0;padding-bottom:4px}
-.tab{flex:1;min-width:62px;padding:11px 5px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:2px solid #111;border-radius:12px;text-align:center;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0}
+.tab{flex:1;min-width:62px;padding:11px 5px;background:#fff;border:2px solid #111;border-radius:12px;text-align:center;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
 .tab.active{background:#111;color:#FFD700;border-color:#F59E0B}
-.glass{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:2px solid #F59E0B;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.tick{width:24px;height:24px;border:2px solid #111;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;cursor:pointer;background:#fff;vertical-align:middle}
-.tick.on{background:#15803D;color:#fff;border-color:#15803D}
+.glass{background:rgba(255,255,255,.9);border:2px solid #F59E0B;box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .remain{padding:10px;border-radius:10px;font-weight:800;margin-top:8px;text-align:center}
 .remain.green{background:#DCFCE7;color:#15803D;border:2px solid #15803D}
 .remain.yellow{background:#FEF3C7;color:#92400E;border:2px solid #F59E0B}
@@ -44,7 +38,7 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 <body>
 <img src="logo.png" class="logo">
 <div class="logotext">MF Investment - જય સ્વામિનારાયણ</div>
-<h1>📊 મારો પોર્ટફોલિયો V3.7.1 - MF + FD</h1>
+<h1>📊 મારો પોર્ટફોલિયો V3.8 - MF + FD</h1>
 <div class="tabs">
 <div class="tab active" id="tabMF" onclick="showTab('MF')">MF</div>
 <div class="tab" id="tabFD" onclick="showTab('FD')">FD</div>
@@ -56,6 +50,63 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#0b5cff;col
 </div>
 
 <div id="pageMF">
-<div class="top" id="total">લોડ થાય છે...</div>
+<div class="top" id="total">MF લોડ થાય છે...</div>
 <div class="diffbox"><div style="font-size:14px;color:#7C2D12;font-weight:700">જય સ્વામિનારાયણ - ગઈકાલ કરતાં આજે કેટલો ફરક?</div><div class="big" id="diffTotal">હજુ અપડેટ નથી કર્યું</div><div class="small" id="diffSub">લીલું બટન દબાવો એટલે ફરક અહીં આવી જશે</div></div>
-<button
+<button class="update" onclick="updateAllNAV()">🔄 ઓટો અપડેટ - તાજો NAV લાવો</button>
+<p class="small" id="status" style="text-align:center">અપડેટ માટે ઇન્ટરનેટ જોઈએ.</p>
+<div class="filterbox"><label><b>🔍 સ્કીમ પસંદ કરો</b></label><select id="schemeSelect" onchange="onSchemeChange()"><option value="all">-- બધી સ્કીમ જુઓ --</option></select><button onclick="showAllSchemes()" style="background:#555;margin-top:8px;margin-bottom:0">↩️ બધી સ્કીમ પાછી બતાવો</button></div>
+<div class="groupbox" id="groupBox"><div id="groupTitle"></div><div id="groupTotal"></div><div class="small" id="groupSub"></div></div>
+<div class="card"><h3>+ નવું ફંડ ઉમેરો</h3><input id="name" placeholder="સ્કીમનું નામ"><input id="folio" placeholder="ફોલિયો / માલિક"><input id="units" type="number" placeholder="Units"><input id="inv" type="number" placeholder="Invested ₹"><input id="nav" type="number" placeholder="NAV"><button onclick="addFund()">Add Fund</button></div>
+<div class="row"><button class="excel" onclick="exportExcel()">📗 Excel માં Export કરો</button><button onclick="exportData()">💾 બેકઅપ લો</button></div>
+<div class="row"><button onclick="document.getElementById('file').click()" style="background:#555">બેકઅપ પાછો લાવો</button></div>
+<input type="file" id="file" hidden onchange="importData(event)">
+<div id="list" style="margin-top:12px"></div>
+</div>
+
+<div id="pageFD" style="display:none">
+<div class="card glass"><h3>🏦 FD - કુલ</h3><div id="fdTotal"></div></div>
+<div id="fdList"></div>
+<div class="card glass"><h3>+ નવી FD ઉમેરો</h3>
+<input id="fdBank" placeholder="બેંક નું નામ"><input id="fdNum" placeholder="FD નંબર / સર્ટિફિકેટ નંબર"><input id="fdOwner" placeholder="કોનાના નામે - રાજેન્દ્ર / કોમલબેન"><input id="fdAmt" type="number" placeholder="રકમ ₹"><input id="fdRate" type="number" placeholder="ટકાવારી %"><label class="small">શરૂ તારીખ</label><input id="fdStart" type="date"><label class="small">પાકવાની તારીખ</label><input id="fdMat" type="date"><input id="fdMatAmt" type="number" placeholder="પાકશે ત્યારે કેટલા મળશે ₹"><input id="fdEmerg" placeholder="ઇમરજન્સી નોટ"><button onclick="addFD()">+ FD ઉમેરો</button></div>
+</div>
+
+<div id="pageNCD" style="display:none"><div class="card glass"><h3>NCD</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
+<div id="pageShare" style="display:none"><div class="card glass"><h3>SHARE</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
+<div id="pagePrem" style="display:none"><div class="card glass"><h3>PREMIUM</h3><p>ફોર્મેટ તૈયાર છે. પછી ભરીશું.</p></div></div>
+<div id="pageGen" style="display:none"><div class="card glass"><h3>GENERAL</h3><p>80D ની જગ્યાએ GENERAL. ફોર્મેટ તૈયાર છે.</p></div></div>
+<div id="pageTotal" style="display:none"><div class="card glass"><h3>TOTAL</h3><div id="totalBox2"></div><button onclick="calcTotal2()">TOTAL જુઓ</button></div></div>
+
+<script>
+function showTab(t){ var p=['MF','FD','NCD','Share','Prem','Gen','Total']; for(var i=0;i<p.length;i++){ document.getElementById('page'+p[i]).style.display=(p[i]===t?'block':'none'); document.getElementById('tab'+p[i]).className=(p[i]===t?'tab active':'tab'); } if(t==='Total') calcTotal2(); }
+// FD
+var fds=[]; try{ fds=JSON.parse(localStorage.getItem('myFDs')||'[]'); }catch(e){ fds=[]; }
+function renderFD(){ var html=''; var tot=0,totMat=0; for(var i=0;i<fds.length;i++){ var f=fds[i]; tot+=Number(f.amt||0); totMat+=Number(f.matAmt||0); var d=9999; if(f.mat) d=Math.ceil((new Date(f.mat)-new Date())/(1000*60*60*24)); var cls='green',txt='પાકવામાં '+d+' દિવસ બાકી'; if(d===9999){cls='yellow';txt='પાકવાની તારીખ નથી';} else if(d<0){cls='red';txt='પાકી ગઈ છે!';} else if(d<=7){cls='red';txt='⚠️ માત્ર '+d+' દિવસ બાકી';} else if(d<=30){cls='yellow';txt='⏰ '+d+' દિવસ બાકી';} html+='<div class="card glass"><b>'+f.bank+'</b> - '+(f.owner||'')+'<div class="small">FD No: '+(f.num||'-')+' | શરૂ: '+(f.start||'-')+'</div><div>રકમ: ₹'+Number(f.amt||0).toLocaleString('en-IN')+' | '+(f.rate||'')+'%</div><div class="maturity">📅 પાકવાની તારીખ: '+(f.mat||'-')+'<br>પાકશે ત્યારે: ₹'+Number(f.matAmt||0).toLocaleString('en-IN')+'</div><div class="remain '+cls+'">'+txt+'</div>'+(f.emerg?'<div class="emergency">🚨 '+f.emerg+'</div>':'')+'<button class="del" onclick="delFD('+i+')">Delete</button></div>'; } document.getElementById('fdList').innerHTML=html||'<div class="card">હજુ કોઈ FD નથી.</div>'; document.getElementById('fdTotal').innerHTML='કુલ FD: ₹'+tot.toLocaleString('en-IN')+'<br>પાકશે ત્યારે કુલ: ₹'+totMat.toLocaleString('en-IN')+'<br>કુલ FD: '+fds.length; }
+function addFD(){ var b=document.getElementById('fdBank').value.trim(); var a=document.getElementById('fdAmt').value; if(!b||!a){alert('બેંક અને રકમ ભરો');return;} fds.push({bank:b,num:document.getElementById('fdNum').value,owner:document.getElementById('fdOwner').value,amt:a,rate:document.getElementById('fdRate').value,start:document.getElementById('fdStart').value,mat:document.getElementById('fdMat').value,matAmt:document.getElementById('fdMatAmt').value,emerg:document.getElementById('fdEmerg').value}); localStorage.setItem('myFDs',JSON.stringify(fds)); var ids=['fdBank','fdNum','fdOwner','fdAmt','fdRate','fdStart','fdMat','fdMatAmt','fdEmerg']; for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).value=''; renderFD(); alert('FD ઉમેરાઈ ગઈ ✅'); }
+function delFD(i){ if(confirm('કાઢી નાખવી છે?')){ fds.splice(i,1); localStorage.setItem('myFDs',JSON.stringify(fds)); renderFD(); } }
+function calcTotal2(){ var mf=0; for(var i=0;i<funds.length;i++) mf+=(funds[i].units||0)*(funds[i].nav||0); var fd=0; for(var j=0;j<fds.length;j++) fd+=Number(fds[j].amt||0); document.getElementById('totalBox2').innerHTML='MF Current: ₹'+Math.round(mf).toLocaleString('en-IN')+'<br>FD Total: ₹'+fd.toLocaleString('en-IN')+'<br><b>કુલ: ₹'+Math.round(mf+fd).toLocaleString('en-IN')+'</b>'; }
+// MF - તમારું જૂનું જ, કંઈ બદલ્યું નથી
+var funds=[
+{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2655,prevNav:10.2317},
+{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"RAJENDRA - 28065193",units:260.55,inv:100000,nav:537.75,prevNav:537.75},
+{name:"Tata Digital India Fund Direct Plan Growth",folio:"RAJENDRA - 5524942",units:2299.99,inv:94000,nav:49.2266,prevNav:48.7951},
+{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"KOMALBEN - 9135304",units:1720.38,inv:50000,nav:42.6109,prevNav:42.8087},
+{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:182.967,prevNav:181.308},
+{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:49.153,prevNav:48.32},
+{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:43.234,prevNav:42.901},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.474,prevNav:203.3652},
+{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:822.2759,prevNav:818.10},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:106.5014,prevNav:105.4488},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:106.5014,prevNav:105.4488},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.474,prevNav:203.3652},
+{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:733.3165,prevNav:731.8341},
+{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.5746,prevNav:310.4034},
+{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:473.3949,prevNav:471.6231},
+{name:"Quant PSU Fund - Direct Growth",folio:"",units:1358.41,inv:150005,nav:10.7205,prevNav:10.7219},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.575,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.575,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.575,prevNav:56.646},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.575,prevNav:56.646},
+{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:28.0829,prevNav:27.8251},
+{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"",units:500.022,inv:45000,nav:41.344,prevNav:41.306},
+{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5112,prevNav:17.5578},
+{name:"Parag Parikh Flexi Cap Fund
