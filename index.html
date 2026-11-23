@@ -4,72 +4,65 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RAJA PARIVAR - MF FINAL FIXED</title>
-<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box}
 body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .header{background:#6B0F1A;color:#fff;text-align:center;padding:14px;border-radius:14px}
 .header h1{color:#FFD700;margin:5px 0;font-size:20px}
-.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto;padding-bottom:4px}
-.tab{flex:1;min-width:78px;padding:10px 4px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:11px;cursor:pointer;white-space:nowrap}
+.logo{width:64px;height:64px;background:#fff;border-radius:50%;margin:0 auto;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:cover}
+.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
+.tab{flex:1;min-width:78px;padding:10px 6px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:13px;cursor:pointer;white-space:nowrap}
 .tab.active{background:#6B0F1A;color:#fff}
 .card{background:#fff;border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0}
-.item{background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.8;word-wrap:break-word}
+.item{background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.7}
 .small{font-size:12px;color:#555}
-.btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold}
-.btnLive{background:#1B5E20;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
-.btnExcel{background:#0D47A1;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
-.btnBackup{background:#4A148C;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
-.btnAdd{background:#6A1B9A;color:#fff;border:3px solid #FFD700;padding:14px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px}
-.btnEdit{background:#1565C0;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px;margin-right:8px}
-.btnDel{background:#D32F2F;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px}
-.btnFilter{background:#fff;border:2px solid #6B0F1A;padding:8px 10px;border-radius:8px;font-weight:bold;font-size:13px;margin:3px;cursor:pointer}
+.btn{background:#FF8C00;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:5px 0}
+.btnLive{background:#1B5E20;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:5px 0}
+.btnExcel{background:#0D47A1;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:5px 0}
+.btnBackup{background:#4A148C;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:5px 0}
+.btnAdd{background:#6A1B9A;color:#fff;border:none;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer}
+.btnEdit{background:#1565C0;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
+.btnDel{background:#D32F2F;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
+.btnFilter{background:#fff;border:2px solid #6B0F1A;border-radius:10px;padding:8px 10px;font-weight:bold;cursor:pointer}
 .btnFilter.active{background:#6B0F1A;color:#fff}
-.btnYear{background:#fff;border:2px solid #00695C;padding:10px 16px;border-radius:10px;font-weight:bold;font-size:15px;margin:4px;cursor:pointer}
+.btnYear{background:#fff;border:2px solid #00695C;border-radius:10px;padding:8px 10px;font-weight:bold;cursor:pointer}
 .btnYear.active{background:#00695C;color:#fff}
-.filterBar{display:flex;flex-wrap:wrap;gap:2px;margin-top:8px}
-.searchBox{width:100%;padding:10px;border:2px solid #6B0F1A;border-radius:8px;font-size:15px;margin-top:8px}
+.filterBar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.searchBox{width:100%;padding:10px;border:2px solid #FFD700;border-radius:10px;font-size:15px}
 .green{color:#1B5E20;font-weight:bold}
 .red{color:#D32F2F;font-weight:bold}
 .blue{color:#0D47A1;font-weight:bold}
 #lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
-#lock input{font-size:22px;text-align:center;max-width:240px}
-.totalBox{background:#6B0F1A;color:#fff;border-radius:12px;padding:14px;margin:10px 0;font-size:16px;line-height:2}
+#lock input{font-size:22px;text-align:center;max-width:240px;padding:10px;border-radius:10px;border:none}
 .totalBox b{color:#FFD700}
-#editBox{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}
-#editInner{background:#fff;width:100%;max-width:420px;border-radius:14px;padding:16px;max-height:92vh;overflow-y:auto}
-#editInner label{font-weight:bold;font-size:13px;color:#6B0F1A;display:block;margin-top:10px}
-#editInner input{width:100%;padding:12px;border:2px solid #6B0F1A;border-radius:8px;font-size:15px;margin-top:4px}
-.btnSave{background:#1B5E20;color:#fff;border:none;padding:14px;width:100%;border-radius:10px;font-size:17px;font-weight:bold;margin-top:14px}
-.btnCancel{background:#fff;color:#6B0F1A;border:2px solid #6B0F1A;padding:12px;width:100%;border-radius:10px;font-size:15px;font-weight:bold;margin-top:8px}
-.btnMonth{background:#00695C;color:#fff;border:none;padding:14px;width:100%;border-radius:10px;font-size:17px;font-weight:bold;margin-top:8px}
-.btnAll{background:#6B0F1A;color:#FFD700;border:3px solid #FFD700;padding:14px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
-th{background:#6B0F1A;color:#FFD700;padding:8px 4px;text-align:center}
-td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1}
+#editBox{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:100;padding:15px}
+#editInner{background:#fff;width:100%;max-width:420px;border-radius:14px;padding:14px}
+#editInner label{font-weight:bold;font-size:13px}
+#editInner input{width:100%;padding:10px;margin:4px 0 10px;border:2px solid #FFE082;border-radius:10px}
+.btnSave{background:#1B5E20;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-weight:bold}
+.btnCancel{background:#fff;color:#6B0F1A;border:2px solid #6B0F1A;padding:10px;width:100%;border-radius:10px;font-weight:bold;margin-top:6px}
+.btnAll{background:#6B0F1A;color:#FFD700;border:none;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#6B0F1A;color:#FFD700;padding:8px;text-align:left}
+td{border:1px solid #FFE082;padding:8px}
 .scrollX{overflow-x:auto}
 </style>
 </head>
 <body>
-<div id="lock"><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>Enter PIN</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
-
+<div id="lock"><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>PIN Nakho</p><input id="pin" type="password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
 <div id="editBox"><div id="editInner">
-<h3 style="margin:0;color:#6B0F1A">EDIT FUND - જે બદલવું હોય એ જ બદલો, બાકીનું અડશો નહીં</h3>
-<label>Fund Name - બદલવું ના હોય તો એમનું એમ રાખો</label>
-<input id="eName">
-<label>Folio / Name - Rajendra / Komal / Folio Number</label>
-<input id="eFolio" placeholder="Rajendra / Komal / Folio No.">
-<label>Units</label>
-<input id="eUnits" type="number" step="any">
-<label>NAV</label>
-<input id="eNav" type="number" step="any">
-<label>Cost / Invested</label>
-<input id="eInv" type="number" step="any">
-<button class="btnSave" onclick="saveEdit()">SAVE - બસ આટલું જ</button>
-<button class="btnCancel" onclick="closeEdit()">CANCEL - કંઈ નથી બદલવું</button>
+<h3 style="margin:0 0 10px">Fund - Navu / Badlo / Edit</h3>
+<label>Fund - Name</label><input id="eName" placeholder="Fund nu naam">
+<label>Folio / Name - Rajendra / Komalben</label><input id="eFolio" placeholder="Rajendra / Komalben">
+<label>Units</label><input id="eUnits" type="number" step="any">
+<label>NAV</label><input id="eNav" type="number" step="any">
+<label>Cost / Invested</label><input id="eInv" type="number" step="any">
+<button class="btnSave" onclick="saveEdit()">SAVE KARO</button>
+<button class="btnCancel" onclick="closeEdit()">CANCEL</button>
 </div></div>
-
-<div class="header"><img src="logo.jpg" style="width:60px;height:60px;border-radius:50%;object-fit:cover"><h1>RAJA PARIVAR PORTFOLIO</h1>
+<div class="header"><div class="logo"><img src="logo.jpg"></div><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
 <div class="tabs">
 <div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
 <div class="tab" id="tMF" onclick="show('MF')">MF</div>
@@ -80,418 +73,224 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div class="tab" id="tMonthly" onclick="show('Monthly')">MONTHLY</div>
 <div class="tab" id="tAnalysis" onclick="show('Analysis')">ANALYSIS</div>
 </div>
-<div id="pTotal">
-<div class="totalBox"><b>TOTAL PORTFOLIO</b><br>MF: <span id="tMFVal">Rs 67,17,723</span><br>FD Invested: Rs 18,76,996<br>FD Maturity: Rs 20,09,008<br>NCD: Rs 0<br>SHARE: Rs 0<br><hr><b>GRAND TOTAL: <span id="tAll">Rs 85,94,719</span></b><br><span class="small" style="color:#FFD700">MF Gain: <span id="tMFGain">Rs 24,91,634 (59.0%)</span></span></div>
-<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET - TOTAL + MF + MONTHLY + FD + ANALYSIS</button>
-</div>
-<div id="pMF" style="display:none">
-<div class="card"><h2>MF - <span id="mfCount">31</span> Schemes</h2><p><b>Total Invested:</b> Rs 42,26,089<br><b>Current Value:</b> <span id="mfTotal">Rs 67,17,723</span><br><b>Total Gain:</b> <span id="mfGain" class="green">Rs 24,91,634 (59.0%)</span></p><button class="btnLive" onclick="updateLive()">UPDATE LIVE NAV</button><button class="btnAdd" onclick="addFund()">+ ADD NEW FUND - SEARCH FROM MF LIST</button><button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET</button><button class="btnExcel" onclick="exportExcel()">EXPORT ONLY MF TO EXCEL</button><button class="btnBackup" onclick="downloadBackup()">DOWNLOAD BACKUP</button><p class="small" id="liveStatus">LIVE OFF - Your NAV is showing. Press button for LIVE NAV.<br>Motilal Midcap AS PER PORTFOLIO - 2 Folios - Rajendra + Komal - NAV 120.5351 - FIXED</p>
+<div id="pTotal"><div class="card totalBox"><h2>TOTAL PORTFOLIO</h2>
+<p><b>MF Kimat:</b> <span id="tMFVal">-</span><br><b>FD Kul:</b> Rs 18,76,995<br><b>MF + FD Kul:</b> <span id="tAllVal">-</span></p>
+<button class="btnAll" onclick="exportExcel()">EXCEL DOWNLOAD</button>
+</div></div>
+<div id="pMF" style="display:none"><div class="card"><h2>MF - <span id="mfCount"></span></h2>
 <div class="filterBar">
 <button class="btnFilter active" id="fAll" onclick="setFilter('All')">ALL</button>
-<button class="btnFilter" id="fRaj" onclick="setFilter('Rajendra')">RAJENDRA</button>
-<button class="btnFilter" id="fKom" onclick="setFilter('Komal')">KOMAL</button>
-<button class="btnFilter" id="fProf" onclick="setFilter('Profit')">PROFIT</button>
-<button class="btnFilter" id="fLoss" onclick="setFilter('Loss')">LOSS</button>
+<button class="btnFilter" id="fRaj" onclick="setFilter('Rajendra')">Rajendra</button>
+<button class="btnFilter" id="fKom" onclick="setFilter('Komal')">Komal</button>
+<button class="btnFilter" id="fProf" onclick="setFilter('Profit')">Profit</button>
+<button class="btnFilter" id="fLoss" onclick="setFilter('Loss')">Loss</button>
 </div>
-<input class="searchBox" id="mfSearch" placeholder="Search Fund Name - e.g. Motilal, Nippon, Quant..." oninput="render()">
-</div><div id="mfList"></div>
-</div>
-<div id="pFD" style="display:none">
-<div class="card"><h2>FD - 11 FDs</h2><p><b>Total Invested:</b> Rs 18,76,996<br><b>Total Maturity:</b> Rs 20,09,008</p></div>
-<div class="item"><b>1. Equitas FD</b><br>Amount: Rs 73,628<br>Maturity Date: 2027-02-18</div>
-<div class="item"><b>2. Shriram FD</b><br>Amount: Rs 50,000<br>Maturity Date: 2027-05-07</div>
-<div class="item"><b>3. Unity FD</b><br>Amount: Rs 2,50,000<br>Maturity Date: 2027-06-01</div>
-<div class="item"><b>4. Unity FD</b><br>Amount: Rs 2,00,000<br>Maturity Date: 2027-06-10</div>
-<div class="item"><b>5. Unity FD</b><br>Amount: Rs 2,00,000<br>Maturity Date: 2027-06-11</div>
-<div class="item"><b>6. AU FD</b><br>Amount: Rs 2,83,367<br>Maturity Date: 2027-10-02</div>
-<div class="item"><b>7. Unity FD</b><br>Amount: Rs 2,00,000<br>Maturity Date: 2027-12-13</div>
-<div class="item"><b>8. Suryoday FD</b><br>Amount: Rs 2,00,000<br>Maturity Date: 2028-07-29</div>
-<div class="item"><b>9. Suryoday FD</b><br>Amount: Rs 2,00,000<br>Maturity Date: 2028-07-29</div>
-<div class="item"><b>10. Suryoday FD</b><br>Amount: Rs 1,00,000<br>Maturity Date: 2028-08-05</div>
-<div class="item"><b>11. Equitas FD</b><br>Amount: Rs 1,20,000<br>Maturity Date: 2029-07-15</div>
-</div>
-<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><div class="item"><b>NCD 1</b><br>Name: ___ | Amount: ___ | Rate: ___%</div></div></div>
-<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Name: ___ | Quantity: ___ | Value: Rs ____</div></div></div>
-<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Date: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renewal: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renewal: ___</div></div></div>
-
-<div id="pMonthly" style="display:none">
-<div class="card"><h2>MONTHLY HISTORY - નવું કેટલું નાખ્યું + માર્કેટથી કેટલું વધ્યું?</h2>
-<p>દર મહિનાની 1 તારીખે કે 31 તારીખે આ બટન દબાવી દો રાજા.<br><b>અત્યારે:</b> MF Value <span id="mNowVal">Rs 67,17,723</span> | Invested <span id="mNowInv">Rs 42,26,089</span> | Profit <span id="mNowGain">Rs 24,91,634</span></p>
-<button class="btnMonth" onclick="saveMonth()">SAVE THIS MONTH - આ મહિનો સેવ કરો</button>
-<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET</button>
-<button class="btnExcel" onclick="exportMonthly()">EXPORT ONLY MONTHLY TO EXCEL</button>
-<p class="small">નીચે 3 વસ્તુ અલગ દેખાશે:<br><b style="color:#0D47A1">વાદળી = તમે નવું કેટલું નાખ્યું</b><br><b style="color:#1B5E20">લીલો = માર્કેટથી કેટલો ફાયદો થયો</b><br><b>કાળો = Total Value કેટલી વધી</b></p>
-</div>
-<div id="monthlyList"></div>
-</div>
-
-<div id="pAnalysis" style="display:none">
-<div class="card"><h2>INVESTMENT ANALYSIS - વર્ષ પસંદ કરો, 12 મહિના દેખાશે</h2>
-<p>નીચે વર્ષ દબાવો રાજા - એ વર્ષના 12 મહિના આખું ટેબલ ખૂલી જશે.<br>જેમ કે 2026 દબાવો - તો 2026 ના Jan થી Dec - બધું દેખાશે.</p>
-<div id="yearButtons" style="text-align:center"></div>
-<div id="analysisSummary"></div>
-<div class="scrollX" id="analysisTable"></div>
-<button class="btnAll" onclick="exportAll()">EXPORT ALL - ANALYSIS પણ Excel માં આવશે</button>
-<p class="small">MONTHLY માં SAVE THIS MONTH દબાવશો એટલે આ ટેબલ આપોઆપ વધતું જશે. હમણાં 2026 માં 1 મહિનો છે - Nov 2026, Dec માં બીજો આવશે, એમ 12 મહિના થશે.</p>
-</div>
-</div>
-
+<input class="searchBox" id="mfSearch" placeholder="Fund shodho..." oninput="render()">
+<div id="mfList"></div>
+<button class="btnLive" onclick="updateLive()">LIVE NAV UPDATE</button>
+<button class="btnAdd" onclick="openEdit(-1)">+ NAVO FUND UMMERO</button>
+<p class="small" id="liveStatus"></p>
+</div></div>
+<div id="pFD" style="display:none"><div class="card"><h2>FD - 11 FDs - Kul Rs 18,76,995</h2><div id="fdList"></div></div></div>
+<div id="pNCD" style="display:none"><div class="card"><h2>NCD</h2><p class="small">Haju NCD nakhyu nathi.</p></div></div>
+<div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><p class="small">Haju Share nakhyu nathi.</p></div></div>
+<div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM - Rs 7,50,000 / Varsh</h2><p class="small">Haju Premium detail nakhyu nathi.</p></div></div>
+<div id="pMonthly" style="display:none"><div class="card"><h2>MONTHLY HISTORY</h2>
+<p>Dar mahine 1 vakhate a 31 tarikhe aa button dabavo.</p>
+<button class="btn" onclick="saveMonth()">AA MAHINO SAVE KARO</button>
+<button class="btnExcel" onclick="exportMonthly()">EXCEL - MONTHLY</button>
+<p class="small">Niche 3 varsh nu aakhu itihas dekhase.</p>
+</div><div id="monthlyList"></div></div>
+<div id="pAnalysis" style="display:none"><div class="card"><h2>INVESTMENT ANALYSIS</h2>
+<p>MF ma kai varsh ma ketlu rokayu, ketlu vadhyu - aakhu table.</p>
+<div id="yearButtons" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+<div id="analysisTable" class="scrollX"></div>
+<button class="btnAll" onclick="exportAnalysis()">EXCEL - ANALYSIS</button>
+<p class="small">MONTHLY ma SAVE THIS MONTH karyu hoy to j ahi dekhase.</p>
+</div></div>
 <script>
-let MF = [
-{name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75},
-{name:"Tata Digital India Fund Direct Plan Growth", folio:"RAJENDRA - 5524942", units:2299.99, inv:94000, nav:49.2266},
-{name:"Tata Small Cap Fund - Direct Plan - Growth", folio:"KOMALBEN - 9135304", units:1720.38, inv:50000, nav:42.6109},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967},
-{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth", folio:"", units:8256.226, inv:119994, nav:46.647},
-{name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967},
-{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 1", units:4706.74, inv:597493, nav:203.474},
-{name:"Nippon India Growth Mid Cap Fund - Direct Growth", folio:"", units:16.863, inv:60000, nav:822.2759},
-{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 1", units:2876.531, inv:226000, nav:106.5014},
-{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 2", units:824.529, inv:55010, nav:106.5014},
-{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 2", units:421.289, inv:50000, nav:203.474},
-{name:"Quant Multi Cap Fund - Direct Growth", folio:"", units:123.36, inv:60000, nav:733.3165},
-{name:"Quant Small Cap Fund - Direct Growth", folio:"", units:2153.126, inv:510000, nav:310.5746},
-{name:"Quant ELSS Tax Saver Fund - Direct Growth", folio:"", units:472.628, inv:150000, nav:473.3949},
-{name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 4350827", units:11580.61, inv:490000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Rajendra - 4799767", units:3992.48, inv:185000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 7116567", units:1043.72, inv:60000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 10060201", units:918.26, inv:52500, nav:56.575},
-{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth", folio:"", units:2215.147, inv:55000, nav:28.0829},
-{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Rajendra", units:1043.842, inv:115015, nav:120.5351},
-{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Komal", units:500.022, inv:45000, nav:120.5351},
-{name:"Motilal Oswal Small Cap Fund - Direct Growth", folio:"", units:6999.65, inv:70000, nav:17.5112},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Rajendra", units:2153.09, inv:135000, nav:94.6945},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Komalben", units:2682.3, inv:60000, nav:33.2557},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Rajendra", units:896.29, inv:20000, nav:33.2557},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Komalben", units:269.94, inv:25000, nav:94.6945},
-{name:"DSP Small Cap Fund - Direct Growth", folio:"", units:809.87, inv:99716, nav:245.861},
-{name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006},
-{name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213}
+let MF=[
+{name:"Jio Flexi Cap Fund - Direct Growth",folio:"",units:824.55,inv:8001,nav:10.2655,code:"154638"},
+{name:"ICICI Prudential Value Fund - Direct Plan - Growth",folio:"Rajendra - 28065193",units:260.55,inv:100000,nav:537.75,code:"120716"},
+{name:"Tata Digital India Fund Direct Plan Growth",folio:"Rajendra - 5524942",units:2299.99,inv:94000,nav:49.2266,code:"119533"},
+{name:"Tata Small Cap Fund - Direct Plan - Growth",folio:"Komalben - 9135304",units:1720.38,inv:50000,nav:42.6109,code:"147207"},
+{name:"Mirae Asset Large and Midcap Fund - Direct Growth",folio:"",units:3751.519,inv:327687,nav:182.967,code:"118825"},
+{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth",folio:"",units:8256.226,inv:119994,nav:46.647,code:"142203"},
+{name:"Mirae Asset Midcap Fund - Direct Growth",folio:"",units:2846.887,inv:83217,nav:182.967,code:"118989"},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 1",units:4706.74,inv:597493,nav:203.474,code:"120716"},
+{name:"Nippon India Growth Mid Cap Fund - Direct Growth",folio:"",units:16.863,inv:60000,nav:822.2759,code:"118921"},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 1",units:2876.531,inv:226000,nav:106.5014,code:"118921"},
+{name:"Nippon India Large Cap Fund - Direct Growth",folio:"Folio 2",units:824.529,inv:55010,nav:106.5014,code:"118921"},
+{name:"Nippon India Small Cap Fund - Direct Growth",folio:"Folio 2",units:421.289,inv:50000,nav:203.474,code:"120716"},
+{name:"Quant Multi Cap Fund - Direct Growth",folio:"",units:123.36,inv:60000,nav:733.3165,code:"120847"},
+{name:"Quant Small Cap Fund - Direct Growth",folio:"",units:2153.126,inv:510000,nav:310.5746,code:"120847"},
+{name:"Quant ELSS Tax Saver Fund - Direct Growth",folio:"",units:472.628,inv:150000,nav:473.3949,code:"120846"},
+{name:"Quant PSU Fund - Direct Growth",folio:"",units:13518.41,inv:150005,nav:10.7205,code:"120847"},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 4350827",units:11580.61,inv:490000,nav:56.575,code:"125354"},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Rajendra - 4799767",units:3992.48,inv:185000,nav:56.575,code:"125354"},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 7116567",units:1043.72,inv:60000,nav:56.575,code:"125354"},
+{name:"Bandhan Small Cap Fund - Direct Growth",folio:"Komalben - 10060201",units:918.26,inv:52500,nav:56.575,code:"125354"},
+{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth",folio:"",units:2215.147,inv:55000,nav:28.0829,code:"120503"},
+{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"Rajendra",units:1043.842,inv:115015,nav:120.5351,code:"120503"},
+{name:"Motilal Oswal Midcap Fund - Direct Growth",folio:"Komal",units:500.022,inv:45000,nav:120.5351,code:"120503"},
+{name:"Motilal Oswal Small Cap Fund - Direct Growth",folio:"",units:6999.65,inv:70000,nav:17.5112,code:"120503"},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Rajendra",units:2153.09,inv:135000,nav:94.6945,code:"120503"},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Komalben",units:2682.3,inv:60000,nav:33.2557,code:"126609"},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth",folio:"Rajendra",units:896.29,inv:20000,nav:33.2557,code:"126609"},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth",folio:"Komalben",units:269.94,inv:25000,nav:94.6945,code:"120503"},
+{name:"DSP Small Cap Fund - Direct Growth",folio:"",units:809.87,inv:99716,nav:245.861,code:"118594"},
+{name:"DSP Large and Mid Cap Fund - Direct Growth",folio:"",units:70.75,inv:16451,nav:729.006,code:"118594"},
+{name:"SBI Small Cap Fund - Direct Growth",folio:"",units:1184.88,inv:156000,nav:210.0213,code:"119869"}
 ];
-let FD = [
-{name:"Equitas FD", amt:73628, mat:"2027-02-18"},
-{name:"Shriram FD", amt:50000, mat:"2027-05-07"},
-{name:"Unity FD", amt:250000, mat:"2027-06-01"},
-{name:"Unity FD", amt:200000, mat:"2027-06-10"},
-{name:"Unity FD", amt:200000, mat:"2027-06-11"},
-{name:"AU FD", amt:283367, mat:"2027-10-02"},
-{name:"Unity FD", amt:200000, mat:"2027-12-13"},
-{name:"Suryoday FD", amt:200000, mat:"2028-07-29"},
-{name:"Suryoday FD", amt:200000, mat:"2028-07-29"},
-{name:"Suryoday FD", amt:100000, mat:"2028-08-05"},
-{name:"Equitas FD", amt:120000, mat:"2029-07-15"}
+let FD=[
+{name:"Equitas FD",amt:73628,mat:"2027-02-18"},
+{name:"Shriram FD",amt:50000,mat:"2027-05-07"},
+{name:"Unity FD",amt:250000,mat:"2027-06-01"},
+{name:"Unity FD",amt:200000,mat:"2027-06-10"},
+{name:"Unity FD",amt:200000,mat:"2027-06-11"},
+{name:"AU FD",amt:283367,mat:"2027-10-02"},
+{name:"Unity FD",amt:200000,mat:"2027-12-13"},
+{name:"Suryoday FD",amt:200000,mat:"2028-07-29"},
+{name:"Suryoday FD",amt:200000,mat:"2028-07-29"},
+{name:"Suryoday FD",amt:100000,mat:"2028-08-05"},
+{name:"Equitas FD",amt:120000,mat:"2029-07-15"}
 ];
-let MONTHLY = [
-{month:"Nov 2026 - Starting", date:"2026-11-23", inv:4226089, val:6717723, gain:2491634}
-];
+let MONTHLY=JSON.parse(localStorage.getItem('RAJA_MONTHLY')||'[]');
 let curFilter='All';
 let editIndex=-1;
 let selectedYear='2026';
-function getYearOf(m){
- if(m.date && m.date.length>=4) return m.date.slice(0,4);
- let mm=m.month.match(/20\d\d/); return mm?mm[0]:'2026';
-}
-function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
+function fmt(n){return 'Rs '+Math.round(n).toLocaleString('en-IN')}
+function dateStr(d){let m=d.getMonth()+1;return d.getDate()+'/'+m+'/'+d.getFullYear()}
+function unlock(){if(document.getElementById('pin').value==='123456'){document.getElementById('lock').style.display='none'}else{alert('Khoto PIN')}}
 function show(t){
- ['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis'].forEach(x=>{
-  document.getElementById('p'+x).style.display = x===t ? 'block':'none';
-  document.getElementById('t'+x).className = x===t ? 'tab active':'tab';
- });
- if(t==='Monthly') renderMonthly();
- if(t==='Analysis') renderAnalysis();
+['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis'].forEach(x=>{
+document.getElementById('p'+x).style.display=x===t?'block':'none';
+document.getElementById('t'+x).className=x===t?'tab active':'tab';
+});
+if(t==='Monthly') renderMonthly();
+if(t==='Analysis') renderAnalysis();
 }
 function calcTotals(){
- let tot=0, invTot=0;
- MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; });
- return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot)};
+let tot=0,inv=0;
+MF.forEach(m=>{tot+=m.units*m.nav;inv+=m.inv});
+return {tot,inv};
 }
 function setFilter(f){
- curFilter=f;
- ['All','Raj','Kom','Prof','Loss'].forEach(k=>{ let el=document.getElementById('f'+k); if(el) el.className='btnFilter'; });
- let map={All:'fAll',Rajendra:'fRaj',Komal:'fKom',Profit:'fProf',Loss:'fLoss'};
- let el=document.getElementById(map[f]); if(el) el.className='btnFilter active';
- render();
+curFilter=f;
+['All','Raj','Kom','Prof','Loss'].forEach(id=>{document.getElementById('f'+id).className='btnFilter'});
+let map={'All':'fAll','Rajendra':'fRaj','Komal':'fKom','Profit':'fProf','Loss':'fLoss'};
+document.getElementById(map[f]).className='btnFilter active';
+render();
 }
 function render(){
- let html=''; let c=calcTotals();
- let search=(document.getElementById('mfSearch')?document.getElementById('mfSearch').value.toLowerCase():'');
- let shown=0;
- MF.forEach((m,i)=>{
-  let cur=m.units*m.nav; let gain=cur-m.inv;
-  if(curFilter==='Rajendra' && !((m.folio||'').toLowerCase().includes('rajendra') || (m.folio||'').toLowerCase().includes('raj'))) return;
-  if(curFilter==='Komal' && !((m.folio||'').toLowerCase().includes('komal') || (m.folio||'').toLowerCase().includes('komalben'))) return;
-  if(curFilter==='Profit' && gain<0) return;
-  if(curFilter==='Loss' && gain>=0) return;
-  if(search && !m.name.toLowerCase().includes(search) && !(m.folio||'').toLowerCase().includes(search)) return;
-  shown++;
-  let pct=(gain/m.inv*100).toFixed(1);
-  let cls=gain>=0?'green':'red'; let sign=gain>=0?'+':'';
-  html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Folio: '+(m.folio||'-')+'<br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Invested: Rs '+m.inv.toLocaleString('en-IN')+' | Value: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Gain: <span class="'+cls+'">Rs '+Math.round(gain).toLocaleString('en-IN')+' ('+sign+pct+'%)</span><br><button class="btnEdit" onclick="editFund('+i+')">EDIT - ALL</button><button class="btnDel" onclick="deleteFund('+i+')">DELETE</button></div></div>';
- });
- if(shown===0) html='<div class="card">No Fund Found in this Filter. ALL dabavo.</div>';
- document.getElementById('mfList').innerHTML=html;
- document.getElementById('mfCount').textContent=MF.length;
- let tg=c.tot-c.inv; let tp=(tg/c.inv*100).toFixed(1);
- document.getElementById('mfTotal').textContent='Rs '+c.tot.toLocaleString('en-IN');
- let gEl=document.getElementById('mfGain'); gEl.textContent='Rs '+tg.toLocaleString('en-IN')+' ('+(tg>=0?'+':'')+tp+'%)'; gEl.className=tg>=0?'green':'red';
- document.getElementById('tMFVal').textContent='Rs '+c.tot.toLocaleString('en-IN');
- document.getElementById('tAll').textContent='Rs '+(c.tot+1876996).toLocaleString('en-IN');
- document.getElementById('tMFGain').textContent='Rs '+tg.toLocaleString('en-IN')+' ('+(tg>=0?'+':'')+tp+'%)';
- document.getElementById('mNowVal').textContent='Rs '+c.tot.toLocaleString('en-IN');
- document.getElementById('mNowInv').textContent='Rs '+c.inv.toLocaleString('en-IN');
- document.getElementById('mNowGain').textContent='Rs '+tg.toLocaleString('en-IN');
+let html='';let t=calcTotals();
+let search=(document.getElementById('mfSearch')?.value||'').toLowerCase();
+let shown=0;
+MF.forEach((m,i)=>{
+let cur=m.units*m.nav;let gain=cur-m.inv;
+if(curFilter==='Rajendra' && !((m.folio||'').toLowerCase().includes('rajendra')||(m.folio||'').toLowerCase().includes('raj'))) return;
+if(curFilter==='Komal' && !((m.folio||'').toLowerCase().includes('komal')||(m.folio||'').toLowerCase().includes('kom'))) return;
+if(curFilter==='Profit' && gain<0) return;
+if(curFilter==='Loss' && gain>=0) return;
+if(search && !m.name.toLowerCase().includes(search)) return;
+shown++;
+let pct=gain/m.inv*100;
+let cls=gain>=0?'green':'red';
+html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>'+(m.folio?('Folio: '+m.folio+'<br>'):'')+'Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Rokaan: '+fmt(m.inv)+' | Kimat: '+fmt(cur)+'<br>Faydo: <span class="'+cls+'">'+fmt(gain)+' ('+pct.toFixed(2)+'%)</span><br><button class="btnEdit" onclick="openEdit('+i+')">EDIT</button> <button class="btnDel" onclick="deleteFund('+i+')">DELETE</button></div></div>';
+});
+if(shown===0) html='<div class="card">Koi fund malyu nahi.</div>';
+document.getElementById('mfList').innerHTML=html;
+document.getElementById('mfCount').textContent=MF.length+' Fund';
+document.getElementById('tMFVal').textContent=fmt(t.tot);
+document.getElementById('tAllVal').textContent=fmt(t.tot+1876995);
+let fhtml='';FD.forEach((x,i)=>{fhtml+='<div class="item"><b>'+(i+1)+'. '+x.name+'</b><br>Rakam: '+fmt(x.amt)+'<br>Pakvani: '+x.mat+'</div>'});
+document.getElementById('fdList').innerHTML=fhtml;
 }
 function deleteFund(i){
- if(confirm('Delete '+MF[i].name+' - '+(MF[i].folio||'')+' ?')){ MF.splice(i,1); render(); alert('Deleted. TOTAL auto updated.'); }
+if(confirm('MF - '+MF[i].name+' - Delete karvu che?')){MF.splice(i,1);render()}
 }
-function editFund(i){
- editIndex=i; let m=MF[i];
- document.getElementById('eName').value=m.name;
- document.getElementById('eFolio').value=m.folio||'';
- document.getElementById('eUnits').value=m.units;
- document.getElementById('eNav').value=m.nav;
- document.getElementById('eInv').value=m.inv;
- document.getElementById('editBox').style.display='flex';
+function openEdit(i){
+editIndex=i;
+document.getElementById('editBox').style.display='flex';
+if(i>=0){let m=MF[i];document.getElementById('eName').value=m.name;document.getElementById('eFolio').value=m.folio;document.getElementById('eUnits').value=m.units;document.getElementById('eNav').value=m.nav;document.getElementById('eInv').value=m.inv}
+else{document.getElementById('eName').value='';document.getElementById('eFolio').value='';document.getElementById('eUnits').value='';document.getElementById('eNav').value='';document.getElementById('eInv').value=''}
 }
-function closeEdit(){ document.getElementById('editBox').style.display='none'; editIndex=-1; }
+function closeEdit(){document.getElementById('editBox').style.display='none'}
 function saveEdit(){
- if(editIndex<0) return;
- let m=MF[editIndex];
- let n=document.getElementById('eName').value.trim();
- if(n) m.name=n;
- m.folio=document.getElementById('eFolio').value.trim();
- let u=parseFloat(document.getElementById('eUnits').value);
- let nv=parseFloat(document.getElementById('eNav').value);
- let iv=parseFloat(document.getElementById('eInv').value);
- if(u>0) m.units=u;
- if(nv>0) m.nav=nv;
- if(iv>0) m.inv=iv;
- closeEdit(); render(); alert('Saved! TOTAL auto updated.');
-}
-function renderMonthly(){
- let html='';
- for(let i=MONTHLY.length-1;i>=0;i--){
-  let mm=MONTHLY[i];
-  let prev = i>0 ? MONTHLY[i-1] : null;
-  if(!prev){
-   html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+'<br>MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br>Starting Month - Ahi thi saruvat<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>';
-  } else {
-   let newInv = mm.inv - prev.inv;
-   let valChange = mm.val - prev.val;
-   let marketGain = valChange - newInv;
-   let profitChange = mm.gain - prev.gain;
-   let invCls = newInv>=0 ? 'blue' : 'red';
-   let mktCls = marketGain>=0 ? 'green' : 'red';
-   html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+' | MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br><hr><span class="'+invCls+'">1. Aa mahine NAVU NAKHYU: Rs '+newInv.toLocaleString('en-IN')+'</span><br><span class="'+mktCls+'">2. Market thi VADHYU / GHATYU: Rs '+marketGain.toLocaleString('en-IN')+'</span><br><b>3. Total Value Change: Rs '+valChange.toLocaleString('en-IN')+'</b><br>Total Profit Change: Rs '+profitChange.toLocaleString('en-IN')+'<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>';
-  }
- }
- document.getElementById('monthlyList').innerHTML=html;
-}
-function setYear(y){ selectedYear=y; renderAnalysis(); }
-function renderAnalysis(){
- let years=[...new Set(MONTHLY.map(m=>getYearOf(m)))].sort();
- if(!years.includes(selectedYear) && years.length) selectedYear=years[years.length-1];
- let yb='';
- years.forEach(y=>{ yb+='<button class="btnYear '+(y===selectedYear?'active':'')+'" onclick="setYear(\''+y+'\')">'+y+'</button>'; });
- yb+='<button class="btnYear '+(selectedYear==='ALL'?'active':'')+'" onclick="setYear(\'ALL\')">ALL YEARS</button>';
- document.getElementById('yearButtons').innerHTML=yb;
- let list = selectedYear==='ALL' ? MONTHLY : MONTHLY.filter(m=>getYearOf(m)===selectedYear);
- if(!list.length){ document.getElementById('analysisSummary').innerHTML='<div class="card">Aa varsh ma haju koi mahino save nathi thayo.</div>'; document.getElementById('analysisTable').innerHTML=''; return; }
- let first=list[0]; let last=list[list.length-1];
- let totalNew = last.inv - MONTHLY[0].inv;
- if(selectedYear!=='ALL'){
-  let idxFirst = MONTHLY.indexOf(first);
-  let prev = idxFirst>0 ? MONTHLY[idxFirst-1] : null;
-  if(prev){ totalNew = last.inv - prev.inv; }
-  else { totalNew = 0; }
-  let sumNew=0; let sumMarket=0;
-  list.forEach((mm,ii)=>{
-   let globalIdx = MONTHLY.indexOf(mm);
-   let p = globalIdx>0 ? MONTHLY[globalIdx-1] : null;
-   if(p && ii>0 || (ii===0 && p && selectedYear!=='ALL' && MONTHLY.indexOf(mm)>0)){ }
-  });
- }
- let totalValChange = last.val - first.val;
- let totalMarketGain = 0; let sumNewYear=0;
- list.forEach((mm,ii)=>{
-  let gi = MONTHLY.indexOf(mm);
-  let p = gi>0 ? MONTHLY[gi-1] : null;
-  if(!p) return;
-  if(ii===0 && selectedYear!=='ALL' && gi>0){
-   let newInv = mm.inv - p.inv;
-   let valCh = mm.val - p.val;
-   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
-  } else if(ii>0){
-   let prevInList = list[ii-1];
-   let newInv = mm.inv - prevInList.inv;
-   let valCh = mm.val - prevInList.val;
-   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
-  }
- });
- if(selectedYear==='ALL'){
-  sumNewYear = last.inv - MONTHLY[0].inv;
-  totalMarketGain = (last.val - MONTHLY[0].val) - sumNewYear;
- }
- let totalProfitChange = last.gain - first.gain;
- let yearLabel = selectedYear==='ALL' ? 'BADHA VARSH' : selectedYear+' - '+list.length+' / 12 Mahina';
- let status = list.length>=12 ? selectedYear+' - 1 VARSH PURU - 12 Mahina Thai Gaya ✅' : selectedYear+' - '+list.length+' / 12 Mahina Thaya - '+(12-list.length)+' Mahina Baki Che';
- let html='<div class="totalBox"><b>'+status+'</b><br>'+yearLabel+'<br>Starting: '+first.month+' - Value Rs '+first.val.toLocaleString('en-IN')+'<br>Latest: '+last.month+' - Value Rs '+last.val.toLocaleString('en-IN')+'<br><hr><b>AA VARSH MA:</b><br>Total Navu Nakhyu: <b style="color:#7CBBFF">Rs '+sumNewYear.toLocaleString('en-IN')+'</b><br>Market thi Vadhyu: <b style="color:#A5D6A7">Rs '+totalMarketGain.toLocaleString('en-IN')+'</b><br>Total Value Vadhi: <b>Rs '+(last.val-first.val).toLocaleString('en-IN')+'</b><br>Chokkho Profit: <b>Rs '+last.gain.toLocaleString('en-IN')+'</b></div>';
- document.getElementById('analysisSummary').innerHTML=html;
- let t='<table><tr><th>No</th><th>Mahino</th><th>Total Investment</th><th>Aa Mahine Navu</th><th>Value</th><th>Chokkho Profit</th><th>Market Gain</th></tr>';
- list.forEach((mm,ii)=>{
-  let gi = MONTHLY.indexOf(mm);
-  let p = gi>0 ? MONTHLY[gi-1] : null;
-  let newInv=0; let mkt=0;
-  if(ii===0){
-   if(p){ newInv = mm.inv - p.inv; let valCh = mm.val - p.val; mkt = valCh - newInv; }
-   else { newInv=0; mkt=0; }
-  } else {
-   let prevInList=list[ii-1];
-   newInv = mm.inv - prevInList.inv;
-   let valCh = mm.val - prevInList.val;
-   mkt = valCh - newInv;
-  }
-  let mktCls=mkt>=0?'green':'red';
-  t+='<tr><td>'+(ii+1)+'</td><td><b>'+mm.month+'</b></td><td>Rs '+mm.inv.toLocaleString('en-IN')+'</td><td style="color:#0D47A1;font-weight:bold">Rs '+newInv.toLocaleString('en-IN')+'</td><td><b>Rs '+mm.val.toLocaleString('en-IN')+'</b></td><td style="color:#1B5E20;font-weight:bold">Rs '+mm.gain.toLocaleString('en-IN')+'</td><td class="'+mktCls+'">Rs '+mkt.toLocaleString('en-IN')+'</td></tr>';
- });
- t+='</table>';
- document.getElementById('analysisTable').innerHTML=t;
+let n={name:document.getElementById('eName').value,folio:document.getElementById('eFolio').value,units:parseFloat(document.getElementById('eUnits').value)||0,nav:parseFloat(document.getElementById('eNav').value)||0,inv:parseFloat(document.getElementById('eInv').value)||0,code:""};
+if(!n.name){alert('Naam lakho');return}
+if(editIndex>=0) MF[editIndex]={...MF[editIndex],...n}; else MF.push(n);
+closeEdit();render();alert('Saved!');
 }
 function saveMonth(){
- let c=calcTotals();
- let d=new Date();
- let monthName=d.toLocaleString('en-IN',{month:'long'})+' '+d.getFullYear();
- let label=prompt('Month nu naam lakho - e.g. Nov 2026, Dec 2026:', monthName); if(!label) return;
- let dateStr=d.toISOString().slice(0,10);
- MONTHLY.push({month:label, date:dateStr, inv:c.inv, val:c.tot, gain:c.tot-c.inv});
- selectedYear=getYearOf(MONTHLY[MONTHLY.length-1]);
- renderMonthly();
- alert('Month Saved!\n'+label+'\nValue: Rs '+c.tot.toLocaleString('en-IN')+'\nProfit: Rs '+(c.tot-c.inv).toLocaleString('en-IN'));
+let t=calcTotals();
+let now=new Date();
+let monthKey=now.getFullYear()+'-'+(now.getMonth()+1);
+if(MONTHLY.some(m=>m.key===monthKey)){if(!confirm('Aa mahino pehla thi saved che. Fari save karvu?')) return}
+MONTHLY.unshift({key:monthKey,label:dateStr(now),date:dateStr(now),inv:t.inv,total:t.tot});
+localStorage.setItem('RAJA_MONTHLY',JSON.stringify(MONTHLY));
+renderMonthly();alert('MONTHLY SAVE thai gayu!');
 }
-function deleteMonth(i){
- if(confirm('Delete '+MONTHLY[i].month+' ?')){ MONTHLY.splice(i,1); renderMonthly(); }
+function renderMonthly(){
+let html='';
+if(MONTHLY.length===0) html='<div class="card">Haju koi mahino save nathi.</div>';
+MONTHLY.forEach((m,i)=>{
+let marketGain=m.total-m.inv;
+let profitChange=i<MONTHLY.length-1?(m.total-MONTHLY[i+1].total):0;
+let cls=marketGain>=0?'green':'red';
+html+='<div class="card"><div class="item"><b>'+m.label+'</b><br>Invested: '+fmt(m.inv)+'<br>Market Value: '+fmt(m.total)+'<br>Profit: <span class="'+cls+'">'+fmt(marketGain)+'</span><br>Mahina no ferfar: '+fmt(profitChange)+' <button class="btnDel" onclick="deleteMonth('+i+')">DELETE</button></div></div>';
+});
+document.getElementById('monthlyList').innerHTML=html;
 }
-function exportMonthly(){
- let csv='Month,Date,Invested,MF Value,Total Profit,New Investment Added,Market Gain,Total Value Change\n';
- MONTHLY.forEach((mm,i)=>{
-  let prev=i>0?MONTHLY[i-1]:null;
-  let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-  csv+=mm.month+','+mm.date+','+mm.inv+','+mm.val+','+mm.gain+','+newInv+','+mkt+','+valCh+'\n';
- });
- let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MONTHLY-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-}
-function exportAll(){
- try{
-  let c=calcTotals();
-  let wb=XLSX.utils.book_new();
-  let totalData=[
-   ["RAJA PARIVAR PORTFOLIO - "+new Date().toISOString().slice(0,10)],
-   [],
-   ["TOTAL PORTFOLIO"],
-   ["MF Value", c.tot],
-   ["MF Invested", c.inv],
-   ["MF Gain", c.tot-c.inv],
-   ["FD Invested", 1876996],
-   ["FD Maturity", 2009008],
-   ["GRAND TOTAL (MF Value + FD Invested)", c.tot+1876996]
-  ];
-  let ws1=XLSX.utils.aoa_to_sheet(totalData);
-  XLSX.utils.book_append_sheet(wb, ws1, "TOTAL");
-  let mfData=[["No","Fund Name","Folio","Units","NAV","Invested","Current Value","Gain","Gain %"]];
-  MF.forEach((m,i)=>{
-   let cur=Math.round(m.units*m.nav); let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1)+"%";
-   mfData.push([i+1,m.name,m.folio,m.units,m.nav,m.inv,cur,gain,pct]);
-  });
-  mfData.push([]);
-  mfData.push(["Total Invested", c.inv, "Total Value", c.tot, "Total Gain", c.tot-c.inv]);
-  let ws2=XLSX.utils.aoa_to_sheet(mfData);
-  XLSX.utils.book_append_sheet(wb, ws2, "MF");
-  let monData=[["Month","Date","Invested","MF Value","Total Profit","New Investment Added","Market Gain","Total Value Change"]];
-  MONTHLY.forEach((mm,i)=>{
-   let prev=i>0?MONTHLY[i-1]:null;
-   let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-   monData.push([mm.month,mm.date,mm.inv,mm.val,mm.gain,newInv,mkt,valCh]);
-  });
-  let ws3=XLSX.utils.aoa_to_sheet(monData);
-  XLSX.utils.book_append_sheet(wb, ws3, "MONTHLY");
-  let fdData=[["No","FD Name","Amount","Maturity Date"]];
-  FD.forEach((f,i)=>{ fdData.push([i+1,f.name,f.amt,f.mat]); });
-  fdData.push([]);
-  fdData.push(["Total Invested",1876996,"Total Maturity",2009008]);
-  let ws4=XLSX.utils.aoa_to_sheet(fdData);
-  XLSX.utils.book_append_sheet(wb, ws4, "FD");
-  let anaData=[["No","Month","Total Investment","New Added This Month","Value","Net Profit","Market Gain"]];
-  MONTHLY.forEach((mm,i)=>{
-   let prev=i>0?MONTHLY[i-1]:null;
-   let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-   anaData.push([i+1,mm.month,mm.inv,newInv,mm.val,mm.gain,mkt]);
-  });
-  let ws5=XLSX.utils.aoa_to_sheet(anaData);
-  XLSX.utils.book_append_sheet(wb, ws5, "ANALYSIS");
-  XLSX.writeFile(wb, 'RAJA-PARIVAR-ALL-'+new Date().toISOString().slice(0,10)+'.xlsx');
-  alert('EXPORT ALL Done!\n1 File - 5 Sheet:\nTOTAL + MF + MONTHLY + FD + ANALYSIS');
- }catch(e){ alert('Export All ma Internet joiye che. Fari try karo.'); }
-}
-async function addFund(){
- let q=prompt('New Fund - MF API ma Search karo:\nThodu naam lakho - e.g. Motilal Midcap, Nippon Small, Quant PSU'); if(!q) return;
- try{
-  document.getElementById('liveStatus').textContent='Searching MF List... '+q;
-  let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q));
-  let sj=await s.json();
-  if(!sj || !sj.length){ alert('No Fund Found. Fari try karo - bija naam thi.'); return; }
-  let list=sj.slice(0,10).map((x,idx)=>(idx+1)+'. '+x.schemeName).join('\n');
-  let pick=prompt('MF List ma thi Number pasand karo (1-'+Math.min(10,sj.length)+'):\n'+list, '1'); if(!pick) return;
-  let idx=parseInt(pick)-1; if(isNaN(idx)||idx<0||idx>=sj.length) return;
-  let chosen=sj[idx];
-  let r=await fetch('https://api.mfapi.in/mf/'+chosen.schemeCode);
-  let j=await r.json();
-  let nav=parseFloat(j.data[0].nav);
-  let folio=prompt('Folio / Name - Rajendra / Komal lakho:')||'';
-  let units=parseFloat(prompt('Units lakho:')); if(!units) return;
-  let inv=parseFloat(prompt('Invested / Cost lakho:')); if(!inv) return;
-  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav});
-  render(); alert('New Fund Added from MF List!\n'+chosen.schemeName+'\nNAV: '+nav);
- }catch(e){ alert('Internet / MF API ma problem che. Fari try karo.'); }
- document.getElementById('liveStatus').textContent='LIVE OFF - Your NAV is showing.';
+function deleteMonth(i){if(confirm('Aa mahino delete karvu?')){MONTHLY.splice(i,1);localStorage.setItem('RAJA_MONTHLY',JSON.stringify(MONTHLY));renderMonthly()}}
+function setYear(y){selectedYear=y;renderAnalysis()}
+function renderAnalysis(){
+let years=['2024','2025','2026'];
+let yhtml='';years.forEach(y=>{yhtml+='<button class="btnYear '+(y===selectedYear?'active':'')+'" onclick="setYear(\''+y+'\')">'+y+'</button>'});
+document.getElementById('yearButtons').innerHTML=yhtml;
+let list=MONTHLY.filter(m=>m.key.startsWith(selectedYear));
+if(list.length===0){document.getElementById('analysisTable').innerHTML='<p class="small">Aa varsh ma koi data nathi.</p>';return}
+let th='<table><tr><th>Month</th><th>Invested</th><th>Value</th><th>Profit</th><th>Change</th></tr>';
+let rows='';
+list.forEach((m,i)=>{
+let idx=MONTHLY.indexOf(m);let prev=MONTHLY[idx+1];
+let ch=prev?(m.total-prev.total):0;let cls=ch>=0?'green':'red';
+rows+='<tr><td>'+m.label+'</td><td>'+fmt(m.inv)+'</td><td>'+fmt(m.total)+'</td><td>'+fmt(m.total-m.inv)+'</td><td class="'+cls+'">'+fmt(ch)+'</td></tr>';
+});
+document.getElementById('analysisTable').innerHTML=th+rows+'</table>';
 }
 function exportExcel(){
- let csv='No,Fund Name,Folio,Units,NAV,Invested,Current Value,Gain,Gain %\n';
- MF.forEach((m,i)=>{
-  let cur=m.units*m.nav; let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1);
-  csv+=(i+1)+',"'+m.name+'","'+m.folio+'",'+m.units+','+m.nav+','+m.inv+','+Math.round(cur)+','+Math.round(gain)+','+pct+'%\n';
- });
- let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-Backup-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
- alert('Excel downloaded - MF '+MF.length+' schemes');
+let t=calcTotals();
+let wsData=[["RAJA PARIVAR PORTFOLIO"],[""],["TOTAL",fmt(t.tot)],["MF Invested",fmt(t.inv)],["FD Total","Rs 18,76,995"],[""],["Fund Name","Folio","Units","NAV","Invested","Current","Gain"]];
+MF.forEach(m=>{let cur=m.units*m.nav;wsData.push([m.name,m.folio,m.units,m.nav,m.inv,Math.round(cur),Math.round(cur-m.inv)])});
+let ws=XLSX.utils.aoa_to_sheet(wsData);let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"MF");
+let ws2=XLSX.utils.aoa_to_sheet([["FD Name","Amount","Maturity"],...FD.map(f=>[f.name,f.amt,f.mat])]);XLSX.utils.book_append_sheet(wb,ws2,"FD");
+XLSX.writeFile(wb,"RAJA-PARIVAR-PORTFOLIO.xlsx");alert("Excel - ALL - thai gayu!");
+}
+function exportMonthly(){
+let ws=XLSX.utils.aoa_to_sheet([["Month","Date","Invested","Total","Profit"],...MONTHLY.map(m=>[m.label,m.date,m.inv,Math.round(m.total),Math.round(m.total-m.inv)])]);
+let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"MONTHLY");XLSX.writeFile(wb,"RAJA-MONTHLY.xlsx");
+}
+function exportAnalysis(){
+let ws=XLSX.utils.aoa_to_sheet([["Month","Invested","Total"],...MONTHLY.map(m=>[m.label,m.inv,Math.round(m.total)])]);
+let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"ANALYSIS");XLSX.writeFile(wb,"RAJA-ANALYSIS.xlsx");
 }
 function downloadBackup(){
- let data={date:new Date().toISOString(),MF:MF,MONTHLY:MONTHLY,FD:FD};
- let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-BACKUP-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
- alert('BACKUP downloaded - Save this file safely.');
+let data={MF,FD,MONTHLY,date:new Date().toISOString()};
+let blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='RAJA-BACKUP-'+Date.now()+'.json';a.click();
+alert('BACKUP Download thai gayu - Save karine rakho!');
 }
 async function updateLive(){
- document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 30 second lagse, please wait...';
- let updated=0;
- for(let m of MF){
-  try{
-   let q=encodeURIComponent(m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth',''));
-   let s=await fetch('https://api.mfapi.in/mf/search?q='+q);
-   let sj=await s.json();
-   let found=null;
-   if(sj && sj.length){ found=sj.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || sj[0]; }
-   if(!found) continue;
-   let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode);
-   let j=await r.json();
-   let nav=parseFloat(j.data[0].nav);
-   if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ m.nav=nav; updated++; }
-  }catch(e){}
- }
- render();
- document.getElementById('liveStatus').textContent='LIVE Done: '+updated+'/'+MF.length+' funds updated.';
+document.getElementById('liveStatus').textContent='LIVE NAV lai rahyo chhu... 5 sec raho';
+for(let m of MF){try{let r=await fetch('https://api.mfapi.in/mf/'+m.code);let j=await r.json();if(j.data&&j.data[0]) m.nav=parseFloat(j.data[0].nav)}catch(e){}}
+render();document.getElementById('liveStatus').textContent='LIVE Update thai gayu! '+new Date().toLocaleString();alert('LIVE Update thai gayu!');
+}
+async function addFund(){
+let code=prompt('MF Code nakho (mfapi.in)');if(!code) return;
+try{let r=await fetch('https://api.mfapi.in/mf/'+code);let j=await r.json();let nav=parseFloat(j.data[0].nav);let name=j.meta.scheme_name;let units=parseFloat(prompt('Units ketla?'))||0;let inv=parseFloat(prompt('Invested ketlu?'))||0;MF.push({name,folio:'',units,inv,nav,code});render();alert('Navo Fund umerai gayo!')}catch(e){alert('Internet / MF API ma taklif che')}
 }
 render();
-renderMonthly();
 </script>
 </body>
 </html>
