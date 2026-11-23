@@ -525,5 +525,44 @@ function fdMakeButtons(){
 }
 setTimeout(fdMakeButtons, 500);
 </script>
+ <script>
+// FD - Interest Type - Quarterly કે Maturity
+function fdInterestType(){
+ document.querySelectorAll('#pFD .item').forEach(el=>{
+  if(el.dataset.intType) return; el.dataset.intType='1';
+  // જૂનું EDIT બટન શોધીને નવું બનાવીએ
+  let btns = el.querySelectorAll('.btnEdit');
+  btns.forEach(b=>{
+   let oldClick = b.onclick;
+   b.textContent='EDIT - ALL';
+   b.onclick=function(){
+    let nm=prompt("1. Bank Name?", "FD");
+    if(nm===null) return;
+    let ow=prompt("2. કેની FD છે?", "Rajendra");
+    if(ow===null) return;
+    let am=prompt("3. Amount?", "100000");
+    if(am===null) return;
+    let dt=prompt("4. Maturity Date?", "2027-01-01");
+    if(dt===null) return;
+    let ma=prompt("5. Maturity Amount?", am);
+    if(ma===null) return;
+    let tp=prompt("6. Interest કેવું છે? લખો - Quarterly / Maturity", "Maturity");
+    if(tp===null) return;
+    tp=tp.trim().toLowerCase().includes('quart') ? 'Quarterly' : 'Maturity';
+    let intr=Number(ma)-Number(am);
+    let note = tp==='Quarterly'
+     ? '<b style="color:#E65100">Interest: QUARTERLY - દર 3 મહિને વ્યાજ ખાતામાં આવશે</b><br><span>દર 3 મહિને અંદાજે: Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે</span><br><span>Maturity વખતે ખાલી મૂળ પૈસા પાછા મળશે</span>'
+     : '<b style="color:#1B5E20">Interest: MATURITY પર - પાકે ત્યારે જ મળશે</b><br><span>કુલ Interest મળશે: Rs '+intr.toLocaleString('en-IN')+'</span>';
+    el.innerHTML='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br>'+note+'<br>';
+    let eb=document.createElement('button'); eb.className='btnEdit'; eb.textContent='EDIT - ALL'; eb.style.background='#1565C0'; eb.onclick=b.onclick; el.appendChild(eb);
+    let db=document.createElement('button'); db.className='btnDel'; db.textContent='DELETE'; db.onclick=function(){ if(confirm('કાઢી નાખવી?')) el.remove(); }; el.appendChild(db);
+    alert('થઈ ગયું રાજા - '+tp);
+   };
+  });
+ });
+}
+setTimeout(fdInterestType, 800);
+setInterval(fdInterestType, 3000);
+ </script>
 </body>
 </html>
