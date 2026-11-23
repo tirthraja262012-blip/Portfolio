@@ -602,5 +602,27 @@ function fdFinal(){
 setTimeout(fdFinal, 800);
 setInterval(fdFinal, 2000);
  </script>
+ <script>
+// FD SORT - પહેલા પાકતી હોય એ પહેલા આવે
+function fdSortByMaturity(){
+ let box=document.getElementById('pFD');
+ if(!box) return;
+ let items=[...box.querySelectorAll('.item')];
+ if(items.length<2) return;
+ items.sort((a,b)=>{
+  let da=a.innerText.match(/Maturity Date:\s*([0-9\-]+)/);
+  let db=b.innerText.match(/Maturity Date:\s*([0-9\-]+)/);
+  let ta=da?new Date(da[1]):new Date('2099-01-01');
+  let tb=db?new Date(db[1]):new Date('2099-01-01');
+  return ta-tb;
+ });
+ items.forEach((el,i)=>{
+  // નંબર પણ ફરી નાખીએ - 1, 2, 3...
+  box.appendChild(el);
+ });
+}
+setTimeout(fdSortByMaturity, 1000);
+setInterval(fdSortByMaturity, 4000);
+ </script>
 </body>
 </html>
