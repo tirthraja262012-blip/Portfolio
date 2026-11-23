@@ -770,5 +770,26 @@ function fdInit(){
 setTimeout(fdInit,600);
 setInterval(fdInit,2000);
  </script>
+ <script>
+// જૂના ADD બટનને નવું ફોર્મ ખોલતું કરો
+setTimeout(()=>{
+  document.querySelectorAll('button').forEach(b=>{
+    let t=(b.innerText||'').toUpperCase();
+    if(t.includes('ADD') && t.includes('FD')){
+      b.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); fdShowForm(null,null); };
+      b.style.background='#1565C0'; b.style.color='white';
+    }
+  });
+},1000);
+setInterval(()=>{
+  document.querySelectorAll('button').forEach(b=>{
+    let t=(b.innerText||'').toUpperCase();
+    if(t.includes('ADD') && t.includes('FD') && !b.dataset.fixed){
+      b.dataset.fixed='1';
+      b.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); fdShowForm(null,null); };
+    }
+  });
+},1000);
+</script>
 </body>
 </html>
