@@ -42,43 +42,40 @@ table, tr, td{
 }
 </style>
  <script>
-// AUTO FIX - સફેદ પર સફેદ હોય તો કાળો કરી દે
-function fixWhite(){
-  document.querySelectorAll('div, p, span, b, td').forEach(el=>{
-    let bg = getComputedStyle(el).backgroundColor;
-    if(bg==='rgb(255, 255, 255)' || bg==='rgb(248, 249, 250)' || bg.includes('255, 255')){
-      el.style.color = '#111111';
+<script>
+function realFix2(){
+  document.querySelectorAll('p, span, b, h1, h2, h3, td, div').forEach(el=>{
+    let node = el;
+    let bg = null;
+    while(node){
+      let c = getComputedStyle(node).backgroundColor;
+      if(c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent'){ bg = c; break; }
+      node = node.parentElement;
+    }
+    if(!bg) return;
+    let m = bg.match(/\d+/g);
+    if(!m) return;
+    let r = parseInt(m[0]), g = parseInt(m[1]), b = parseInt(m[2]);
+    let brightness = (r*0.299 + g*0.587 + b*0.114);
+    if(brightness < 120){
+      if(el.children.length === 0 || ['H2','H1','P','SPAN','B'].includes(el.tagName))
+        el.style.setProperty('color', '#ffffff', 'important');
+    } else if(brightness > 180){
+      if(el.children.length === 0 || ['H2','H1','P','SPAN','B'].includes(el.tagName))
+        el.style.setProperty('color', '#111111', 'important');
     }
   });
-  document.querySelectorAll('div').forEach(el=>{
-    let bg = getComputedStyle(el).backgroundColor;
-    if(bg==='rgb(255, 255, 255)' || bg==='rgb(248, 249, 250)'){
-      el.style.backgroundColor = '#ffffff';
-      el.style.color = '#111111';
+  document.querySelectorAll('h2, h1').forEach(h=>{
+    if(h.textContent.includes('FD -') || h.textContent.includes('MF -') || h.textContent.includes('NCD -') || h.textContent.includes('TOTAL')){
+      h.style.setProperty('color', '#f5d76e', 'important');
     }
   });
 }
-setTimeout(fixWhite, 500);
-setTimeout(fixWhite, 1500);
-setInterval(fixWhite, 2000);
+setTimeout(realFix2, 300);
+setTimeout(realFix2, 1000);
+setInterval(realFix2, 1200);
+new MutationObserver(realFix2).observe(document.body, {childList:true, subtree:true});
 </script>
- <style>
-/* MF FINAL - બધું કાળું, ફક્ત કાળા કાર્ડ સફેદ */
-*{
-  color:#111111 !important;
-}
-[style*="#1a1a1a"] *, [style*="#000"] *, [style*="black"] *,
-header *, .header *, nav *, th *, thead *{
-  color:#ffffff !important;
-}
-h1, h2, h3{
-  color:#f5d76e !important;
-}
-button, .btn{
-  color:#000000 !important;
-}
- </style>
- <script>
 window.prompt = function(){ return null; };
  </script>
 <meta charset="UTF-8">
