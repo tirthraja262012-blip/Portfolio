@@ -306,7 +306,7 @@ function getYearOf(m){
  if(m.date && m.date.length>=4) return m.date.slice(0,4);
  let mm=m.month.match(/20\d\d/); return mm?mm[0]:'2026';
 }
-function unlock(){ if(document.getElementById('pin').value==='true'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
+function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
 function show(t){
  ['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis'].forEach(x=>{
   document.getElementById('p'+x).style.display = x===t ? 'block':'none';
