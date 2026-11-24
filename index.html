@@ -901,11 +901,26 @@ setInterval(()=>{
 },1000);
 </script>
  <script>
+<script>
+window.unlocked=true; window.isLocked=false; window.isUnlocked=true;
+window.pinVerified=true; window.allowAccess=true; window.accessGranted=true;
+window.locked=false; window.isAuthenticated=true; window.verified=true;
+localStorage.setItem('unlocked','1'); localStorage.setItem('pinVerified','1');
+localStorage.setItem('auth','1'); sessionStorage.setItem('unlocked','1');
 try{document.getElementById('lock')?.remove();}catch(e){}
-window.unlocked=true;
-window.isLocked=false;
-localStorage.setItem('unlocked','1');
-document.querySelectorAll('button').forEach(b=>b.disabled=false);
+document.querySelectorAll('*').forEach(el=>{el.style.pointerEvents='auto';});
+document.querySelectorAll('button').forEach(b=>{b.disabled=false; b.style.opacity='1'; b.style.pointerEvents='auto';});
+// બટનને ફરીથી જીવતું કરો
+setTimeout(()=>{
+document.querySelectorAll('button').forEach(btn=>{
+btn.addEventListener('click',()=>{
+let t=btn.textContent.trim().toLowerCase();
+if(window.showTab) try{window.showTab(t);}catch(e){}
+if(window.switchTab) try{window.switchTab(t);}catch(e){}
+if(window.showSection) try{window.showSection(t);}catch(e){}
+});
+});
+},500);
 </script>
 </body>
 </html>
