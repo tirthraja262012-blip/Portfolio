@@ -143,13 +143,13 @@ renderNCD();
 </div>
 <script>
 let MF = [
-{name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655, daily:0},
+{name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655, daily:0, code:153859},
 {name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75, daily:0},
 {name:"Tata Digital India Fund Direct Plan Growth", folio:"RAJENDRA - 5524942", units:2299.99, inv:94000, nav:49.2266, daily:0},
 {name:"Tata Small Cap Fund - Direct Plan - Growth", folio:"KOMALBEN - 9135304", units:1720.38, inv:50000, nav:42.6109, daily:0},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967, daily:0},
+{name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967, daily:0, code:118834},
 {name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth", folio:"", units:8256.226, inv:119994, nav:46.647, daily:0},
-{name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967, daily:0},
+{name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967, daily:0, code:147445},
 {name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 1", units:4706.74, inv:597493, nav:203.474, daily:0},
 {name:"Nippon India Growth Mid Cap Fund - Direct Growth", folio:"", units:16.863, inv:60000, nav:822.2759, daily:0},
 {name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 1", units:2876.531, inv:226000, nav:106.5014, daily:0},
@@ -158,7 +158,7 @@ let MF = [
 {name:"Quant Multi Cap Fund - Direct Growth", folio:"", units:123.36, inv:60000, nav:733.3165, daily:0},
 {name:"Quant Small Cap Fund - Direct Growth", folio:"", units:2153.126, inv:510000, nav:310.5746, daily:0},
 {name:"Quant ELSS Tax Saver Fund - Direct Growth", folio:"", units:472.628, inv:150000, nav:473.3949, daily:0},
-{name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205, daily:0},
+{name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205, daily:0, code:152415},
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 4350827", units:11580.61, inv:490000, nav:56.575, daily:0},
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Rajendra - 4799767", units:3992.48, inv:185000, nav:56.575, daily:0},
 {name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 7116567", units:1043.72, inv:60000, nav:56.575, daily:0},
@@ -305,7 +305,7 @@ async function addFund(){
   let idx=parseInt(pick)-1; if(isNaN(idx)||idx<0||idx>=sj.length) return;
   let chosen=sj[idx]; let r=await fetch('https://api.mfapi.in/mf/'+chosen.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav);
   let folio=prompt('Folio / Name - Rajendra / Komal lakho:')||''; let units=parseFloat(prompt('Units lakho:')); if(!units) return; let inv=parseFloat(prompt('Invested / Cost lakho:')); if(!inv) return;
-  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav,daily:0}); render(); alert('New Fund Added!\n'+chosen.schemeName+'\nNAV: '+nav);
+  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav,daily:0,code:chosen.schemeCode}); render(); alert('New Fund Added!\n'+chosen.schemeName+'\nNAV: '+nav);
  }catch(e){ alert('Internet / MF API ma problem che.'); }
  document.getElementById('liveStatus').textContent='LIVE OFF - Your NAV is showing.';
 }
@@ -315,6 +315,7 @@ function exportExcel(){
  let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-Backup-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); alert('Excel downloaded - MF '+MF.length+' schemes');
 }
 function downloadBackup(){ let data={date:new Date().toISOString(),MF:MF,MONTHLY:MONTHLY,FD:FD}; let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-BACKUP-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); alert('BACKUP downloaded'); }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 function cleanTokens(s){ let stop=new Set(['fund','direct','growth','plan','the','of','and','-']); return s.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w && !stop.has(w)); }
 function pickBest(list, wantName){
  let want=cleanTokens(wantName); let best=null, bestScore=-999;
@@ -331,24 +332,33 @@ function pickBest(list, wantName){
  });
  return best;
 }
+async function fetchNavByCode(code){
+ for(let t=0;t<2;t++){
+  try{ let r=await fetch('https://api.mfapi.in/mf/'+code); let j=await r.json(); let nav=parseFloat(j.data[0].nav); if(nav>0) return nav; }catch(e){}
+  await sleep(400);
+ }
+ return 0;
+}
 async function updateLive(){
- document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 40 second lagse, please wait...'; let updated=0;
+ document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 60 second lagse, please wait...'; let updated=0;
  for(let m of MF){
   try{
-   let queries=[];
-   let base=m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth','');
-   queries.push(base);
-   let short=cleanTokens(base).slice(0,3).join(' ');
-   if(short && short!==base.toLowerCase()) queries.push(short);
-   let found=null;
-   for(let q of queries){
-    let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)); let sj=await s.json();
-    if(sj && sj.length){ let b=pickBest(sj, base); if(b){ found=b; break; } }
+   let nav=0;
+   if(m.code){ nav=await fetchNavByCode(m.code); }
+   if(!nav){
+    let base=m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth','');
+    for(let attempt=0;attempt<2 && !nav;attempt++){
+     try{
+      let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(base)); let sj=await s.json();
+      if(sj && sj.length){ let b=pickBest(sj, base); if(b){ m.code=b.schemeCode; nav=await fetchNavByCode(b.schemeCode); } }
+     }catch(e){}
+     if(!nav) await sleep(500);
+    }
    }
-   if(!found) continue;
-   let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav);
    if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ if(Math.abs(nav - m.nav) > 0.0001){ m.daily = (nav - m.nav) * m.units; m.prevNav = m.nav; m.nav=nav; } updated++; }
   }catch(e){}
+  await sleep(250);
+  document.getElementById('liveStatus').textContent='LIVE Updating... '+updated+'/'+MF.length+' done...';
  }
  render(); document.getElementById('liveStatus').textContent='LIVE Done: '+updated+'/'+MF.length+' funds updated.';
 }
@@ -356,6 +366,14 @@ render();
 renderMonthly();
 </script>
 <script>
+function fdAddButtons(el){
+ if(el.querySelector('.fdFinalEdit')) return;
+ let b=document.createElement('button'); b.className='fdFinalEdit'; b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px;margin-right:8px';
+ b.onclick=()=>fdShowForm(el); el.appendChild(b);
+ let d=document.createElement('button'); d.className='fdFinalDel'; d.textContent='DELETE'; d.style.cssText='background:#D32F2F;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px';
+ d.onclick=()=>{ if(confirm('Delete This FD?')){ el.remove(); alert('FD Deleted'); } };
+ el.appendChild(d);
+}
 function fdShowForm(oldEl){
  let old=document.getElementById('fdEditBox'); if(old) old.remove();
  let box=document.createElement('div'); box.id='fdEditBox';
@@ -378,8 +396,8 @@ function fdShowForm(oldEl){
   let intr=Number(ma)-Number(am);
   let note=tp.includes('Quarterly')?'Interest: QUARTERLY - દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે':tp.includes('Monthly')?'Interest: MONTHLY - દર મહિને Rs '+Math.round(intr/12).toLocaleString('en-IN')+' આવશે':'Interest: MATURITY - પાકે ત્યારે જ Rs '+intr.toLocaleString('en-IN')+' મળશે';
   let html='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Investment Date: '+id2+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Rate: '+rt+'%<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b><br>';
-  if(oldEl){ let w=document.createElement('div'); w.innerHTML=html; oldEl.innerHTML=''; oldEl.appendChild(w); let b=document.createElement('button'); b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px'; b.onclick=()=>fdShowForm(oldEl); oldEl.appendChild(b); }
-  else{ let el=document.createElement('div'); el.className='item'; el.innerHTML=html; let b=document.createElement('button'); b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px'; b.onclick=()=>fdShowForm(el); el.appendChild(b); document.getElementById('pFD').appendChild(el); }
+  if(oldEl){ oldEl.innerHTML=html; fdAddButtons(oldEl); }
+  else{ let el=document.createElement('div'); el.className='item'; el.innerHTML=html; fdAddButtons(el); document.getElementById('pFD').appendChild(el); }
   box.remove(); alert('સેવ થઈ ગયું રાજા');
  };
 }
@@ -391,11 +409,7 @@ function fdInit(){
   ab.onclick=()=>fdShowForm(null);
   boxFD.insertBefore(ab, boxFD.firstChild);
  }
- document.querySelectorAll('#pFD .item').forEach(el=>{
-  if(el.querySelector('.fdFinalEdit')) return;
-  let b=document.createElement('button'); b.className='fdFinalEdit'; b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px';
-  b.onclick=()=>fdShowForm(el); el.appendChild(b);
- });
+ document.querySelectorAll('#pFD .item').forEach(el=>{ fdAddButtons(el); });
 }
 setTimeout(fdInit,600);
 </script>
