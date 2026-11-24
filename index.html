@@ -356,7 +356,7 @@ function fdInit(){
   let ab=document.createElement('button'); ab.id='fdAddBtn'; ab.textContent='+ ADD NEW FD';
   ab.style.cssText='width:100%;background:#1565C0;color:white;padding:14px;border:none;border-radius:14px;font-weight:bold;font-size:16px;margin:10px 0';
   ab.onclick=()=>fdShowForm(null);
-  boxFD.parentNode.insertBefore(ab, boxFD);
+  boxFD.insertBefore(ab, boxFD.firstChild);
  }
  document.querySelectorAll('#pFD .item').forEach(el=>{
   if(el.querySelector('.fdFinalEdit')) return;
