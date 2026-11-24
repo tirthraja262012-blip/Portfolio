@@ -48,10 +48,10 @@ table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
 th{background:#6B0F1A;color:#FFD700;padding:8px 4px;text-align:center}
 td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1}
 .scrollX{overflow-x:auto}
+.dailyBox{background:#E8F5E9;border:2px solid #1B5E20;border-radius:10px;padding:10px;margin-top:8px;font-size:15px;line-height:1.8}
 </style>
 </head>
 <body>
-
 <div id="editBox"><div id="editInner">
 <h3 style="margin:0;color:#6B0F1A">EDIT FUND - જે બદલવું હોય એ જ બદલો, બાકીનું અડશો નહીં</h3>
 <label>Fund Name - બદલવું ના હોય તો એમનું એમ રાખો</label>
@@ -67,7 +67,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <button class="btnSave" onclick="saveEdit()">SAVE - બસ આટલું જ</button>
 <button class="btnCancel" onclick="closeEdit()">CANCEL - કંઈ નથી બદલવું</button>
 </div></div>
-
 <div class="header"><div class="logo"><img src="logo.jpg"></div><h1>RAJA PARIVAR PORTFOLIO</h1><p>Jay Swaminarayan</p></div>
 <div class="tabs">
 <div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
@@ -80,11 +79,11 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div class="tab" id="tAnalysis" onclick="show('Analysis')">ANALYSIS</div>
 </div>
 <div id="pTotal">
-<div class="totalBox"><b>TOTAL PORTFOLIO</b><br>MF: <span id="tMFVal">Rs 67,17,723</span><br>FD Invested: Rs 18,76,996<br>FD Maturity: Rs 20,09,008<br>NCD: Rs 0<br>SHARE: Rs 0<br><hr><b>GRAND TOTAL: <span id="tAll">Rs 85,94,719</span></b><br><span class="small" style="color:#FFD700">MF Gain: <span id="tMFGain">Rs 24,91,634 (59.0%)</span></span></div>
+<div class="totalBox"><b>TOTAL PORTFOLIO</b><br>MF: <span id="tMFVal">Rs 67,17,723</span><br>FD Invested: Rs 18,76,996<br>FD Maturity: Rs 20,09,008<br>NCD: Rs 0<br>SHARE: Rs 0<br><hr><b>GRAND TOTAL: <span id="tAll">Rs 85,94,719</span></b><br><span class="small" style="color:#FFD700">MF Gain: <span id="tMFGain">Rs 24,91,634 (59.0%)</span></span><br><span class="small" style="color:#FFD700">Today Daily Profit: <span id="tDaily">Rs 0 - LIVE દબાવો</span></span></div>
 <button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET - TOTAL + MF + MONTHLY + FD + ANALYSIS</button>
 </div>
 <div id="pMF" style="display:none">
-<div class="card"><h2>MF - <span id="mfCount">31</span> Schemes</h2><p><b>Total Invested:</b> Rs 42,26,089<br><b>Current Value:</b> <span id="mfTotal">Rs 67,17,723</span><br><b>Total Gain:</b> <span id="mfGain" class="green">Rs 24,91,634 (59.0%)</span></p><button class="btnLive" onclick="updateLive()">UPDATE LIVE NAV</button><button class="btnAdd" onclick="addFund()">+ ADD NEW FUND - SEARCH FROM MF LIST</button><button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET</button><button class="btnExcel" onclick="exportExcel()">EXPORT ONLY MF TO EXCEL</button><button class="btnBackup" onclick="downloadBackup()">DOWNLOAD BACKUP</button><p class="small" id="liveStatus">LIVE OFF - Your NAV is showing. Press button for LIVE NAV.<br>Motilal Midcap AS PER PORTFOLIO - 2 Folios - Rajendra + Komal - NAV 120.5351 - FIXED</p>
+<div class="card"><h2>MF - <span id="mfCount">31</span> Schemes</h2><p><b>Total Invested:</b> Rs 42,26,089<br><b>Current Value:</b> <span id="mfTotal">Rs 67,17,723</span><br><b>Total Gain:</b> <span id="mfGain" class="green">Rs 24,91,634 (59.0%)</span></p><div class="dailyBox"><b>📅 TODAY DAILY PROFIT / LOSS - બધા ફંડ મળીને</b><br><b id="dailyTotal" style="font-size:20px">Rs 0 - LIVE દબાવો</b><br><span class="small">LIVE દબાવો એટલે ગઈકાલના NAV થી આજનો NAV કેટલો વધ્યો / ઘટ્યો એ પ્રમાણે આજનો પ્રોફિટ આવશે.</span></div><button class="btnLive" onclick="updateLive()">UPDATE LIVE NAV</button><button class="btnAdd" onclick="addFund()">+ ADD NEW FUND - SEARCH FROM MF LIST</button><button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET</button><button class="btnExcel" onclick="exportExcel()">EXPORT ONLY MF TO EXCEL</button><button class="btnBackup" onclick="downloadBackup()">DOWNLOAD BACKUP</button><p class="small" id="liveStatus">LIVE OFF - Your NAV is showing. Press button for LIVE NAV.<br>Motilal Midcap AS PER PORTFOLIO - 2 Folios - Rajendra + Komal - NAV 120.5351 - FIXED</p>
 <div class="filterBar">
 <button class="btnFilter active" id="fAll" onclick="setFilter('All')">ALL</button>
 <button class="btnFilter" id="fRaj" onclick="setFilter('Rajendra')">RAJENDRA</button>
@@ -144,37 +143,37 @@ renderNCD();
 </div>
 <script>
 let MF = [
-{name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655},
-{name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75},
-{name:"Tata Digital India Fund Direct Plan Growth", folio:"RAJENDRA - 5524942", units:2299.99, inv:94000, nav:49.2266},
-{name:"Tata Small Cap Fund - Direct Plan - Growth", folio:"KOMALBEN - 9135304", units:1720.38, inv:50000, nav:42.6109},
-{name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967},
-{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth", folio:"", units:8256.226, inv:119994, nav:46.647},
-{name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967},
-{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 1", units:4706.74, inv:597493, nav:203.474},
-{name:"Nippon India Growth Mid Cap Fund - Direct Growth", folio:"", units:16.863, inv:60000, nav:822.2759},
-{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 1", units:2876.531, inv:226000, nav:106.5014},
-{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 2", units:824.529, inv:55010, nav:106.5014},
-{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 2", units:421.289, inv:50000, nav:203.474},
-{name:"Quant Multi Cap Fund - Direct Growth", folio:"", units:123.36, inv:60000, nav:733.3165},
-{name:"Quant Small Cap Fund - Direct Growth", folio:"", units:2153.126, inv:510000, nav:310.5746},
-{name:"Quant ELSS Tax Saver Fund - Direct Growth", folio:"", units:472.628, inv:150000, nav:473.3949},
-{name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 4350827", units:11580.61, inv:490000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Rajendra - 4799767", units:3992.48, inv:185000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 7116567", units:1043.72, inv:60000, nav:56.575},
-{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 10060201", units:918.26, inv:52500, nav:56.575},
-{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth", folio:"", units:2215.147, inv:55000, nav:28.0829},
-{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Rajendra", units:1043.842, inv:115015, nav:120.5351},
-{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Komal", units:500.022, inv:45000, nav:120.5351},
-{name:"Motilal Oswal Small Cap Fund - Direct Growth", folio:"", units:6999.65, inv:70000, nav:17.5112},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Rajendra", units:2153.09, inv:135000, nav:94.6945},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Komalben", units:2682.3, inv:60000, nav:33.2557},
-{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Rajendra", units:896.29, inv:20000, nav:33.2557},
-{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Komalben", units:269.94, inv:25000, nav:94.6945},
-{name:"DSP Small Cap Fund - Direct Growth", folio:"", units:809.87, inv:99716, nav:245.861},
-{name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006},
-{name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213}
+{name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655, daily:0},
+{name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75, daily:0},
+{name:"Tata Digital India Fund Direct Plan Growth", folio:"RAJENDRA - 5524942", units:2299.99, inv:94000, nav:49.2266, daily:0},
+{name:"Tata Small Cap Fund - Direct Plan - Growth", folio:"KOMALBEN - 9135304", units:1720.38, inv:50000, nav:42.6109, daily:0},
+{name:"Mirae Asset Large and Midcap Fund - Direct Growth", folio:"", units:3751.519, inv:327687, nav:182.967, daily:0},
+{name:"Mirae Asset NYSE FANG+ ETF Fund of Fund - Direct Growth", folio:"", units:8256.226, inv:119994, nav:46.647, daily:0},
+{name:"Mirae Asset Midcap Fund - Direct Growth", folio:"", units:2846.887, inv:83217, nav:182.967, daily:0},
+{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 1", units:4706.74, inv:597493, nav:203.474, daily:0},
+{name:"Nippon India Growth Mid Cap Fund - Direct Growth", folio:"", units:16.863, inv:60000, nav:822.2759, daily:0},
+{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 1", units:2876.531, inv:226000, nav:106.5014, daily:0},
+{name:"Nippon India Large Cap Fund - Direct Growth", folio:"Folio 2", units:824.529, inv:55010, nav:106.5014, daily:0},
+{name:"Nippon India Small Cap Fund - Direct Growth", folio:"Folio 2", units:421.289, inv:50000, nav:203.474, daily:0},
+{name:"Quant Multi Cap Fund - Direct Growth", folio:"", units:123.36, inv:60000, nav:733.3165, daily:0},
+{name:"Quant Small Cap Fund - Direct Growth", folio:"", units:2153.126, inv:510000, nav:310.5746, daily:0},
+{name:"Quant ELSS Tax Saver Fund - Direct Growth", folio:"", units:472.628, inv:150000, nav:473.3949, daily:0},
+{name:"Quant PSU Fund - Direct Growth", folio:"", units:13518.41, inv:150005, nav:10.7205, daily:0},
+{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 4350827", units:11580.61, inv:490000, nav:56.575, daily:0},
+{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Rajendra - 4799767", units:3992.48, inv:185000, nav:56.575, daily:0},
+{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 7116567", units:1043.72, inv:60000, nav:56.575, daily:0},
+{name:"Bandhan Small Cap Fund - Direct Growth", folio:"Komalben - 10060201", units:918.26, inv:52500, nav:56.575, daily:0},
+{name:"Motilal Oswal BSE Enhanced Value Index Fund - Direct Growth", folio:"", units:2215.147, inv:55000, nav:28.0829, daily:0},
+{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Rajendra", units:1043.842, inv:115015, nav:120.5351, daily:0},
+{name:"Motilal Oswal Midcap Fund - Direct Growth", folio:"Komal", units:500.022, inv:45000, nav:120.5351, daily:0},
+{name:"Motilal Oswal Small Cap Fund - Direct Growth", folio:"", units:6999.65, inv:70000, nav:17.5112, daily:0},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Rajendra", units:2153.09, inv:135000, nav:94.6945, daily:0},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Komalben", units:2682.3, inv:60000, nav:33.2557, daily:0},
+{name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Rajendra", units:896.29, inv:20000, nav:33.2557, daily:0},
+{name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Komalben", units:269.94, inv:25000, nav:94.6945, daily:0},
+{name:"DSP Small Cap Fund - Direct Growth", folio:"", units:809.87, inv:99716, nav:245.861, daily:0},
+{name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006, daily:0},
+{name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213, daily:0}
 ];
 let FD = [
 {name:"Equitas FD", amt:73628, mat:"2027-02-18"},
@@ -204,7 +203,7 @@ function show(t){
  if(t==='Monthly') renderMonthly();
  if(t==='Analysis') renderAnalysis();
 }
-function calcTotals(){ let tot=0, invTot=0; MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; }); return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot)}; }
+function calcTotals(){ let tot=0, invTot=0, daily=0; MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; daily+=(m.daily||0); }); return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot), daily:Math.round(daily)}; }
 function setFilter(f){ curFilter=f; ['All','Raj','Kom','Prof','Loss'].forEach(k=>{ let el=document.getElementById('f'+k); if(el) el.className='btnFilter'; }); let map={All:'fAll',Rajendra:'fRaj',Komal:'fKom',Profit:'fProf',Loss:'fLoss'}; let el=document.getElementById(map[f]); if(el) el.className='btnFilter active'; render(); }
 function render(){
  let html=''; let c=calcTotals();
@@ -220,7 +219,8 @@ function render(){
   shown++;
   let pct=(gain/m.inv*100).toFixed(1);
   let cls=gain>=0?'green':'red'; let sign=gain>=0?'+':'';
-  html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Folio: '+(m.folio||'-')+'<br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Invested: Rs '+m.inv.toLocaleString('en-IN')+' | Value: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Gain: <span class="'+cls+'">Rs '+Math.round(gain).toLocaleString('en-IN')+' ('+sign+pct+'%)</span><br><button class="btnEdit" onclick="editFund('+i+')">EDIT - ALL</button><button class="btnDel" onclick="deleteFund('+i+')">DELETE</button></div></div>';
+  let dCls=(m.daily||0)>=0?'green':'red'; let dSign=(m.daily||0)>=0?'+':'';
+  html+='<div class="card"><div class="item"><b>'+(i+1)+'. '+m.name+'</b><br>Folio: '+(m.folio||'-')+'<br>Units: '+m.units+' | NAV: <b>'+m.nav+'</b><br>Invested: Rs '+m.inv.toLocaleString('en-IN')+' | Value: Rs '+Math.round(cur).toLocaleString('en-IN')+'<br>Gain: <span class="'+cls+'">Rs '+Math.round(gain).toLocaleString('en-IN')+' ('+sign+pct+'%)</span><br><b>Today Daily: <span class="'+dCls+'">'+dSign+'Rs '+Math.round(m.daily||0).toLocaleString('en-IN')+'</span></b><br><button class="btnEdit" onclick="editFund('+i+')">EDIT - ALL</button><button class="btnDel" onclick="deleteFund('+i+')">DELETE</button></div></div>';
  });
  if(shown===0) html='<div class="card">No Fund Found in this Filter. ALL dabavo.</div>';
  document.getElementById('mfList').innerHTML=html;
@@ -228,6 +228,8 @@ function render(){
  let tg=c.tot-c.inv; let tp=(tg/c.inv*100).toFixed(1);
  document.getElementById('mfTotal').textContent='Rs '+c.tot.toLocaleString('en-IN');
  let gEl=document.getElementById('mfGain'); gEl.textContent='Rs '+tg.toLocaleString('en-IN')+' ('+(tg>=0?'+':'')+tp+'%)'; gEl.className=tg>=0?'green':'red';
+ let dEl=document.getElementById('dailyTotal'); if(dEl){ dEl.textContent=(c.daily>=0?'+ Rs ':'- Rs ')+Math.abs(c.daily).toLocaleString('en-IN'); dEl.style.color=c.daily>=0?'#1B5E20':'#D32F2F'; }
+ let tD=document.getElementById('tDaily'); if(tD){ tD.textContent=(c.daily>=0?'+ Rs ':'- Rs ')+Math.abs(c.daily).toLocaleString('en-IN'); }
  document.getElementById('tMFVal').textContent='Rs '+c.tot.toLocaleString('en-IN');
  document.getElementById('tAll').textContent='Rs '+(c.tot+1876996).toLocaleString('en-IN');
  document.getElementById('tMFGain').textContent='Rs '+tg.toLocaleString('en-IN')+' ('+(tg>=0?'+':'')+tp+'%)';
@@ -274,11 +276,11 @@ function exportMonthly(){ let csv='Month,Date,Invested,MF Value,Total Profit,New
 function exportAll(){
  try{
   let c=calcTotals(); let wb=XLSX.utils.book_new();
-  let totalData=[["RAJA PARIVAR PORTFOLIO - "+new Date().toISOString().slice(0,10)],[],["TOTAL PORTFOLIO"],["MF Value", c.tot],["MF Invested", c.inv],["MF Gain", c.tot-c.inv],["FD Invested", 1876996],["FD Maturity", 2009008],["GRAND TOTAL (MF Value + FD Invested)", c.tot+1876996]];
+  let totalData=[["RAJA PARIVAR PORTFOLIO - "+new Date().toISOString().slice(0,10)],[],["TOTAL PORTFOLIO"],["MF Value", c.tot],["MF Invested", c.inv],["MF Gain", c.tot-c.inv],["Today Daily Profit", c.daily],["FD Invested", 1876996],["FD Maturity", 2009008],["GRAND TOTAL (MF Value + FD Invested)", c.tot+1876996]];
   let ws1=XLSX.utils.aoa_to_sheet(totalData); XLSX.utils.book_append_sheet(wb, ws1, "TOTAL");
-  let mfData=[["No","Fund Name","Folio","Units","NAV","Invested","Current Value","Gain","Gain %"]];
-  MF.forEach((m,i)=>{ let cur=Math.round(m.units*m.nav); let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1)+"%"; mfData.push([i+1,m.name,m.folio,m.units,m.nav,m.inv,cur,gain,pct]); });
-  mfData.push([]); mfData.push(["Total Invested", c.inv, "Total Value", c.tot, "Total Gain", c.tot-c.inv]);
+  let mfData=[["No","Fund Name","Folio","Units","NAV","Invested","Current Value","Gain","Gain %","Today Daily"]];
+  MF.forEach((m,i)=>{ let cur=Math.round(m.units*m.nav); let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1)+"%"; mfData.push([i+1,m.name,m.folio,m.units,m.nav,m.inv,cur,gain,pct,Math.round(m.daily||0)]); });
+  mfData.push([]); mfData.push(["Total Invested", c.inv, "Total Value", c.tot, "Total Gain", c.tot-c.inv, "Today Daily", c.daily]);
   let ws2=XLSX.utils.aoa_to_sheet(mfData); XLSX.utils.book_append_sheet(wb, ws2, "MF");
   let monData=[["Month","Date","Invested","MF Value","Total Profit","New Investment Added","Market Gain","Total Value Change"]];
   MONTHLY.forEach((mm,i)=>{ let prev=i>0?MONTHLY[i-1]:null; let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0; monData.push([mm.month,mm.date,mm.inv,mm.val,mm.gain,newInv,mkt,valCh]); });
@@ -303,26 +305,25 @@ async function addFund(){
   let idx=parseInt(pick)-1; if(isNaN(idx)||idx<0||idx>=sj.length) return;
   let chosen=sj[idx]; let r=await fetch('https://api.mfapi.in/mf/'+chosen.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav);
   let folio=prompt('Folio / Name - Rajendra / Komal lakho:')||''; let units=parseFloat(prompt('Units lakho:')); if(!units) return; let inv=parseFloat(prompt('Invested / Cost lakho:')); if(!inv) return;
-  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav}); render(); alert('New Fund Added!\n'+chosen.schemeName+'\nNAV: '+nav);
+  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav,daily:0}); render(); alert('New Fund Added!\n'+chosen.schemeName+'\nNAV: '+nav);
  }catch(e){ alert('Internet / MF API ma problem che.'); }
  document.getElementById('liveStatus').textContent='LIVE OFF - Your NAV is showing.';
 }
 function exportExcel(){
- let csv='No,Fund Name,Folio,Units,NAV,Invested,Current Value,Gain,Gain %\n';
- MF.forEach((m,i)=>{ let cur=m.units*m.nav; let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1); csv+=(i+1)+',"'+m.name+'","'+m.folio+'",'+m.units+','+m.nav+','+m.inv+','+Math.round(cur)+','+Math.round(gain)+','+pct+'%\n'; });
+ let csv='No,Fund Name,Folio,Units,NAV,Invested,Current Value,Gain,Gain %,Today Daily\n';
+ MF.forEach((m,i)=>{ let cur=m.units*m.nav; let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1); csv+=(i+1)+',"'+m.name+'","'+m.folio+'",'+m.units+','+m.nav+','+m.inv+','+Math.round(cur)+','+Math.round(gain)+','+pct+'%,'+Math.round(m.daily||0)+'\n'; });
  let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-Backup-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); alert('Excel downloaded - MF '+MF.length+' schemes');
 }
 function downloadBackup(){ let data={date:new Date().toISOString(),MF:MF,MONTHLY:MONTHLY,FD:FD}; let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-BACKUP-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); alert('BACKUP downloaded'); }
 async function updateLive(){
  document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 30 second lagse, please wait...'; let updated=0;
- for(let m of MF){ try{ let q=encodeURIComponent(m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth','')); let s=await fetch('https://api.mfapi.in/mf/search?q='+q); let sj=await s.json(); let found=null; if(sj && sj.length){ found=sj.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || sj[0]; } if(!found) continue; let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav); if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ m.nav=nav; updated++; } }catch(e){} }
+ for(let m of MF){ try{ let q=encodeURIComponent(m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth','')); let s=await fetch('https://api.mfapi.in/mf/search?q='+q); let sj=await s.json(); let found=null; if(sj && sj.length){ found=sj.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || sj[0]; } if(!found) continue; let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav); if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ m.daily = (nav - m.nav) * m.units; m.prevNav = m.nav; m.nav=nav; updated++; } }catch(e){} }
  render(); document.getElementById('liveStatus').textContent='LIVE Done: '+updated+'/'+MF.length+' funds updated.';
 }
 render();
 renderMonthly();
 </script>
 <script>
-// FD - ADD + EDIT + SORT - સાદો, હલકો કોડ - કોઈ setInterval નથી
 function fdShowForm(oldEl){
  let old=document.getElementById('fdEditBox'); if(old) old.remove();
  let box=document.createElement('div'); box.id='fdEditBox';
