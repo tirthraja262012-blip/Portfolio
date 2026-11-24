@@ -22,6 +22,7 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .btnLive{background:#1B5E20;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
 .btnExcel{background:#0D47A1;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
 .btnBackup{background:#4A148C;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
+.btnImport{background:#00695C;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;font-weight:bold;margin-top:8px}
 .btnAdd{background:#6A1B9A;color:#fff;border:3px solid #FFD700;padding:14px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px}
 .btnEdit{background:#1565C0;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px;margin-right:8px}
 .btnDel{background:#D32F2F;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px}
@@ -86,11 +87,11 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 
 <div id="pTotal">
 <div class="totalBox"><b>TOTAL PORTFOLIO</b><br>MF: <span id="tMFVal">Rs 67,17,723</span><br>FD Invested: Rs 18,76,996<br>FD Maturity: Rs 20,09,008<br>NCD: <span id="tNCDVal">Rs 0</span><br>SHARE: <span id="tShareVal">Rs 0</span> <span class="small" style="color:#FFD700" id="tShareGain"></span><br>PREMIUM Yearly: <span id="tPremVal">Rs 0</span><br><hr><b>GRAND TOTAL: <span id="tAll">Rs 85,94,719</span></b><br><span class="small" style="color:#FFD700">MF Gain: <span id="tMFGain">Rs 24,91,634 (59.0%)</span></span><br><span class="small" style="color:#FFD700">Today Daily Profit: <span id="tDaily">Rs 0 - LIVE દબાવો</span></span></div>
-<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 7 SHEET - TOTAL + MF + MONTHLY + FD + NCD + SHARE + PREMIUM</button>
+<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 8 SHEET - TOTAL + MF + MONTHLY + FD + NCD + SHARE + PREMIUM + ANALYSIS</button>
 </div>
 
 <div id="pMF" style="display:none">
-<div class="card"><h2>MF - <span id="mfCount">31</span> Schemes</h2><p><b>Total Invested:</b> Rs 42,26,089<br><b>Current Value:</b> <span id="mfTotal">Rs 67,17,723</span><br><b>Total Gain:</b> <span id="mfGain" class="green">Rs 24,91,634 (59.0%)</span></p><div class="dailyBox"><b>📅 TODAY DAILY PROFIT / LOSS - બધા ફંડ મળીને</b><br><b id="dailyTotal" style="font-size:20px">Rs 0 - LIVE દબાવો</b><br><span class="small">LIVE દબાવો એટલે ગઈકાલના NAV થી આજનો NAV કેટલો વધ્યો / ઘટ્યો એ પ્રમાણે આજનો પ્રોફિટ આવશે.</span></div><button class="btnLive" onclick="updateLive()">UPDATE LIVE NAV</button><button class="btnAdd" onclick="addFund()">+ ADD NEW FUND - SEARCH FROM MF LIST</button><button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 7 SHEET</button><button class="btnExcel" onclick="exportExcel()">EXPORT ONLY MF TO EXCEL</button><button class="btnBackup" onclick="downloadBackup()">DOWNLOAD BACKUP</button><p class="small" id="liveStatus">LIVE OFF - Your NAV is showing. Press button for LIVE NAV.<br>Motilal Midcap AS PER PORTFOLIO - 2 Folios - Rajendra + Komal - NAV 120.5351 - FIXED</p>
+<div class="card"><h2>MF - <span id="mfCount">31</span> Schemes</h2><p><b>Total Invested:</b> Rs 42,26,089<br><b>Current Value:</b> <span id="mfTotal">Rs 67,17,723</span><br><b>Total Gain:</b> <span id="mfGain" class="green">Rs 24,91,634 (59.0%)</span></p><div class="dailyBox"><b>📅 TODAY DAILY PROFIT / LOSS - બધા ફંડ મળીને</b><br><b id="dailyTotal" style="font-size:20px">Rs 0 - LIVE દબાવો</b><br><span class="small">LIVE દબાવો એટલે ગઈકાલના NAV થી આજનો NAV કેટલો વધ્યો / ઘટ્યો એ પ્રમાણે આજનો પ્રોફિટ આવશે.</span></div><button class="btnLive" onclick="updateLive()">UPDATE LIVE NAV</button><button class="btnAdd" onclick="addFund()">+ ADD NEW FUND - SEARCH FROM MF LIST</button><button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 8 SHEET</button><button class="btnExcel" onclick="exportExcel()">EXPORT ONLY MF TO EXCEL</button><button class="btnBackup" onclick="downloadBackup()">DOWNLOAD BACKUP</button><button class="btnImport" onclick="document.getElementById('importFile').click()">IMPORT BACKUP - Bija Device No Data Lavvo</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImportFile(event)"><p class="small" id="liveStatus">LIVE OFF - Your NAV is showing. Press button for LIVE NAV.<br>Motilal Midcap AS PER PORTFOLIO - 2 Folios - Rajendra + Komal - NAV 120.5351 - FIXED</p>
 <div class="filterBar">
 <button class="btnFilter active" id="fAll" onclick="setFilter('All')">ALL</button>
 <button class="btnFilter" id="fRaj" onclick="setFilter('Rajendra')">RAJENDRA</button>
@@ -120,7 +121,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div id="pNCD" style="display:none"><div class="card"><h2>NCD - Total Invested: <span id="ncdTotalInvested">0</span> | Total Maturity: <span id="ncdTotalMaturity">0</span> | Total Count: <span id="ncdCount">0</span></h2><button onclick="showNcdForm()">+ ADD NEW NCD</button><br><br><label>Search By Owner Name:</label><input type="text" id="ncdSearchOwner" placeholder="Search By Owner Name" oninput="renderNCD()"> <label>Search By Company Name:</label><input type="text" id="ncdSearchCompany" placeholder="Search By Company Name" oninput="renderNCD()"><div id="ncdList"></div><h3>NCD Analysis - All NCD Combined</h3><div id="ncdAnalysis"></div><p>Total Investment: <span id="ncdAnaInvested">0</span> | Weighted Avg Yield: <span id="ncdAnaYield">0</span>% | Next Payout: <span id="ncdAnaNext">-</span></p><h3>Email Reminder</h3><input type="email" id="ncdEmail" placeholder="Enter Your Email"><button onclick="saveNcdEmail()">Save Email</button><p>Reminder: 1 Month Before Maturity + 7 Days Before Maturity + Continue Reminder</p></div>
 <div id="ncdForm" style="display:none;background:#fff;padding:15px;border:2px solid #000;margin:10px;"><h3 id="ncdFormTitle">ADD NEW NCD</h3>Owner Name:<br><input id="fOwner" style="width:100%"><br>Company Name:<br><input id="fCompany" style="width:100%"><br>ISIN:<br><input id="fIsin" style="width:100%"><br>Coupon / Rate %:<br><input id="fCoupon" style="width:100%"><br>Rating:<br><input id="fRating" style="width:100%"><br>Quantity:<br><input id="fQty" style="width:100%"><br>Investment Amount:<br><input id="fAmount" type="number" style="width:100%"><br>Investment Date:<br><input id="fInvDate" type="date" style="width:100%"><br>Maturity Date:<br><input id="fMatDate" type="date" style="width:100%"><br>Maturity Amount:<br><input id="fMatAmount" type="number" style="width:100%"><br>Payout Type:<br><select id="fPayout" style="width:100%"><option>Monthly</option><option>Quarterly</option><option>Yearly</option><option>On Maturity</option></select><br><br><button onclick="saveNcdForm()">SAVE</button> <button onclick="document.getElementById('ncdForm').style.display='none'">CANCEL</button></div></div>
 
-<!-- ============ SHARE - NEW FULL ============ -->
 <div id="pShare" style="display:none">
 <div class="card"><h2>SHARE - <span id="shareCount">0</span> Shares</h2>
 <p><b>Total Buy:</b> Rs <span id="shareBuyTot">0</span> | <b>Total Sell:</b> Rs <span id="shareSellTot">0</span><br><b>Remaining Value:</b> Rs <span id="shareRemVal">0</span> | <b>Realised:</b> <span id="shareRealised">0</span> | <b>Unrealised:</b> <span id="shareUnrealised">0</span></p>
@@ -136,7 +136,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 </div>
 <input class="searchBox" id="shareSearch" placeholder="Search Share Name..." oninput="renderShare()">
 </div>
-
 <div id="shareForm" class="formBox">
 <h3 id="shareFormTitle">ADD NEW SHARE</h3>
 <label>Share Name</label><input id="sName" placeholder="e.g. RELIANCE, TCS" list="shareNameList"><datalist id="shareNameList"></datalist>
@@ -152,7 +151,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div id="shareList"></div>
 </div>
 
-<!-- ============ PREMIUM - NEW FULL ============ -->
 <div id="pPrem" style="display:none">
 <div class="card"><h2>PREMIUM / POLICY - <span id="premCount">0</span> Policies</h2>
 <p><b>Yearly Total:</b> Rs <span id="premYearlyTot">0</span> | <b>This Month Due:</b> <span id="premThisMonth">0</span></p>
@@ -171,7 +169,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <select id="premTypeFilter" onchange="renderPrem()"><option value="">ALL TYPES</option></select>
 <input class="searchBox" id="premSearch" placeholder="Search Policy Name..." oninput="renderPrem()">
 </div>
-
 <div id="premForm" class="formBox">
 <h3 id="premFormTitle">ADD NEW POLICY</h3>
 <label>Policy Name</label><input id="pName" placeholder="e.g. LIC Jeevan Anand" list="premNameList"><datalist id="premNameList"></datalist>
@@ -197,7 +194,7 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div class="card"><h2>MONTHLY HISTORY</h2>
 <p><b>અત્યારે:</b> MF Value <span id="mNowVal">Rs 67,17,723</span> | Invested <span id="mNowInv">Rs 42,26,089</span> | Profit <span id="mNowGain">Rs 24,91,634</span></p>
 <button class="btnMonth" onclick="saveMonth()">SAVE THIS MONTH - આ મહિનો સેવ કરો</button>
-<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 7 SHEET</button>
+<button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 8 SHEET</button>
 <button class="btnExcel" onclick="exportMonthly()">EXPORT ONLY MONTHLY TO EXCEL</button>
 </div>
 <div id="monthlyList"></div>
@@ -262,7 +259,38 @@ let FD = [
 ];
 let MONTHLY = [{month:"Nov 2026 - Starting", date:"2026-11-23", inv:4226089, val:6717723, gain:2491634}];
 let curFilter='All'; let editIndex=-1; let selectedYear='2026';
-
+// ===== GRAND TOTAL FIX + IMPORT BACKUP - NEW =====
+function updateGrandTotal(){
+  try{
+    let c=calcTotals();
+    let shareVal=shares.reduce((s,x)=>s+shareCalc(x).remVal,0);
+    let ncdVal=ncds.reduce((s,x)=>s+Number(x.amount||0),0);
+    let el=document.getElementById('tAll'); if(el) el.textContent='Rs '+(c.tot+1876996+ncdVal+Math.round(shareVal)).toLocaleString('en-IN');
+    let sv=document.getElementById('tShareVal'); if(sv) sv.textContent='Rs '+Math.round(shareVal).toLocaleString('en-IN');
+    let nv=document.getElementById('tNCDVal'); if(nv) nv.textContent='Rs '+ncdVal.toLocaleString('en-IN');
+  }catch(e){}
+}
+function handleImportFile(ev){
+  let f=ev.target.files[0]; if(!f) return;
+  let r=new FileReader();
+  r.onload=function(){
+    try{
+      let d=JSON.parse(r.result);
+      if(!d || (!d.MF && !d.shares && !d.prems && !d.ncds)){ alert('Aa BACKUP file nathi - RAJA-BACKUP- wali file pasand karo'); return; }
+      if(!confirm('IMPORT karvu? Have no data aana thi badlai jashe. OK dabavo.')) return;
+      if(d.MF) MF=d.MF;
+      if(d.MONTHLY) MONTHLY=d.MONTHLY;
+      if(d.FD) FD=d.FD;
+      if(d.ncds){ ncds=d.ncds; localStorage.setItem('ncds',JSON.stringify(ncds)); }
+      if(d.shares){ shares=d.shares; localStorage.setItem('shares_v2',JSON.stringify(shares)); }
+      if(d.prems){ prems=d.prems; localStorage.setItem('prems_v2',JSON.stringify(prems)); }
+      if(d.premTypes){ premTypes=d.premTypes; localStorage.setItem('premTypes',JSON.stringify(premTypes)); }
+      render(); renderNCD(); renderShare(); renderPrem(); renderMonthly(); updateGrandTotal();
+      alert('IMPORT Thai Gayu Raja! Mobile nu badhu PC ma avi gayu. TOTAL jovo.');
+    }catch(e){ alert('File kharab che - BACKUP file fari try karo'); }
+  };
+  r.readAsText(f); ev.target.value='';
+}
 // ===== NCD - UNCHANGED =====
 let ncds = JSON.parse(localStorage.getItem('ncds') || '[]');
 function showNcdForm(){document.getElementById('ncdFormTitle').innerText='ADD NEW NCD';['fOwner','fCompany','fIsin','fCoupon','fRating','fQty','fAmount','fInvDate','fMatDate','fMatAmount'].forEach(id=>document.getElementById(id).value='');document.getElementById('ncdForm').style.display='block';}
@@ -270,7 +298,7 @@ function saveNcdForm(){let n={owner:document.getElementById('fOwner').value,comp
 function editNCD(i){let n=ncds[i];document.getElementById('ncdFormTitle').innerText='EDIT NCD';document.getElementById('fOwner').value=n.owner;document.getElementById('fCompany').value=n.company;document.getElementById('fIsin').value=n.isin;document.getElementById('fCoupon').value=n.coupon;document.getElementById('fRating').value=n.rating;document.getElementById('fQty').value=n.qty;document.getElementById('fAmount').value=n.amount;document.getElementById('fInvDate').value=n.invDate;document.getElementById('fMatDate').value=n.matDate;document.getElementById('fMatAmount').value=n.matAmount;document.getElementById('fPayout').value=n.payout;document.getElementById('ncdForm').style.display='block';}
 function deleteNCD(i){if(!confirm('Delete This NCD?'))return;ncds.splice(i,1);localStorage.setItem('ncds',JSON.stringify(ncds));renderNCD();}
 function getNcdColor(d){let diff=(new Date(d)-new Date())/(1000*60*60*24);if(diff<0)return 'background:#ffcccc';if(diff<=7)return 'background:#ff9999';if(diff<=30)return 'background:#ffcc99';if(diff<=90)return 'background:#ffff99';return 'background:#ccffcc';}
-function renderNCD(){let oF=(document.getElementById('ncdSearchOwner').value||'').toLowerCase();let cF=(document.getElementById('ncdSearchCompany').value||'').toLowerCase();let list=ncds.filter(n=>n.owner.toLowerCase().includes(oF)&&n.company.toLowerCase().includes(cF)).sort((a,b)=>new Date(a.matDate)-new Date(b.matDate));let html='';let tI=0,tM=0;list.forEach((n,i)=>{tI+=n.amount;tM+=n.matAmount;html+=`<div style="${getNcdColor(n.matDate)};padding:10px;margin:5px;border:1px solid #000"><b>${n.owner} | ${n.company}</b><br>ISIN: ${n.isin} | Coupon: ${n.coupon}% | Rating: ${n.rating} | Qty: ${n.qty}<br>Investment: Rs ${n.amount} | Date: ${n.invDate} | Maturity: ${n.matDate} | Maturity Amount: Rs ${n.matAmount}<br>Payout: ${n.payout}<br><button onclick="editNCD(${i})">EDIT</button> <button onclick="deleteNCD(${i})">DELETE</button></div>`;});document.getElementById('ncdList').innerHTML=html;document.getElementById('ncdTotalInvested').innerText=tI;document.getElementById('ncdTotalMaturity').innerText=tM;document.getElementById('ncdCount').innerText=list.length;document.getElementById('ncdAnaInvested').innerText=tI;let w=list.reduce((s,n)=>s+(n.amount*parseFloat(n.coupon||0)),0)/(tI||1);document.getElementById('ncdAnaYield').innerText=w.toFixed(2);document.getElementById('ncdAnaNext').innerText=list.length?list[0].matDate+' - '+list[0].company:'-';let tv=document.getElementById('tNCDVal');if(tv)tv.textContent='Rs '+tI.toLocaleString('en-IN');}
+function renderNCD(){let oF=(document.getElementById('ncdSearchOwner').value||'').toLowerCase();let cF=(document.getElementById('ncdSearchCompany').value||'').toLowerCase();let list=ncds.filter(n=>n.owner.toLowerCase().includes(oF)&&n.company.toLowerCase().includes(cF)).sort((a,b)=>new Date(a.matDate)-new Date(b.matDate));let html='';let tI=0,tM=0;list.forEach((n,i)=>{tI+=n.amount;tM+=n.matAmount;html+=`<div style="${getNcdColor(n.matDate)};padding:10px;margin:5px;border:1px solid #000"><b>${n.owner} | ${n.company}</b><br>ISIN: ${n.isin} | Coupon: ${n.coupon}% | Rating: ${n.rating} | Qty: ${n.qty}<br>Investment: Rs ${n.amount} | Date: ${n.invDate} | Maturity: ${n.matDate} | Maturity Amount: Rs ${n.matAmount}<br>Payout: ${n.payout}<br><button onclick="editNCD(${i})">EDIT</button> <button onclick="deleteNCD(${i})">DELETE</button></div>`;});document.getElementById('ncdList').innerHTML=html;document.getElementById('ncdTotalInvested').innerText=tI;document.getElementById('ncdTotalMaturity').innerText=tM;document.getElementById('ncdCount').innerText=list.length;document.getElementById('ncdAnaInvested').innerText=tI;let w=list.reduce((s,n)=>s+(n.amount*parseFloat(n.coupon||0)),0)/(tI||1);document.getElementById('ncdAnaYield').innerText=w.toFixed(2);document.getElementById('ncdAnaNext').innerText=list.length?list[0].matDate+' - '+list[0].company:'-';let tv=document.getElementById('tNCDVal');if(tv)tv.textContent='Rs '+tI.toLocaleString('en-IN');updateGrandTotal();}
 function saveNcdEmail(){localStorage.setItem('ncdEmail',document.getElementById('ncdEmail').value);alert('Email Saved');}
 
 // ===== SHARE - NEW =====
@@ -288,7 +316,6 @@ function shareCalc(s){
   return {bQ,bA,sQ,sA,remQ,avg,realised,unrealised,cmp,remVal:remQ*cmp};
 }
 function calcXIRR(s){
-  // Simple XIRR via Newton - buys negative, sells positive, remaining as sell today at CMP
   let flows=[]; s.buys.forEach(b=>flows.push({d:new Date(b.date),amt:-Number(b.qty)*Number(b.price)}));
   s.sells.forEach(b=>flows.push({d:new Date(b.date),amt:Number(b.qty)*Number(b.price)}));
   let c=shareCalc(s); if(c.remQ>0) flows.push({d:new Date(),amt:c.remVal});
@@ -369,6 +396,7 @@ function renderShare(){
   });
   if(!list.length) html='<div class="card">No Share Found. + ADD NEW SHARE dabavo.</div>';
   document.getElementById('shareList').innerHTML=html;
+  updateGrandTotal();
 }
 function exportShare(){
   let csv='Share Name,Owner,Date,Type,Qty,Price,Total\n';
@@ -434,7 +462,6 @@ function renderPrem(){
   let search=(document.getElementById('premSearch').value||'').toLowerCase();
   let typeF=document.getElementById('premTypeFilter').value||'';
   let now=new Date();
-  // SORTING - Earliest Due First
   let sorted=[...prems].sort((a,b)=>new Date(a.due)-new Date(b.due));
   let list=sorted.filter(p=>{
     if(search && !p.name.toLowerCase().includes(search)) return false;
@@ -452,7 +479,6 @@ function renderPrem(){
   document.getElementById('premYearlyTot').textContent=Math.round(yearly).toLocaleString('en-IN');
   document.getElementById('premThisMonth').textContent=thisMonth;
   let tv=document.getElementById('tPremVal'); if(tv) tv.textContent='Rs '+Math.round(prems.reduce((s,p)=>s+yearlyAmount(p),0)).toLocaleString('en-IN');
-  // Alerts
   let alerts=list.filter(p=>{let diff=(new Date(p.due)-now)/(1000*60*60*24); return diff<=30;});
   let ab=document.getElementById('premAlertBox');
   if(alerts.length){ ab.innerHTML='<div style="background:#FFEB3B;padding:10px;border-radius:8px;margin-top:8px"><b>🔔 REMINDER - '+alerts.length+' Policy Due Soon</b><br>'+alerts.map(p=>p.name+' - Due '+p.due+' - Rs '+p.amount+(p.email?' - Email: '+p.email:'')).join('<br>')+'<br><button onclick="sendPremReminder()" style="margin-top:6px;background:#1565C0;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:bold">SEND EMAIL REMINDER - Gmail Kholshe</button></div>'; }
@@ -527,6 +553,7 @@ function render(){
  document.getElementById('mNowVal').textContent='Rs '+c.tot.toLocaleString('en-IN');
  document.getElementById('mNowInv').textContent='Rs '+c.inv.toLocaleString('en-IN');
  document.getElementById('mNowGain').textContent='Rs '+tg.toLocaleString('en-IN');
+ updateGrandTotal();
 }
 function deleteFund(i){ if(confirm('Delete '+MF[i].name+' - '+(MF[i].folio||'')+' ?')){ MF.splice(i,1); render(); alert('Deleted. TOTAL auto updated.'); } }
 function editFund(i){ editIndex=i; let m=MF[i]; document.getElementById('eName').value=m.name; document.getElementById('eFolio').value=m.folio||''; document.getElementById('eUnits').value=m.units; document.getElementById('eNav').value=m.nav; document.getElementById('eInv').value=m.inv; document.getElementById('editBox').style.display='flex'; }
