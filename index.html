@@ -900,5 +900,12 @@ setInterval(()=>{
   });
 },1000);
 </script>
+ <script>
+try{document.getElementById('lock')?.remove();}catch(e){}
+window.unlocked=true;
+window.isLocked=false;
+localStorage.setItem('unlocked','1');
+document.querySelectorAll('button').forEach(b=>b.disabled=false);
+</script>
 </body>
 </html>
