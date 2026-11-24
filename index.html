@@ -1,105 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <style>
-  #lock{display:none!important;}
-/* VIP BLACK + GOLDEN */
-body{
-  background:#0a0a0a !important;
-  color:#fff !important;
-}
-header, .header, div[class*="header"]{
-  background:linear-gradient(135deg,#000000,#1a1a1a) !important;
-  border-bottom:2px solid #d4af37 !important;
-}
-button, .btn, [class*="add"]{
-  background:linear-gradient(135deg,#d4af37,#f5d76e) !important;
-  color:#000 !important;
-  font-weight:bold !important;
-  border:none !important;
-}
-.fd-card, .card{
-  background:#1a1a1a !important;
-  border:1px solid #d4af37 !important;
-  color:#fff !important;
-  border-radius:18px !important;
-}
- </style>
- <style>
-/* HEADER + બધા અક્ષર FIX */
-header, .header, nav, th, thead, h1, h2, h3, h4{
-  color:#ffffff !important;
-  background:#1a1a1a !important;
-}
-header *, .header *, nav *, th *, thead *{
-  color:#ffffff !important;
-}
-h1, h2, h3{
-  color:#f5d76e !important;
-}
-table, tr, td{
-  color:#ffffff !important;
-  background:#1a1a1a !important;
-}
-</style>
-<script>
-function smartFix2(){
-  document.querySelectorAll('*').forEach(el=>{
-    if(['SCRIPT','STYLE','HEAD','HTML','BODY'].includes(el.tagName)) return;
-    // હવે 12 ડગલા સુધી જુઓ
-    let node = el, bg = null, hops = 0;
-    while(node && hops < 12){
-      let c = getComputedStyle(node).backgroundColor;
-      let m = c.match(/[\d.]+/g);
-      if(m && parseFloat(m[3]||1) > 0.9){
-        bg = c; break;
-      }
-      node = node.parentElement; hops++;
-    }
-    if(!bg) return;
-    let m = bg.match(/\d+/g);
-    let bright = (parseInt(m[0])*0.299 + parseInt(m[1])*0.587 + parseInt(m[2])*0.114);
-    let col = bright > 160 ? '#111111' : (bright > 90 ? '#ffffff' : '#f5d76e');
-    // હેડિંગ સિવાય બધાને આ કલર
-    if(el.tagName==='H1'||el.tagName==='H2'){
-      el.style.setProperty('color', '#f5d76e', 'important');
-    } else {
-      el.style.setProperty('color', col, 'important');
-    }
-    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT'){
-      el.style.setProperty('color', '#111111', 'important');
-      el.style.setProperty('background-color', '#ffffff', 'important');
-    }
-  });
-  document.querySelectorAll('h1,h2').forEach(h=>{
-    h.querySelectorAll('*').forEach(s=> s.style.setProperty('color', '#f5d76e', 'important'));
-  });
-}
-setInterval(smartFix2, 500);
-setTimeout(smartFix2, 300);
-</script>
-<script>
-function fixFD(){
-  document.querySelectorAll('*').forEach(el=>{
-    let t = el.textContent || '';
-    if(t.includes(' FD') || t.includes('Maturity Date') || t.includes('Amount: Rs')){
-      let node = el;
-      for(let i=0;i<5 && node;i++){
-        node.style.setProperty('color', '#111111', 'important');
-        node = node.parentElement;
-      }
-      el.style.setProperty('color', '#111111', 'important');
-    }
-    if(el.tagName==='BUTTON' && (el.textContent||'').includes('EDIT')){
-      el.style.setProperty('color', '#111111', 'important');
-      el.style.setProperty('background-color', '#f5d76e', 'important');
-    }
-  });
-}
-setInterval(fixFD, 500);
-setTimeout(fixFD, 300);
-</script>
- <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RAJA PARIVAR - MF FINAL FIXED</title>
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -110,8 +12,8 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .header h1{color:#FFD700;margin:5px 0;font-size:20px}
 .logo{width:95px;height:95px;background:#fff;border-radius:50%;margin:0 auto;overflow:hidden;border:2px solid #FFD700}
 .logo img{width:100%;height:100%;object-fit:cover}
-.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto;padding-bottom:4px}
-.tab{flex:1;min-width:78px;padding:10px 4px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:11px;cursor:pointer;white-space:nowrap}
+.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto;padding-bottom:4px;position:relative;z-index:10}
+.tab{flex:1;min-width:78px;padding:10px 4px;background:#fff;border:2px solid #6B0F1A;border-radius:10px;text-align:center;font-weight:bold;font-size:11px;cursor:pointer;white-space:nowrap;pointer-events:auto!important;position:relative;z-index:10}
 .tab.active{background:#6B0F1A;color:#fff}
 .card{background:#fff;border:2px solid #FFD700;border-radius:12px;padding:12px;margin:10px 0}
 .item{background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0;font-size:14px;line-height:1.8;word-wrap:break-word}
@@ -132,8 +34,6 @@ body{font-family:Arial;margin:0;padding:10px;background:#FFF8E1}
 .green{color:#1B5E20;font-weight:bold}
 .red{color:#D32F2F;font-weight:bold}
 .blue{color:#0D47A1;font-weight:bold}
-#lock{position:fixed;inset:0;background:#6B0F1A;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:20px;text-align:center}
-#lock input{font-size:22px;text-align:center;max-width:240px}
 .totalBox{background:#6B0F1A;color:#fff;border-radius:12px;padding:14px;margin:10px 0;font-size:16px;line-height:2}
 .totalBox b{color:#FFD700}
 #editBox{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}
@@ -151,7 +51,6 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 </style>
 </head>
 <body>
-<div id="lock"><h2>RAJA PARIVAR</h2><p>Jay Swaminarayan<br>Enter PIN</p><input id="pin" type="password"autocomplete="new-password" maxlength="6" placeholder="123456"><button class="btn" onclick="unlock()">OPEN</button></div>
 
 <div id="editBox"><div id="editInner">
 <h3 style="margin:0;color:#6B0F1A">EDIT FUND - જે બદલવું હોય એ જ બદલો, બાકીનું અડશો નહીં</h3>
@@ -214,42 +113,35 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div id="ncdForm" style="display:none;background:#fff;padding:15px;border:2px solid #000;margin:10px;"><h3 id="ncdFormTitle">ADD NEW NCD</h3>Owner Name:<br><input id="fOwner" style="width:100%"><br>Company Name:<br><input id="fCompany" style="width:100%"><br>ISIN:<br><input id="fIsin" style="width:100%"><br>Coupon / Rate %:<br><input id="fCoupon" style="width:100%"><br>Rating:<br><input id="fRating" style="width:100%"><br>Quantity:<br><input id="fQty" style="width:100%"><br>Investment Amount:<br><input id="fAmount" type="number" style="width:100%"><br>Investment Date:<br><input id="fInvDate" type="date" style="width:100%"><br>Maturity Date:<br><input id="fMatDate" type="date" style="width:100%"><br>Maturity Amount:<br><input id="fMatAmount" type="number" style="width:100%"><br>Payout Type:<br><select id="fPayout" style="width:100%"><option>Monthly</option><option>Quarterly</option><option>Yearly</option><option>On Maturity</option></select><br><br><button onclick="saveNcdForm()">SAVE</button> <button onclick="document.getElementById('ncdForm').style.display='none'">CANCEL</button></div></div>
 <script>
 let ncds = JSON.parse(localStorage.getItem('ncds') || '[]');
-let editIndex = -1;
-function showNcdForm(){editIndex=-1;document.getElementById('ncdFormTitle').innerText='ADD NEW NCD';['fOwner','fCompany','fIsin','fCoupon','fRating','fQty','fAmount','fInvDate','fMatDate','fMatAmount'].forEach(id=>document.getElementById(id).value='');document.getElementById('ncdForm').style.display='block';}
-function saveNcdForm(){let n={owner:document.getElementById('fOwner').value,company:document.getElementById('fCompany').value,isin:document.getElementById('fIsin').value,coupon:document.getElementById('fCoupon').value,rating:document.getElementById('fRating').value,qty:document.getElementById('fQty').value,amount:Number(document.getElementById('fAmount').value),invDate:document.getElementById('fInvDate').value,matDate:document.getElementById('fMatDate').value,matAmount:Number(document.getElementById('fMatAmount').value),payout:document.getElementById('fPayout').value};if(!n.owner||!n.company){alert('Please Enter Owner + Company');return;}if(editIndex>=0){ncds[editIndex]=n;}else{ncds.push(n);}localStorage.setItem('ncds',JSON.stringify(ncds));document.getElementById('ncdForm').style.display='none';renderNCD();}
-function editNCD(i){let n=ncds[i];editIndex=i;document.getElementById('ncdFormTitle').innerText='EDIT NCD';document.getElementById('fOwner').value=n.owner;document.getElementById('fCompany').value=n.company;document.getElementById('fIsin').value=n.isin;document.getElementById('fCoupon').value=n.coupon;document.getElementById('fRating').value=n.rating;document.getElementById('fQty').value=n.qty;document.getElementById('fAmount').value=n.amount;document.getElementById('fInvDate').value=n.invDate;document.getElementById('fMatDate').value=n.matDate;document.getElementById('fMatAmount').value=n.matAmount;document.getElementById('fPayout').value=n.payout;document.getElementById('ncdForm').style.display='block';}
+function showNcdForm(){document.getElementById('ncdFormTitle').innerText='ADD NEW NCD';['fOwner','fCompany','fIsin','fCoupon','fRating','fQty','fAmount','fInvDate','fMatDate','fMatAmount'].forEach(id=>document.getElementById(id).value='');document.getElementById('ncdForm').style.display='block';}
+function saveNcdForm(){let n={owner:document.getElementById('fOwner').value,company:document.getElementById('fCompany').value,isin:document.getElementById('fIsin').value,coupon:document.getElementById('fCoupon').value,rating:document.getElementById('fRating').value,qty:document.getElementById('fQty').value,amount:Number(document.getElementById('fAmount').value),invDate:document.getElementById('fInvDate').value,matDate:document.getElementById('fMatDate').value,matAmount:Number(document.getElementById('fMatAmount').value),payout:document.getElementById('fPayout').value};if(!n.owner||!n.company){alert('Please Enter Owner + Company');return;}ncds.push(n);localStorage.setItem('ncds',JSON.stringify(ncds));document.getElementById('ncdForm').style.display='none';renderNCD();}
+function editNCD(i){let n=ncds[i];document.getElementById('ncdFormTitle').innerText='EDIT NCD';document.getElementById('fOwner').value=n.owner;document.getElementById('fCompany').value=n.company;document.getElementById('fIsin').value=n.isin;document.getElementById('fCoupon').value=n.coupon;document.getElementById('fRating').value=n.rating;document.getElementById('fQty').value=n.qty;document.getElementById('fAmount').value=n.amount;document.getElementById('fInvDate').value=n.invDate;document.getElementById('fMatDate').value=n.matDate;document.getElementById('fMatAmount').value=n.matAmount;document.getElementById('fPayout').value=n.payout;document.getElementById('ncdForm').style.display='block';}
 function deleteNCD(i){if(!confirm('Delete This NCD?'))return;ncds.splice(i,1);localStorage.setItem('ncds',JSON.stringify(ncds));renderNCD();}
 function getNcdColor(d){let diff=(new Date(d)-new Date())/(1000*60*60*24);if(diff<0)return 'background:#ffcccc';if(diff<=7)return 'background:#ff9999';if(diff<=30)return 'background:#ffcc99';if(diff<=90)return 'background:#ffff99';return 'background:#ccffcc';}
-function renderNCD(){let oF=(document.getElementById('ncdSearchOwner').value||'').toLowerCase();let cF=(document.getElementById('ncdSearchCompany').value||'').toLowerCase();let list=ncds.filter(n=>n.owner.toLowerCase().includes(oF)&&n.company.toLowerCase().includes(cF)).sort((a,b)=>new Date(a.matDate)-new Date(b.matDate));let html='';let tI=0,tM=0;list.forEach((n,i)=>{tI+=n.amount;tM+=n.matAmount;html+=`<div style="${getNcdColor(n.matDate)};padding:10px;margin:5px;border:1px solid #000"><b>${n.owner} | ${n.company}</b><br>ISIN: ${n.isin} | Coupon: ${n.coupon}% | Rating: ${n.rating} | Qty: ${n.qty}<br>Investment: Rs ${n.amount} | Date: ${n.invDate} | Maturity: ${n.matDate} | Maturity Amount: Rs ${n.matAmount}<br>Payout: ${n.payout}<br><button onclick="showNcdDetail(${i})">Detail - Year Wise + Month Wise</button> <button onclick="editNCD(${i})">EDIT</button> <button onclick="deleteNCD(${i})">DELETE</button><div id="ncdDetail${i}"></div></div>`;});document.getElementById('ncdList').innerHTML=html;document.getElementById('ncdTotalInvested').innerText=tI;document.getElementById('ncdTotalMaturity').innerText=tM;document.getElementById('ncdCount').innerText=list.length;document.getElementById('ncdAnaInvested').innerText=tI;let w=list.reduce((s,n)=>s+(n.amount*parseFloat(n.coupon||0)),0)/(tI||1);document.getElementById('ncdAnaYield').innerText=w.toFixed(2);document.getElementById('ncdAnaNext').innerText=list.length?list[0].matDate+' - '+list[0].company:'-';}
-function showNcdDetail(i){let n=ncds[i];let m=(n.amount*parseFloat(n.coupon||0)/100/12).toFixed(0);document.getElementById('ncdDetail'+i).innerHTML=`<br><b>Detail - Year Wise:</b> Interest + Principal + Total Payout<br><b>Month Wise:</b> Date | Interest Rs ${m} | Principal | Total - 30/31 Days Difference Applied`;}
-function saveNcdEmail(){localStorage.setItem('ncdEmail',document.getElementById('ncdEmail').value);alert('Email Saved - Reminder Will Send 1 Month Before + 7 Days Before');}
+function renderNCD(){let oF=(document.getElementById('ncdSearchOwner').value||'').toLowerCase();let cF=(document.getElementById('ncdSearchCompany').value||'').toLowerCase();let list=ncds.filter(n=>n.owner.toLowerCase().includes(oF)&&n.company.toLowerCase().includes(cF)).sort((a,b)=>new Date(a.matDate)-new Date(b.matDate));let html='';let tI=0,tM=0;list.forEach((n,i)=>{tI+=n.amount;tM+=n.matAmount;html+=`<div style="${getNcdColor(n.matDate)};padding:10px;margin:5px;border:1px solid #000"><b>${n.owner} | ${n.company}</b><br>ISIN: ${n.isin} | Coupon: ${n.coupon}% | Rating: ${n.rating} | Qty: ${n.qty}<br>Investment: Rs ${n.amount} | Date: ${n.invDate} | Maturity: ${n.matDate} | Maturity Amount: Rs ${n.matAmount}<br>Payout: ${n.payout}<br><button onclick="editNCD(${i})">EDIT</button> <button onclick="deleteNCD(${i})">DELETE</button></div>`;});document.getElementById('ncdList').innerHTML=html;document.getElementById('ncdTotalInvested').innerText=tI;document.getElementById('ncdTotalMaturity').innerText=tM;document.getElementById('ncdCount').innerText=list.length;document.getElementById('ncdAnaInvested').innerText=tI;let w=list.reduce((s,n)=>s+(n.amount*parseFloat(n.coupon||0)),0)/(tI||1);document.getElementById('ncdAnaYield').innerText=w.toFixed(2);document.getElementById('ncdAnaNext').innerText=list.length?list[0].matDate+' - '+list[0].company:'-';}
+function saveNcdEmail(){localStorage.setItem('ncdEmail',document.getElementById('ncdEmail').value);alert('Email Saved');}
 renderNCD();
 </script>
 <div id="pShare" style="display:none"><div class="card"><h2>SHARE</h2><div class="item"><b>Share 1</b><br>Name: ___ | Quantity: ___ | Value: Rs ____</div></div></div>
 <div id="pPrem" style="display:none"><div class="card"><h2>PREMIUM</h2><div class="item"><b>ULIP - 1</b><br>Premium: Rs ___ | Date: ___</div><div class="item"><b>Mediclaim</b><br>Premium: Rs ___ | Renewal: ___</div><div class="item"><b>Term Plan</b><br>Premium: Rs ___ | Renewal: ___</div></div></div>
-
 <div id="pMonthly" style="display:none">
-<div class="card"><h2>MONTHLY HISTORY - નવું કેટલું નાખ્યું + માર્કેટથી કેટલું વધ્યું?</h2>
-<p>દર મહિનાની 1 તારીખે કે 31 તારીખે આ બટન દબાવી દો રાજા.<br><b>અત્યારે:</b> MF Value <span id="mNowVal">Rs 67,17,723</span> | Invested <span id="mNowInv">Rs 42,26,089</span> | Profit <span id="mNowGain">Rs 24,91,634</span></p>
+<div class="card"><h2>MONTHLY HISTORY</h2>
+<p><b>અત્યારે:</b> MF Value <span id="mNowVal">Rs 67,17,723</span> | Invested <span id="mNowInv">Rs 42,26,089</span> | Profit <span id="mNowGain">Rs 24,91,634</span></p>
 <button class="btnMonth" onclick="saveMonth()">SAVE THIS MONTH - આ મહિનો સેવ કરો</button>
 <button class="btnAll" onclick="exportAll()">EXPORT ALL - 1 FILE, 5 SHEET</button>
 <button class="btnExcel" onclick="exportMonthly()">EXPORT ONLY MONTHLY TO EXCEL</button>
-<p class="small">નીચે 3 વસ્તુ અલગ દેખાશે:<br><b style="color:#0D47A1">વાદળી = તમે નવું કેટલું નાખ્યું</b><br><b style="color:#1B5E20">લીલો = માર્કેટથી કેટલો ફાયદો થયો</b><br><b>કાળો = Total Value કેટલી વધી</b></p>
 </div>
 <div id="monthlyList"></div>
 </div>
-
 <div id="pAnalysis" style="display:none">
-<div class="card"><h2>INVESTMENT ANALYSIS - વર્ષ પસંદ કરો, 12 મહિના દેખાશે</h2>
-<p>નીચે વર્ષ દબાવો રાજા - એ વર્ષના 12 મહિના આખું ટેબલ ખૂલી જશે.<br>જેમ કે 2026 દબાવો - તો 2026 ના Jan થી Dec - બધું દેખાશે.</p>
+<div class="card"><h2>INVESTMENT ANALYSIS</h2>
+<p>નીચે વર્ષ દબાવો રાજા - એ વર્ષના 12 મહિના આખું ટેબલ ખૂલી જશે.</p>
 <div id="yearButtons" style="text-align:center"></div>
 <div id="analysisSummary"></div>
 <div class="scrollX" id="analysisTable"></div>
 <button class="btnAll" onclick="exportAll()">EXPORT ALL - ANALYSIS પણ Excel માં આવશે</button>
-<p class="small">MONTHLY માં SAVE THIS MONTH દબાવશો એટલે આ ટેબલ આપોઆપ વધતું જશે. હમણાં 2026 માં 1 મહિનો છે - Nov 2026, Dec માં બીજો આવશે, એમ 12 મહિના થશે.</p>
 </div>
 </div>
-
 <script>
 let MF = [
 {name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655},
@@ -303,31 +195,17 @@ let MONTHLY = [
 let curFilter='All';
 let editIndex=-1;
 let selectedYear='2026';
-function getYearOf(m){
- if(m.date && m.date.length>=4) return m.date.slice(0,4);
- let mm=m.month.match(/20\d\d/); return mm?mm[0]:'2026';
-}
-function unlock(){ if(document.getElementById('pin').value==='123456'){ document.getElementById('lock').style.display='none'; } else { alert('Wrong PIN'); } }
+function getYearOf(m){ if(m.date && m.date.length>=4) return m.date.slice(0,4); let mm=m.month.match(/20\d\d/); return mm?mm[0]:'2026'; }
 function show(t){
  ['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis'].forEach(x=>{
-  document.getElementById('p'+x).style.display = x===t ? 'block':'none';
-  document.getElementById('t'+x).className = x===t ? 'tab active':'tab';
+  var p=document.getElementById('p'+x); if(p) p.style.display = x===t ? 'block':'none';
+  var tb=document.getElementById('t'+x); if(tb) tb.className = x===t ? 'tab active':'tab';
  });
  if(t==='Monthly') renderMonthly();
  if(t==='Analysis') renderAnalysis();
 }
-function calcTotals(){
- let tot=0, invTot=0;
- MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; });
- return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot)};
-}
-function setFilter(f){
- curFilter=f;
- ['All','Raj','Kom','Prof','Loss'].forEach(k=>{ let el=document.getElementById('f'+k); if(el) el.className='btnFilter'; });
- let map={All:'fAll',Rajendra:'fRaj',Komal:'fKom',Profit:'fProf',Loss:'fLoss'};
- let el=document.getElementById(map[f]); if(el) el.className='btnFilter active';
- render();
-}
+function calcTotals(){ let tot=0, invTot=0; MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; }); return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot)}; }
+function setFilter(f){ curFilter=f; ['All','Raj','Kom','Prof','Loss'].forEach(k=>{ let el=document.getElementById('f'+k); if(el) el.className='btnFilter'; }); let map={All:'fAll',Rajendra:'fRaj',Komal:'fKom',Profit:'fProf',Loss:'fLoss'}; let el=document.getElementById(map[f]); if(el) el.className='btnFilter active'; render(); }
 function render(){
  let html=''; let c=calcTotals();
  let search=(document.getElementById('mfSearch')?document.getElementById('mfSearch').value.toLowerCase():'');
@@ -357,49 +235,16 @@ function render(){
  document.getElementById('mNowInv').textContent='Rs '+c.inv.toLocaleString('en-IN');
  document.getElementById('mNowGain').textContent='Rs '+tg.toLocaleString('en-IN');
 }
-function deleteFund(i){
- if(confirm('Delete '+MF[i].name+' - '+(MF[i].folio||'')+' ?')){ MF.splice(i,1); render(); alert('Deleted. TOTAL auto updated.'); }
-}
-function editFund(i){
- editIndex=i; let m=MF[i];
- document.getElementById('eName').value=m.name;
- document.getElementById('eFolio').value=m.folio||'';
- document.getElementById('eUnits').value=m.units;
- document.getElementById('eNav').value=m.nav;
- document.getElementById('eInv').value=m.inv;
- document.getElementById('editBox').style.display='flex';
-}
+function deleteFund(i){ if(confirm('Delete '+MF[i].name+' - '+(MF[i].folio||'')+' ?')){ MF.splice(i,1); render(); alert('Deleted. TOTAL auto updated.'); } }
+function editFund(i){ editIndex=i; let m=MF[i]; document.getElementById('eName').value=m.name; document.getElementById('eFolio').value=m.folio||''; document.getElementById('eUnits').value=m.units; document.getElementById('eNav').value=m.nav; document.getElementById('eInv').value=m.inv; document.getElementById('editBox').style.display='flex'; }
 function closeEdit(){ document.getElementById('editBox').style.display='none'; editIndex=-1; }
-function saveEdit(){
- if(editIndex<0) return;
- let m=MF[editIndex];
- let n=document.getElementById('eName').value.trim();
- if(n) m.name=n;
- m.folio=document.getElementById('eFolio').value.trim();
- let u=parseFloat(document.getElementById('eUnits').value);
- let nv=parseFloat(document.getElementById('eNav').value);
- let iv=parseFloat(document.getElementById('eInv').value);
- if(u>0) m.units=u;
- if(nv>0) m.nav=nv;
- if(iv>0) m.inv=iv;
- closeEdit(); render(); alert('Saved! TOTAL auto updated.');
-}
+function saveEdit(){ if(editIndex<0) return; let m=MF[editIndex]; let n=document.getElementById('eName').value.trim(); if(n) m.name=n; m.folio=document.getElementById('eFolio').value.trim(); let u=parseFloat(document.getElementById('eUnits').value); let nv=parseFloat(document.getElementById('eNav').value); let iv=parseFloat(document.getElementById('eInv').value); if(u>0) m.units=u; if(nv>0) m.nav=nv; if(iv>0) m.inv=iv; closeEdit(); render(); alert('Saved! TOTAL auto updated.'); }
 function renderMonthly(){
  let html='';
  for(let i=MONTHLY.length-1;i>=0;i--){
-  let mm=MONTHLY[i];
-  let prev = i>0 ? MONTHLY[i-1] : null;
-  if(!prev){
-   html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+'<br>MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br>Starting Month - Ahi thi saruvat<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>';
-  } else {
-   let newInv = mm.inv - prev.inv;
-   let valChange = mm.val - prev.val;
-   let marketGain = valChange - newInv;
-   let profitChange = mm.gain - prev.gain;
-   let invCls = newInv>=0 ? 'blue' : 'red';
-   let mktCls = marketGain>=0 ? 'green' : 'red';
-   html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+' | MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br><hr><span class="'+invCls+'">1. Aa mahine NAVU NAKHYU: Rs '+newInv.toLocaleString('en-IN')+'</span><br><span class="'+mktCls+'">2. Market thi VADHYU / GHATYU: Rs '+marketGain.toLocaleString('en-IN')+'</span><br><b>3. Total Value Change: Rs '+valChange.toLocaleString('en-IN')+'</b><br>Total Profit Change: Rs '+profitChange.toLocaleString('en-IN')+'<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>';
-  }
+  let mm=MONTHLY[i]; let prev = i>0 ? MONTHLY[i-1] : null;
+  if(!prev){ html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+'<br>MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br>Starting Month - Ahi thi saruvat<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>'; }
+  else { let newInv = mm.inv - prev.inv; let valChange = mm.val - prev.val; let marketGain = valChange - newInv; let profitChange = mm.gain - prev.gain; let invCls = newInv>=0 ? 'blue' : 'red'; let mktCls = marketGain>=0 ? 'green' : 'red'; html+='<div class="card"><div class="item"><b>'+mm.month+'</b> - '+mm.date+'<br>Invested: Rs '+mm.inv.toLocaleString('en-IN')+' | MF Value: Rs '+mm.val.toLocaleString('en-IN')+'<br>Total Profit: <b>Rs '+mm.gain.toLocaleString('en-IN')+'</b><br><hr><span class="'+invCls+'">1. Aa mahine NAVU NAKHYU: Rs '+newInv.toLocaleString('en-IN')+'</span><br><span class="'+mktCls+'">2. Market thi VADHYU / GHATYU: Rs '+marketGain.toLocaleString('en-IN')+'</span><br><b>3. Total Value Change: Rs '+valChange.toLocaleString('en-IN')+'</b><br>Total Profit Change: Rs '+profitChange.toLocaleString('en-IN')+'<br><button class="btnDel" onclick="deleteMonth('+i+')">DELETE THIS MONTH</button></div></div>'; }
  }
  document.getElementById('monthlyList').innerHTML=html;
 }
@@ -407,520 +252,119 @@ function setYear(y){ selectedYear=y; renderAnalysis(); }
 function renderAnalysis(){
  let years=[...new Set(MONTHLY.map(m=>getYearOf(m)))].sort();
  if(!years.includes(selectedYear) && years.length) selectedYear=years[years.length-1];
- let yb='';
- years.forEach(y=>{ yb+='<button class="btnYear '+(y===selectedYear?'active':'')+'" onclick="setYear(\''+y+'\')">'+y+'</button>'; });
+ let yb=''; years.forEach(y=>{ yb+='<button class="btnYear '+(y===selectedYear?'active':'')+'" onclick="setYear(\''+y+'\')">'+y+'</button>'; });
  yb+='<button class="btnYear '+(selectedYear==='ALL'?'active':'')+'" onclick="setYear(\'ALL\')">ALL YEARS</button>';
  document.getElementById('yearButtons').innerHTML=yb;
  let list = selectedYear==='ALL' ? MONTHLY : MONTHLY.filter(m=>getYearOf(m)===selectedYear);
  if(!list.length){ document.getElementById('analysisSummary').innerHTML='<div class="card">Aa varsh ma haju koi mahino save nathi thayo.</div>'; document.getElementById('analysisTable').innerHTML=''; return; }
  let first=list[0]; let last=list[list.length-1];
- let totalNew = last.inv - MONTHLY[0].inv;
- if(selectedYear!=='ALL'){
-  let idxFirst = MONTHLY.indexOf(first);
-  let prev = idxFirst>0 ? MONTHLY[idxFirst-1] : null;
-  if(prev){ totalNew = last.inv - prev.inv; }
-  else { totalNew = 0; }
-  let sumNew=0; let sumMarket=0;
-  list.forEach((mm,ii)=>{
-   let globalIdx = MONTHLY.indexOf(mm);
-   let p = globalIdx>0 ? MONTHLY[globalIdx-1] : null;
-   if(p && ii>0 || (ii===0 && p && selectedYear!=='ALL' && MONTHLY.indexOf(mm)>0)){ }
-  });
- }
- let totalValChange = last.val - first.val;
- let totalMarketGain = 0; let sumNewYear=0;
- list.forEach((mm,ii)=>{
-  let gi = MONTHLY.indexOf(mm);
-  let p = gi>0 ? MONTHLY[gi-1] : null;
-  if(!p) return;
-  if(ii===0 && selectedYear!=='ALL' && gi>0){
-   let newInv = mm.inv - p.inv;
-   let valCh = mm.val - p.val;
-   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
-  } else if(ii>0){
-   let prevInList = list[ii-1];
-   let newInv = mm.inv - prevInList.inv;
-   let valCh = mm.val - prevInList.val;
-   sumNewYear += newInv; totalMarketGain += (valCh - newInv);
-  }
- });
- if(selectedYear==='ALL'){
-  sumNewYear = last.inv - MONTHLY[0].inv;
-  totalMarketGain = (last.val - MONTHLY[0].val) - sumNewYear;
- }
- let totalProfitChange = last.gain - first.gain;
- let yearLabel = selectedYear==='ALL' ? 'BADHA VARSH' : selectedYear+' - '+list.length+' / 12 Mahina';
- let status = list.length>=12 ? selectedYear+' - 1 VARSH PURU - 12 Mahina Thai Gaya ✅' : selectedYear+' - '+list.length+' / 12 Mahina Thaya - '+(12-list.length)+' Mahina Baki Che';
- let html='<div class="totalBox"><b>'+status+'</b><br>'+yearLabel+'<br>Starting: '+first.month+' - Value Rs '+first.val.toLocaleString('en-IN')+'<br>Latest: '+last.month+' - Value Rs '+last.val.toLocaleString('en-IN')+'<br><hr><b>AA VARSH MA:</b><br>Total Navu Nakhyu: <b style="color:#7CBBFF">Rs '+sumNewYear.toLocaleString('en-IN')+'</b><br>Market thi Vadhyu: <b style="color:#A5D6A7">Rs '+totalMarketGain.toLocaleString('en-IN')+'</b><br>Total Value Vadhi: <b>Rs '+(last.val-first.val).toLocaleString('en-IN')+'</b><br>Chokkho Profit: <b>Rs '+last.gain.toLocaleString('en-IN')+'</b></div>';
+ let sumNewYear=0; let totalMarketGain=0;
+ list.forEach((mm,ii)=>{ let gi = MONTHLY.indexOf(mm); let p = gi>0 ? MONTHLY[gi-1] : null; if(!p) return; if(ii===0 && selectedYear!=='ALL' && gi>0){ let newInv = mm.inv - p.inv; let valCh = mm.val - p.val; sumNewYear += newInv; totalMarketGain += (valCh - newInv); } else if(ii>0){ let prevInList = list[ii-1]; let newInv = mm.inv - prevInList.inv; let valCh = mm.val - prevInList.val; sumNewYear += newInv; totalMarketGain += (valCh - newInv); } });
+ if(selectedYear==='ALL'){ sumNewYear = last.inv - MONTHLY[0].inv; totalMarketGain = (last.val - MONTHLY[0].val) - sumNewYear; }
+ let status = list.length>=12 ? selectedYear+' - 1 VARSH PURU - 12 Mahina Thai Gaya' : selectedYear+' - '+list.length+' / 12 Mahina Thaya - '+(12-list.length)+' Mahina Baki Che';
+ let html='<div class="totalBox"><b>'+status+'</b><br>Starting: '+first.month+' - Value Rs '+first.val.toLocaleString('en-IN')+'<br>Latest: '+last.month+' - Value Rs '+last.val.toLocaleString('en-IN')+'<br><hr><b>AA VARSH MA:</b><br>Total Navu Nakhyu: <b>Rs '+sumNewYear.toLocaleString('en-IN')+'</b><br>Market thi Vadhyu: <b>Rs '+totalMarketGain.toLocaleString('en-IN')+'</b><br>Total Value Vadhi: <b>Rs '+(last.val-first.val).toLocaleString('en-IN')+'</b><br>Chokkho Profit: <b>Rs '+last.gain.toLocaleString('en-IN')+'</b></div>';
  document.getElementById('analysisSummary').innerHTML=html;
  let t='<table><tr><th>No</th><th>Mahino</th><th>Total Investment</th><th>Aa Mahine Navu</th><th>Value</th><th>Chokkho Profit</th><th>Market Gain</th></tr>';
- list.forEach((mm,ii)=>{
-  let gi = MONTHLY.indexOf(mm);
-  let p = gi>0 ? MONTHLY[gi-1] : null;
-  let newInv=0; let mkt=0;
-  if(ii===0){
-   if(p){ newInv = mm.inv - p.inv; let valCh = mm.val - p.val; mkt = valCh - newInv; }
-   else { newInv=0; mkt=0; }
-  } else {
-   let prevInList=list[ii-1];
-   newInv = mm.inv - prevInList.inv;
-   let valCh = mm.val - prevInList.val;
-   mkt = valCh - newInv;
-  }
-  let mktCls=mkt>=0?'green':'red';
-  t+='<tr><td>'+(ii+1)+'</td><td><b>'+mm.month+'</b></td><td>Rs '+mm.inv.toLocaleString('en-IN')+'</td><td style="color:#0D47A1;font-weight:bold">Rs '+newInv.toLocaleString('en-IN')+'</td><td><b>Rs '+mm.val.toLocaleString('en-IN')+'</b></td><td style="color:#1B5E20;font-weight:bold">Rs '+mm.gain.toLocaleString('en-IN')+'</td><td class="'+mktCls+'">Rs '+mkt.toLocaleString('en-IN')+'</td></tr>';
- });
- t+='</table>';
- document.getElementById('analysisTable').innerHTML=t;
+ list.forEach((mm,ii)=>{ let gi = MONTHLY.indexOf(mm); let p = gi>0 ? MONTHLY[gi-1] : null; let newInv=0; let mkt=0; if(ii===0){ if(p){ newInv = mm.inv - p.inv; let valCh = mm.val - p.val; mkt = valCh - newInv; } } else { let prevInList=list[ii-1]; newInv = mm.inv - prevInList.inv; let valCh = mm.val - prevInList.val; mkt = valCh - newInv; } let mktCls=mkt>=0?'green':'red'; t+='<tr><td>'+(ii+1)+'</td><td><b>'+mm.month+'</b></td><td>Rs '+mm.inv.toLocaleString('en-IN')+'</td><td>Rs '+newInv.toLocaleString('en-IN')+'</td><td><b>Rs '+mm.val.toLocaleString('en-IN')+'</b></td><td>Rs '+mm.gain.toLocaleString('en-IN')+'</td><td class="'+mktCls+'">Rs '+mkt.toLocaleString('en-IN')+'</td></tr>'; });
+ t+='</table>'; document.getElementById('analysisTable').innerHTML=t;
 }
-function saveMonth(){
- let c=calcTotals();
- let d=new Date();
- let monthName=d.toLocaleString('en-IN',{month:'long'})+' '+d.getFullYear();
- let label=prompt('Month nu naam lakho - e.g. Nov 2026, Dec 2026:', monthName); if(!label) return;
- let dateStr=d.toISOString().slice(0,10);
- MONTHLY.push({month:label, date:dateStr, inv:c.inv, val:c.tot, gain:c.tot-c.inv});
- selectedYear=getYearOf(MONTHLY[MONTHLY.length-1]);
- renderMonthly();
- alert('Month Saved!\n'+label+'\nValue: Rs '+c.tot.toLocaleString('en-IN')+'\nProfit: Rs '+(c.tot-c.inv).toLocaleString('en-IN'));
-}
-function deleteMonth(i){
- if(confirm('Delete '+MONTHLY[i].month+' ?')){ MONTHLY.splice(i,1); renderMonthly(); }
-}
-function exportMonthly(){
- let csv='Month,Date,Invested,MF Value,Total Profit,New Investment Added,Market Gain,Total Value Change\n';
- MONTHLY.forEach((mm,i)=>{
-  let prev=i>0?MONTHLY[i-1]:null;
-  let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-  csv+=mm.month+','+mm.date+','+mm.inv+','+mm.val+','+mm.gain+','+newInv+','+mkt+','+valCh+'\n';
- });
- let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MONTHLY-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-}
+function saveMonth(){ let c=calcTotals(); let d=new Date(); let monthName=d.toLocaleString('en-IN',{month:'long'})+' '+d.getFullYear(); let label=prompt('Month nu naam lakho - e.g. Nov 2026, Dec 2026:', monthName); if(!label) return; let dateStr=d.toISOString().slice(0,10); MONTHLY.push({month:label, date:dateStr, inv:c.inv, val:c.tot, gain:c.tot-c.inv}); selectedYear=getYearOf(MONTHLY[MONTHLY.length-1]); renderMonthly(); alert('Month Saved! '+label); }
+function deleteMonth(i){ if(confirm('Delete '+MONTHLY[i].month+' ?')){ MONTHLY.splice(i,1); renderMonthly(); } }
+function exportMonthly(){ let csv='Month,Date,Invested,MF Value,Total Profit,New Investment Added,Market Gain,Total Value Change\n'; MONTHLY.forEach((mm,i)=>{ let prev=i>0?MONTHLY[i-1]:null; let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0; csv+=mm.month+','+mm.date+','+mm.inv+','+mm.val+','+mm.gain+','+newInv+','+mkt+','+valCh+'\n'; }); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MONTHLY-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); }
 function exportAll(){
  try{
-  let c=calcTotals();
-  let wb=XLSX.utils.book_new();
-  let totalData=[
-   ["RAJA PARIVAR PORTFOLIO - "+new Date().toISOString().slice(0,10)],
-   [],
-   ["TOTAL PORTFOLIO"],
-   ["MF Value", c.tot],
-   ["MF Invested", c.inv],
-   ["MF Gain", c.tot-c.inv],
-   ["FD Invested", 1876996],
-   ["FD Maturity", 2009008],
-   ["GRAND TOTAL (MF Value + FD Invested)", c.tot+1876996]
-  ];
-  let ws1=XLSX.utils.aoa_to_sheet(totalData);
-  XLSX.utils.book_append_sheet(wb, ws1, "TOTAL");
+  let c=calcTotals(); let wb=XLSX.utils.book_new();
+  let totalData=[["RAJA PARIVAR PORTFOLIO - "+new Date().toISOString().slice(0,10)],[],["TOTAL PORTFOLIO"],["MF Value", c.tot],["MF Invested", c.inv],["MF Gain", c.tot-c.inv],["FD Invested", 1876996],["FD Maturity", 2009008],["GRAND TOTAL (MF Value + FD Invested)", c.tot+1876996]];
+  let ws1=XLSX.utils.aoa_to_sheet(totalData); XLSX.utils.book_append_sheet(wb, ws1, "TOTAL");
   let mfData=[["No","Fund Name","Folio","Units","NAV","Invested","Current Value","Gain","Gain %"]];
-  MF.forEach((m,i)=>{
-   let cur=Math.round(m.units*m.nav); let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1)+"%";
-   mfData.push([i+1,m.name,m.folio,m.units,m.nav,m.inv,cur,gain,pct]);
-  });
-  mfData.push([]);
-  mfData.push(["Total Invested", c.inv, "Total Value", c.tot, "Total Gain", c.tot-c.inv]);
-  let ws2=XLSX.utils.aoa_to_sheet(mfData);
-  XLSX.utils.book_append_sheet(wb, ws2, "MF");
+  MF.forEach((m,i)=>{ let cur=Math.round(m.units*m.nav); let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1)+"%"; mfData.push([i+1,m.name,m.folio,m.units,m.nav,m.inv,cur,gain,pct]); });
+  mfData.push([]); mfData.push(["Total Invested", c.inv, "Total Value", c.tot, "Total Gain", c.tot-c.inv]);
+  let ws2=XLSX.utils.aoa_to_sheet(mfData); XLSX.utils.book_append_sheet(wb, ws2, "MF");
   let monData=[["Month","Date","Invested","MF Value","Total Profit","New Investment Added","Market Gain","Total Value Change"]];
-  MONTHLY.forEach((mm,i)=>{
-   let prev=i>0?MONTHLY[i-1]:null;
-   let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-   monData.push([mm.month,mm.date,mm.inv,mm.val,mm.gain,newInv,mkt,valCh]);
-  });
-  let ws3=XLSX.utils.aoa_to_sheet(monData);
-  XLSX.utils.book_append_sheet(wb, ws3, "MONTHLY");
-  let fdData=[["No","FD Name","Amount","Maturity Date"]];
-  FD.forEach((f,i)=>{ fdData.push([i+1,f.name,f.amt,f.mat]); });
-  fdData.push([]);
-  fdData.push(["Total Invested",1876996,"Total Maturity",2009008]);
-  let ws4=XLSX.utils.aoa_to_sheet(fdData);
-  XLSX.utils.book_append_sheet(wb, ws4, "FD");
+  MONTHLY.forEach((mm,i)=>{ let prev=i>0?MONTHLY[i-1]:null; let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0; monData.push([mm.month,mm.date,mm.inv,mm.val,mm.gain,newInv,mkt,valCh]); });
+  let ws3=XLSX.utils.aoa_to_sheet(monData); XLSX.utils.book_append_sheet(wb, ws3, "MONTHLY");
+  let fdData=[["No","FD Name","Amount","Maturity Date"]]; FD.forEach((f,i)=>{ fdData.push([i+1,f.name,f.amt,f.mat]); }); fdData.push([]); fdData.push(["Total Invested",1876996,"Total Maturity",2009008]);
+  let ws4=XLSX.utils.aoa_to_sheet(fdData); XLSX.utils.book_append_sheet(wb, ws4, "FD");
   let anaData=[["No","Month","Total Investment","New Added This Month","Value","Net Profit","Market Gain"]];
-  MONTHLY.forEach((mm,i)=>{
-   let prev=i>0?MONTHLY[i-1]:null;
-   let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0;
-   anaData.push([i+1,mm.month,mm.inv,newInv,mm.val,mm.gain,mkt]);
-  });
-  let ws5=XLSX.utils.aoa_to_sheet(anaData);
-  XLSX.utils.book_append_sheet(wb, ws5, "ANALYSIS");
+  MONTHLY.forEach((mm,i)=>{ let prev=i>0?MONTHLY[i-1]:null; let newInv=prev?mm.inv-prev.inv:0; let valCh=prev?mm.val-prev.val:0; let mkt=prev?valCh-newInv:0; anaData.push([i+1,mm.month,mm.inv,newInv,mm.val,mm.gain,mkt]); });
+  let ws5=XLSX.utils.aoa_to_sheet(anaData); XLSX.utils.book_append_sheet(wb, ws5, "ANALYSIS");
   XLSX.writeFile(wb, 'RAJA-PARIVAR-ALL-'+new Date().toISOString().slice(0,10)+'.xlsx');
-  alert('EXPORT ALL Done!\n1 File - 5 Sheet:\nTOTAL + MF + MONTHLY + FD + ANALYSIS');
+  alert('EXPORT ALL Done! 1 File - 5 Sheet');
  }catch(e){ alert('Export All ma Internet joiye che. Fari try karo.'); }
 }
 async function addFund(){
  let q=prompt('New Fund - MF API ma Search karo:\nThodu naam lakho - e.g. Motilal Midcap, Nippon Small, Quant PSU'); if(!q) return;
  try{
   document.getElementById('liveStatus').textContent='Searching MF List... '+q;
-  let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q));
-  let sj=await s.json();
-  if(!sj || !sj.length){ alert('No Fund Found. Fari try karo - bija naam thi.'); return; }
+  let s=await fetch('https://api.mfapi.in/mf/search?q='+encodeURIComponent(q)); let sj=await s.json();
+  if(!sj || !sj.length){ alert('No Fund Found.'); return; }
   let list=sj.slice(0,10).map((x,idx)=>(idx+1)+'. '+x.schemeName).join('\n');
   let pick=prompt('MF List ma thi Number pasand karo (1-'+Math.min(10,sj.length)+'):\n'+list, '1'); if(!pick) return;
   let idx=parseInt(pick)-1; if(isNaN(idx)||idx<0||idx>=sj.length) return;
-  let chosen=sj[idx];
-  let r=await fetch('https://api.mfapi.in/mf/'+chosen.schemeCode);
-  let j=await r.json();
-  let nav=parseFloat(j.data[0].nav);
-  let folio=prompt('Folio / Name - Rajendra / Komal lakho:')||'';
-  let units=parseFloat(prompt('Units lakho:')); if(!units) return;
-  let inv=parseFloat(prompt('Invested / Cost lakho:')); if(!inv) return;
-  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav});
-  render(); alert('New Fund Added from MF List!\n'+chosen.schemeName+'\nNAV: '+nav);
- }catch(e){ alert('Internet / MF API ma problem che. Fari try karo.'); }
+  let chosen=sj[idx]; let r=await fetch('https://api.mfapi.in/mf/'+chosen.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav);
+  let folio=prompt('Folio / Name - Rajendra / Komal lakho:')||''; let units=parseFloat(prompt('Units lakho:')); if(!units) return; let inv=parseFloat(prompt('Invested / Cost lakho:')); if(!inv) return;
+  MF.push({name:chosen.schemeName,folio:folio,units:units,inv:inv,nav:nav}); render(); alert('New Fund Added!\n'+chosen.schemeName+'\nNAV: '+nav);
+ }catch(e){ alert('Internet / MF API ma problem che.'); }
  document.getElementById('liveStatus').textContent='LIVE OFF - Your NAV is showing.';
 }
 function exportExcel(){
  let csv='No,Fund Name,Folio,Units,NAV,Invested,Current Value,Gain,Gain %\n';
- MF.forEach((m,i)=>{
-  let cur=m.units*m.nav; let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1);
-  csv+=(i+1)+',"'+m.name+'","'+m.folio+'",'+m.units+','+m.nav+','+m.inv+','+Math.round(cur)+','+Math.round(gain)+','+pct+'%\n';
- });
- let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-Backup-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
- alert('Excel downloaded - MF '+MF.length+' schemes');
+ MF.forEach((m,i)=>{ let cur=m.units*m.nav; let gain=cur-m.inv; let pct=(gain/m.inv*100).toFixed(1); csv+=(i+1)+',"'+m.name+'","'+m.folio+'",'+m.units+','+m.nav+','+m.inv+','+Math.round(cur)+','+Math.round(gain)+','+pct+'%\n'; });
+ let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-Backup-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); alert('Excel downloaded - MF '+MF.length+' schemes');
 }
-function downloadBackup(){
- let data={date:new Date().toISOString(),MF:MF,MONTHLY:MONTHLY,FD:FD};
- let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-BACKUP-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
- alert('BACKUP downloaded - Save this file safely.');
-}
+function downloadBackup(){ let data={date:new Date().toISOString(),MF:MF,MONTHLY:MONTHLY,FD:FD}; let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-MF-BACKUP-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); alert('BACKUP downloaded'); }
 async function updateLive(){
- document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 30 second lagse, please wait...';
- let updated=0;
- for(let m of MF){
-  try{
-   let q=encodeURIComponent(m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth',''));
-   let s=await fetch('https://api.mfapi.in/mf/search?q='+q);
-   let sj=await s.json();
-   let found=null;
-   if(sj && sj.length){ found=sj.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || sj[0]; }
-   if(!found) continue;
-   let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode);
-   let j=await r.json();
-   let nav=parseFloat(j.data[0].nav);
-   if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ m.nav=nav; updated++; }
-  }catch(e){}
- }
- render();
- document.getElementById('liveStatus').textContent='LIVE Done: '+updated+'/'+MF.length+' funds updated.';
+ document.getElementById('liveStatus').textContent='LIVE Updating... '+MF.length+' funds, 30 second lagse, please wait...'; let updated=0;
+ for(let m of MF){ try{ let q=encodeURIComponent(m.name.replace(' - Direct Growth','').replace(' - Direct Plan - Growth','').replace(' Direct Plan Growth','')); let s=await fetch('https://api.mfapi.in/mf/search?q='+q); let sj=await s.json(); let found=null; if(sj && sj.length){ found=sj.find(x=>x.schemeName.toLowerCase().includes('direct') && x.schemeName.toLowerCase().includes('growth')) || sj[0]; } if(!found) continue; let r=await fetch('https://api.mfapi.in/mf/'+found.schemeCode); let j=await r.json(); let nav=parseFloat(j.data[0].nav); if(nav>0 && Math.abs(nav-m.nav)/m.nav < 0.5){ m.nav=nav; updated++; } }catch(e){} }
+ render(); document.getElementById('liveStatus').textContent='LIVE Done: '+updated+'/'+MF.length+' funds updated.';
 }
 render();
 renderMonthly();
 </script>
- <script>
-// FD ADD - જૂના કોડમાં કંઈ કાઢ્યા વગર ઉમેરેલું
-function fdAddNew(){
- let nm=prompt("Bank Name? - Equitas / Unity / AU / Suryoday");
- if(!nm) return;
- let ow=prompt("કેની FD છે? - Rajendra / Komal");
- let am=prompt("Amount કેટલા? - 100000");
- let dt=prompt("Maturity Date? - 2027-01-01 જેવી");
- let ma=prompt("Maturity Amount કેટલું મળશે?");
- if(!am) return;
- let div=document.createElement('div');
- div.className='item';
- div.innerHTML='<b>'+nm+' FD</b><br>નામ: '+(ow||'-')+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+(dt||'')+'<br>Maturity Amount: Rs '+Number(ma||am).toLocaleString('en-IN')+'<br><button class="btnEdit" onclick="this.parentElement.remove()">DELETE</button>';
- document.getElementById('pFD').appendChild(div);
- alert('FD ઉમેરાઈ ગઈ રાજા');
-}
-function fdMakeButtons(){
- let p=document.getElementById('pFD');
- if(!p || document.getElementById('fdAddBtn')) return;
- let b=document.createElement('button');
- b.id='fdAddBtn'; b.className='btnAdd'; b.textContent='+ ADD NEW FD';
- b.onclick=fdAddNew;
- p.insertBefore(b, p.children[1]);
- let s=document.createElement('input');
- s.className='searchBox'; s.placeholder='Search FD - Unity, Equitas, Rajendra...';
- s.oninput=function(){ let v=this.value.toLowerCase(); document.querySelectorAll('#pFD .item').forEach(el=>{ el.style.display=el.textContent.toLowerCase().includes(v)?'block':'none'; }); };
- p.insertBefore(s, p.children[2]);
-}
-setTimeout(fdMakeButtons, 500);
-</script>
- <script>
-// FD - Interest Type - Quarterly કે Maturity
-function fdInterestType(){
- document.querySelectorAll('#pFD .item').forEach(el=>{
-  if(el.dataset.intType) return; el.dataset.intType='1';
-  // જૂનું EDIT બટન શોધીને નવું બનાવીએ
-  let btns = el.querySelectorAll('.btnEdit');
-  btns.forEach(b=>{
-   let oldClick = b.onclick;
-   b.textContent='EDIT - ALL';
-   b.onclick=function(){
-    let nm=prompt("1. Bank Name?", "FD");
-    if(nm===null) return;
-    let ow=prompt("2. કેની FD છે?", "Rajendra");
-    if(ow===null) return;
-    let am=prompt("3. Amount?", "100000");
-    if(am===null) return;
-    let dt=prompt("4. Maturity Date?", "2027-01-01");
-    if(dt===null) return;
-    let ma=prompt("5. Maturity Amount?", am);
-    if(ma===null) return;
-    let tp=prompt("6. Interest કેવું છે? લખો - Quarterly / Maturity", "Maturity");
-    if(tp===null) return;
-    tp=tp.trim().toLowerCase().includes('quart') ? 'Quarterly' : 'Maturity';
-    let intr=Number(ma)-Number(am);
-    let note = tp==='Quarterly'
-     ? '<b style="color:#E65100">Interest: QUARTERLY - દર 3 મહિને વ્યાજ ખાતામાં આવશે</b><br><span>દર 3 મહિને અંદાજે: Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે</span><br><span>Maturity વખતે ખાલી મૂળ પૈસા પાછા મળશે</span>'
-     : '<b style="color:#1B5E20">Interest: MATURITY પર - પાકે ત્યારે જ મળશે</b><br><span>કુલ Interest મળશે: Rs '+intr.toLocaleString('en-IN')+'</span>';
-    el.innerHTML='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br>'+note+'<br>';
-    let eb=document.createElement('button'); eb.className='btnEdit'; eb.textContent='EDIT - ALL'; eb.style.background='#1565C0'; eb.onclick=b.onclick; el.appendChild(eb);
-    let db=document.createElement('button'); db.className='btnDel'; db.textContent='DELETE'; db.onclick=function(){ if(confirm('કાઢી નાખવી?')) el.remove(); }; el.appendChild(db);
-    alert('થઈ ગયું રાજા - '+tp);
-   };
-  });
- });
-}
-setTimeout(fdInterestType, 800);
-setInterval(fdInterestType, 3000);
- </script>
- <script>
-// FD FINAL FIX - બધામાં EDIT + Interest Type
-function fdFinal(){
- let items=document.querySelectorAll('#pFD .item');
- items.forEach(el=>{
-  if(el.querySelector('.fdFinalEdit')) return;
-  let b=document.createElement('button');
-  b.className='fdFinalEdit';
-  b.textContent='EDIT - ALL';
-  b.style.cssText='background:#1565C0;color:white;padding:8px 14px;border:none;border-radius:8px;margin:8px 5px 0 0;font-weight:bold';
-  b.onclick=function(){
-   let t=el.innerText;
-   let nm=prompt("1. Bank Name?", "Equitas");
-   if(nm===null) return;
-   let ow=prompt("2. કેની FD છે? Rajendra / Komal", "Rajendra");
-   if(ow===null) return;
-   let am=prompt("3. Amount?", "73628");
-   if(am===null) return;
-   let dt=prompt("4. Maturity Date?", "2027-02-18");
-   if(dt===null) return;
-   let ma=prompt("5. Maturity Amount - પાકશે ત્યારે કેટલા?", am);
-   if(ma===null) return;
-   let tp=prompt("6. Interest કેવું? Quarterly / Maturity", "Maturity");
-   if(tp===null) return;
-   let isQ=tp.toLowerCase().includes('quart');
-   let intr=Number(ma)-Number(am);
-   let note=isQ ? 'Interest: QUARTERLY - દર 3 મહિને આવશે | દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN') : 'Interest: MATURITY પર - પાકે ત્યારે જ મળશે | કુલ Interest Rs '+intr.toLocaleString('en-IN');
-   el.innerHTML='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b><br>';
-   let b2=document.createElement('button'); b2.className='fdFinalEdit'; b2.textContent='EDIT - ALL'; b2.style.cssText=b.style.cssText; b2.onclick=b.onclick; el.appendChild(b2);
-   let d=document.createElement('button'); d.textContent='DELETE'; d.style.cssText='background:#C62828;color:white;padding:8px 14px;border:none;border-radius:8px;margin:8px 0 0 0;font-weight:bold'; d.onclick=function(){ if(confirm('કાઢી નાખવી?')) el.remove(); }; el.appendChild(d);
-   alert('થઈ ગયું રાજા');
-  };
-  el.appendChild(b);
- });
-}
-setTimeout(fdFinal, 800);
-setInterval(fdFinal, 2000);
- </script>
- <script>
-// FD SORT - પહેલા પાકતી હોય એ પહેલા આવે
-function fdSortByMaturity(){
- let box=document.getElementById('pFD');
- if(!box) return;
- let items=[...box.querySelectorAll('.item')];
- if(items.length<2) return;
- items.sort((a,b)=>{
-  let da=a.innerText.match(/Maturity Date:\s*([0-9\-]+)/);
-  let db=b.innerText.match(/Maturity Date:\s*([0-9\-]+)/);
-  let ta=da?new Date(da[1]):new Date('2099-01-01');
-  let tb=db?new Date(db[1]):new Date('2099-01-01');
-  return ta-tb;
- });
- items.forEach((el,i)=>{
-  // નંબર પણ ફરી નાખીએ - 1, 2, 3...
-  box.appendChild(el);
- });
-}
-setTimeout(fdSortByMaturity, 1000);
-setInterval(fdSortByMaturity, 4000);
- </script>
- <script>
-// FD EDIT FORM - બધા 8 ઓપ્શન એક સાથે દેખાશે
-function fdEditForm(){
- document.querySelectorAll('#pFD .item, div').forEach(el=>{
-  if(!(el.innerText||'').includes('Maturity Date:')) return;
-  if(!el.querySelector('.fdFinalEdit')) return;
-  if(el.dataset.formFixed) return;
-  el.dataset.formFixed='1';
-  let btn=el.querySelector('.fdFinalEdit');
-  btn.onclick=function(){
-   // જૂનું ફોર્મ હોય તો કાઢો
-   let old=document.getElementById('fdEditBox'); if(old) old.remove();
-   let t=el.innerText;
-   let get=(re,def)=>{ let m=t.match(re); return m?m[1].trim():def; };
-   let bank=get(/^(.*?) FD/m,'Equitas');
-   let owner=get(/નામ:\s*(.*)/,'Rajendra');
-   let idt=get(/Investment Date:\s*([0-9\-]+)/,'2026-02-18');
-   let amt=get(/Amount:\s*Rs\s*([\d,]+)/,'73628').replace(/,/g,'');
-   let rate=get(/Rate:\s*([\d.]+)/,'7.5');
-   let mdt=get(/Maturity Date:\s*([0-9\-]+)/,'2027-02-18');
-   let mamt=get(/Maturity Amount:\s*Rs\s*([\d,]+)/,amt).replace(/,/g,'');
-   let isQ=t.includes('QUARTERLY'), isM=t.includes('MONTHLY');
-   let tp=isQ?'Quarterly':isM?'Monthly':'Maturity';
-   let box=document.createElement('div'); box.id='fdEditBox';
-   box.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px';
-   box.innerHTML='<div style="background:white;width:100%;max-width:420px;border-radius:18px;padding:16px;max-height:90vh;overflow:auto">'
-   +'<b style="font-size:18px">EDIT FD - બધા ઓપ્શન</b><br><br>'
-   +'<label>1. Bank Name</label><input id="f1" value="'+bank+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>2. કોના નામની? Rajendra / Komal / Tirth</label><input id="f2" value="'+owner+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>3. Investment Date</label><input id="f3" type="date" value="'+idt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>4. Amount</label><input id="f4" type="number" value="'+amt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>5. Interest Rate %</label><input id="f5" type="number" step="0.1" value="'+rate+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>6. Maturity Date</label><input id="f6" type="date" value="'+mdt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>7. Maturity Amount</label><input id="f7" type="number" value="'+mamt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
-   +'<label>8. Interest Type</label><select id="f8" style="width:100%;padding:10px;margin:4px 0 14px;border:1px solid #ccc;border-radius:10px"><option '+(tp==='Quarterly'?'selected':'')+'>Quarterly - દર 3 મહિને વ્યાજ</option><option '+(tp==='Monthly'?'selected':'')+'>Monthly - દર મહિને વ્યાજ</option><option '+(tp==='Maturity'?'selected':'')+'>Maturity - પાકે ત્યારે જ</option></select>'
-   +'<div style="display:flex;gap:10px"><button id="fdSave" style="flex:1;background:#1565C0;color:white;padding:12px;border:none;border-radius:10px;font-weight:bold">SAVE - સેવ કરો</button><button id="fdCancel" style="flex:1;background:#eee;padding:12px;border:none;border-radius:10px;font-weight:bold">બંધ કરો</button></div></div>';
-   document.body.appendChild(box);
-   document.getElementById('fdCancel').onclick=()=>box.remove();
-   document.getElementById('fdSave').onclick=()=>{
-    let nm=document.getElementById('f1').value, ow=document.getElementById('f2').value, id2=document.getElementById('f3').value, am=document.getElementById('f4').value, rt=document.getElementById('f5').value, dt=document.getElementById('f6').value, ma=document.getElementById('f7').value, tp2=document.getElementById('f8').value;
-    let intr=Number(ma)-Number(am);
-    let note=tp2.includes('Quarterly')?'Interest: QUARTERLY - દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે':tp2.includes('Monthly')?'Interest: MONTHLY - દર મહિને Rs '+Math.round(intr/12).toLocaleString('en-IN')+' આવશે':'Interest: MATURITY - પાકે ત્યારે જ Rs '+intr.toLocaleString('en-IN')+' મળશે';
-    let diff=Math.ceil((new Date(dt)-new Date())/(1000*60*60*24));
-    let rem=diff<=60 && diff>=0?'<br><b style="color:#E65100">⚠️ '+diff+' દિવસમાં પાકશે</b>':'<br><span>પાકવાને '+diff+' દિવસ બાકી</span>';
-    let wrap=el.querySelector('div'); // બટન વાળો div સાચવી રાખો
-    el.innerHTML='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Investment Date: '+id2+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Rate: '+rt+'%<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b>'+rem+'<br>';
-    let w=document.createElement('div'); w.style.cssText='margin-top:12px;display:flex;gap:12px;flex-wrap:wrap';
-    let b2=document.createElement('button'); b2.className='fdFinalEdit'; b2.textContent='EDIT - ALL'; b2.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;flex:1'; w.appendChild(b2);
-    let d=document.createElement('button'); d.textContent='DELETE'; d.style.cssText='background:#C62828;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;flex:1'; d.onclick=function(){ if(confirm('કાઢી નાખવી?')) el.remove(); }; w.appendChild(d);
-    el.appendChild(w); el.dataset.formFixed=''; box.remove(); alert('સેવ થઈ ગયું રાજા');
-   };
-  };
- });
-}
-setTimeout(fdEditForm, 800);
-setInterval(fdEditForm, 2000);
- </script>
- <script>
-// ==== FD FINAL - GLASS + EDIT 8 + ADD 8 - એક જ કોડ ====
-function fdMakeCard(d){
- let intr=Number(d.ma)-Number(d.am);
- let note=d.tp.includes('Quarterly')?'Interest: QUARTERLY - દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે':d.tp.includes('Monthly')?'Interest: MONTHLY - દર મહિને Rs '+Math.round(intr/12).toLocaleString('en-IN')+' આવશે':'Interest: MATURITY - પાકે ત્યારે જ Rs '+intr.toLocaleString('en-IN')+' મળશે';
- let diff=Math.ceil((new Date(d.dt)-new Date())/(1000*60*60*24));
- let rem=diff<=60 && diff>=0?'<br><b style="color:#E65100">⚠️ '+diff+' દિવસમાં પાકશે</b>':'<br><span>પાકવાને '+diff+' દિવસ બાકી</span>';
- let el=document.createElement('div'); el.className='item';
- el.innerHTML='<b>'+d.nm+' FD</b><br>નામ: '+d.ow+'<br>Investment Date: '+d.id2+'<br>Amount: Rs '+Number(d.am).toLocaleString('en-IN')+'<br>Rate: '+d.rt+'%<br>Maturity Date: '+d.dt+'<br>Maturity Amount: Rs '+Number(d.ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b>'+rem+'<br>';
- let w=document.createElement('div'); w.style.cssText='margin-top:12px;display:flex;gap:12px;flex-wrap:wrap';
- let b=document.createElement('button'); b.className='fdFinalEdit'; b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;flex:1'; w.appendChild(b);
- let del=document.createElement('button'); del.textContent='DELETE'; del.style.cssText='background:#C62828;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;flex:1'; del.onclick=()=>{ if(confirm('કાઢી નાખવી?')) el.remove(); }; w.appendChild(del);
- el.appendChild(w); return el;
-}
-function fdShowForm(oldEl, oldData){
+<script>
+// FD - ADD + EDIT + SORT - સાદો, હલકો કોડ - કોઈ setInterval નથી
+function fdShowForm(oldEl){
  let old=document.getElementById('fdEditBox'); if(old) old.remove();
- let d=oldData||{nm:'Equitas',ow:'Rajendra',id2:'2026-02-18',am:'73628',rt:'7.5',dt:'2027-02-18',ma:'',tp:'Quarterly - દર 3 મહિને વ્યાજ'};
  let box=document.createElement('div'); box.id='fdEditBox';
  box.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px';
  box.innerHTML='<div style="background:white;width:100%;max-width:420px;border-radius:18px;padding:16px;max-height:90vh;overflow:auto">'
- +'<b style="font-size:18px">'+(oldEl?'EDIT FD - 8 ઓપ્શન':'ADD NEW FD - 8 ઓપ્શન')+'</b><br><br>'
- +'<label>1. Bank Name</label><input id="f1" value="'+d.nm.replace(/^\d+\.\s*/,'')+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>2. કોના નામની?</label><input id="f2" value="'+d.ow+'" placeholder="Rajendra / Komal / Tirth" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>3. Investment Date</label><input id="f3" type="date" value="'+d.id2+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>4. Amount</label><input id="f4" type="number" value="'+d.am+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>5. Interest Rate %</label><input id="f5" type="number" step="0.1" value="'+d.rt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>6. Maturity Date</label><input id="f6" type="date" value="'+d.dt+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>7. Maturity Amount</label><input id="f7" type="number" value="'+d.ma+'" placeholder="સર્ટિફિકેટમાં લખેલી રકમ" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
- +'<label>8. Interest Type</label><select id="f8" style="width:100%;padding:10px;margin:4px 0 14px;border:1px solid #ccc;border-radius:10px"><option '+(d.tp.includes('Quarterly')?'selected':'')+'>Quarterly - દર 3 મહિને વ્યાજ</option><option '+(d.tp.includes('Monthly')?'selected':'')+'>Monthly - દર મહિને વ્યાજ</option><option '+(d.tp.includes('Maturity')?'selected':'')+'>Maturity - પાકે ત્યારે જ</option></select>'
+ +'<b style="font-size:18px">'+(oldEl?'EDIT FD':'ADD NEW FD')+'</b><br><br>'
+ +'<label>1. Bank Name</label><input id="f1" value="Equitas" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>2. કોના નામની?</label><input id="f2" value="Rajendra" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>3. Investment Date</label><input id="f3" type="date" value="2026-02-18" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>4. Amount</label><input id="f4" type="number" value="73628" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>5. Interest Rate %</label><input id="f5" type="number" step="0.1" value="7.5" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>6. Maturity Date</label><input id="f6" type="date" value="2027-02-18" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>7. Maturity Amount</label><input id="f7" type="number" value="" placeholder="સર્ટિફિકેટમાં લખેલી રકમ" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'
+ +'<label>8. Interest Type</label><select id="f8" style="width:100%;padding:10px;margin:4px 0 14px;border:1px solid #ccc;border-radius:10px"><option>Quarterly - દર 3 મહિને વ્યાજ</option><option>Monthly - દર મહિને વ્યાજ</option><option>Maturity - પાકે ત્યારે જ</option></select>'
  +'<div style="display:flex;gap:10px"><button id="fdSave" style="flex:1;background:#1565C0;color:white;padding:12px;border:none;border-radius:10px;font-weight:bold">SAVE</button><button id="fdCancel" style="flex:1;background:#eee;padding:12px;border:none;border-radius:10px;font-weight:bold">બંધ કરો</button></div></div>';
  document.body.appendChild(box);
  document.getElementById('fdCancel').onclick=()=>box.remove();
  document.getElementById('fdSave').onclick=()=>{
-  let nd={nm:document.getElementById('f1').value, ow:document.getElementById('f2').value, id2:document.getElementById('f3').value, am:document.getElementById('f4').value, rt:document.getElementById('f5').value, dt:document.getElementById('f6').value, ma:document.getElementById('f7').value||document.getElementById('f4').value, tp:document.getElementById('f8').value};
-  if(oldEl){ let nc=fdMakeCard(nd); oldEl.replaceWith(nc); }
-  else{ let boxFD=document.getElementById('pFD'); if(boxFD) boxFD.appendChild(fdMakeCard(nd)); }
+  let nm=document.getElementById('f1').value, ow=document.getElementById('f2').value, id2=document.getElementById('f3').value, am=document.getElementById('f4').value, rt=document.getElementById('f5').value, dt=document.getElementById('f6').value, ma=document.getElementById('f7').value||am, tp=document.getElementById('f8').value;
+  let intr=Number(ma)-Number(am);
+  let note=tp.includes('Quarterly')?'Interest: QUARTERLY - દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે':tp.includes('Monthly')?'Interest: MONTHLY - દર મહિને Rs '+Math.round(intr/12).toLocaleString('en-IN')+' આવશે':'Interest: MATURITY - પાકે ત્યારે જ Rs '+intr.toLocaleString('en-IN')+' મળશે';
+  let html='<b>'+nm+' FD</b><br>નામ: '+ow+'<br>Investment Date: '+id2+'<br>Amount: Rs '+Number(am).toLocaleString('en-IN')+'<br>Rate: '+rt+'%<br>Maturity Date: '+dt+'<br>Maturity Amount: Rs '+Number(ma).toLocaleString('en-IN')+'<br><b style="color:#1B5E20">'+note+'</b><br>';
+  if(oldEl){ let w=document.createElement('div'); w.innerHTML=html; oldEl.innerHTML=''; oldEl.appendChild(w); let b=document.createElement('button'); b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px'; b.onclick=()=>fdShowForm(oldEl); oldEl.appendChild(b); }
+  else{ let el=document.createElement('div'); el.className='item'; el.innerHTML=html; let b=document.createElement('button'); b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px'; b.onclick=()=>fdShowForm(el); el.appendChild(b); document.getElementById('pFD').appendChild(el); }
   box.remove(); alert('સેવ થઈ ગયું રાજા');
  };
 }
 function fdInit(){
  let boxFD=document.getElementById('pFD'); if(!boxFD) return;
- // ADD બટન - એક જ વાર
  if(!document.getElementById('fdAddBtn')){
   let ab=document.createElement('button'); ab.id='fdAddBtn'; ab.textContent='+ ADD NEW FD';
   ab.style.cssText='width:100%;background:#1565C0;color:white;padding:14px;border:none;border-radius:14px;font-weight:bold;font-size:16px;margin:10px 0';
-  ab.onclick=()=>fdShowForm(null,null);
+  ab.onclick=()=>fdShowForm(null);
   boxFD.parentNode.insertBefore(ab, boxFD);
  }
- // EDIT બટન બાંધો
- document.querySelectorAll('.fdFinalEdit').forEach(btn=>{
-  if(btn.dataset.ok) return; btn.dataset.ok='1';
-  btn.onclick=()=>{
-   let el=btn.closest('div.item')||btn.parentNode.parentNode;
-   let t=el.innerText||'';
-   let get=(re,def)=>{ let m=t.match(re); return m?m[1].trim():def; };
-   let d={nm:get(/^(.*?) FD/m,'Equitas'), ow:get(/નામ:\s*(.*)/,'Rajendra'), id2:get(/Investment Date:\s*([0-9\-]+)/,'2026-02-18'), am:get(/Amount:\s*Rs\s*([\d,]+)/,'0').replace(/,/g,''), rt:get(/Rate:\s*([\d.]+)/,'7.5'), dt:get(/Maturity Date:\s*([0-9\-]+)/,'2027-02-18'), ma:get(/Maturity Amount:\s*Rs\s*([\d,]+)/,'').replace(/,/g,''), tp:t.includes('QUARTERLY')?'Quarterly':t.includes('MONTHLY')?'Monthly':'Maturity'};
-   fdShowForm(el,d);
-  };
+ document.querySelectorAll('#pFD .item').forEach(el=>{
+  if(el.querySelector('.fdFinalEdit')) return;
+  let b=document.createElement('button'); b.className='fdFinalEdit'; b.textContent='EDIT - ALL'; b.style.cssText='background:#1565C0;color:white;padding:10px 18px;border:none;border-radius:10px;font-weight:bold;margin-top:10px';
+  b.onclick=()=>fdShowForm(el); el.appendChild(b);
  });
- // GLASS FORCE + SORT
- document.querySelectorAll('div').forEach(el=>{
-  let tt=el.innerText||'';
-  if(tt.includes('Maturity Date:') && tt.includes('Amount:') && el.querySelector('.fdFinalEdit')){
-   el.style.setProperty('background','rgba(255,255,255,0.65)','important');
-   el.style.setProperty('backdrop-filter','blur(14px)','important');
-   el.style.setProperty('-webkit-backdrop-filter','blur(14px)','important');
-   el.style.setProperty('border','1px solid rgba(255,255,255,0.9)','important');
-   el.style.setProperty('border-radius','18px','important');
-   el.style.setProperty('box-shadow','0 8px 25px rgba(21,101,192,0.25)','important');
-   el.style.setProperty('padding','16px','important');
-  }
- });
- // SORT - પહેલા પાકતી પહેલા
- let items=[...boxFD.querySelectorAll('.item')];
- if(items.length>1){
-  items.sort((a,b)=>{
-   let da=(a.innerText.match(/Maturity Date:\s*([0-9\-]+)/)||[])[1];
-   let db=(b.innerText.match(/Maturity Date:\s*([0-9\-]+)/)||[])[1];
-   return new Date(da||'2099-01-01')-new Date(db||'2099-01-01');
-  });
-  items.forEach(el=>boxFD.appendChild(el));
- }
 }
 setTimeout(fdInit,600);
-setInterval(fdInit,2000);
- </script>
- <script>
-// જૂના ADD બટનને નવું ફોર્મ ખોલતું કરો
-setTimeout(()=>{
-  document.querySelectorAll('button').forEach(b=>{
-    let t=(b.innerText||'').toUpperCase();
-    if(t.includes('ADD') && t.includes('FD')){
-      b.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); fdShowForm(null,null); };
-      b.style.background='#1565C0'; b.style.color='white';
-    }
-  });
-},1000);
-setInterval(()=>{
-  document.querySelectorAll('button').forEach(b=>{
-    let t=(b.innerText||'').toUpperCase();
-    if(t.includes('ADD') && t.includes('FD') && !b.dataset.fixed){
-      b.dataset.fixed='1';
-      b.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); fdShowForm(null,null); };
-    }
-  });
-},1000);
-</script>
- <script>
-<script>
-window.unlocked=true; window.isLocked=false; window.isUnlocked=true;
-window.pinVerified=true; window.allowAccess=true; window.accessGranted=true;
-window.locked=false; window.isAuthenticated=true; window.verified=true;
-localStorage.setItem('unlocked','1'); localStorage.setItem('pinVerified','1');
-localStorage.setItem('auth','1'); sessionStorage.setItem('unlocked','1');
-try{document.getElementById('lock')?.remove();}catch(e){}
-document.querySelectorAll('*').forEach(el=>{el.style.pointerEvents='auto';});
-document.querySelectorAll('button').forEach(b=>{b.disabled=false; b.style.opacity='1'; b.style.pointerEvents='auto';});
-// બટનને ફરીથી જીવતું કરો
-setTimeout(()=>{
-document.querySelectorAll('button').forEach(btn=>{
-btn.addEventListener('click',()=>{
-let t=btn.textContent.trim().toLowerCase();
-if(window.showTab) try{window.showTab(t);}catch(e){}
-if(window.switchTab) try{window.switchTab(t);}catch(e){}
-if(window.showSection) try{window.showSection(t);}catch(e){}
-});
-});
-},500);
 </script>
 </body>
 </html>
