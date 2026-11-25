@@ -330,5 +330,29 @@ function fdShowForm(oldEl){ let old=document.getElementById('fdEditBox'); if(old
 function fdInit(){ let boxFD=document.getElementById('pFD'); if(!boxFD) return; if(!document.getElementById('fdAddBtn')){ let ab=document.createElement('button'); ab.id='fdAddBtn'; ab.textContent='+ ADD NEW FD'; ab.style.cssText='width:100%;background:#1565C0;color:white;padding:14px;border:none;border-radius:14px;font-weight:bold;font-size:16px;margin:10px 0'; ab.onclick=()=>fdShowForm(null); boxFD.insertBefore(ab, boxFD.firstChild); } document.querySelectorAll('#pFD .item').forEach(el=>{ fdAddButtons(el); }); }
 setTimeout(fdInit,600);
 </script>
+  <script>
+// NEW SYNC FIX
+async function newSyncCheck(){
+  try{
+    let r = await fetch(SHEET_URL);
+    let j = await r.json();
+    let el = document.body.innerHTML.includes("SYNC") ? document.querySelector("*") : null;
+    // SYNC વાળું element શોધીને OK કરો
+    document.querySelectorAll("*").forEach(e=>{
+      if(e.textContent.trim().startsWith("SYNC:")){
+        e.textContent = "SYNC: OK";
+        e.style.color = "#00c853";
+      }
+    });
+    console.log("SYNC DATA", j);
+  }catch(e){
+    document.querySelectorAll("*").forEach(el=>{
+      if(el.textContent.trim().startsWith("SYNC:")) el.textContent = "SYNC: FAIL - "+e;
+    });
+  }
+}
+setTimeout(newSyncCheck, 1000);
+setInterval(newSyncCheck, 30000);
+</script>
 </body>
 </html>
