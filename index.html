@@ -331,18 +331,20 @@ async function updateShareLive(){
 if(!confirm('LIVE PRICE lavu che?')) return;
 let updated=0, failed=[];
 for(let s of shares){
-if(s.type==='Bond') continue;
+let t=(s.type||'').toLowerCase();
+if(t.includes('bond')) continue;
+if(/^[0-9]/.test(s.name)) continue;
 let sym=(window.SYMBOL_MAP&&window.SYMBOL_MAP[s.name])||s.name.toUpperCase().replace(/[^A-Z0-9]/g,'');
 try{
-let r=await fetch('https://stooq.com/q/l/?s='+sym+'.NS&f=sd2t2ohlcv&h&e=csv');
-let t=await r.text();
-let lines=t.trim().split('\n');
-let parts=lines[1].split(',');
-let price=parseFloat(parts[6]);
+let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS';
+let r=await fetch('https://api.allorigins.win/get?url='+encodeURIComponent(yurl));
+let j=await r.json();
+let data=JSON.parse(j.contents);
+let price=data.chart.result[0].meta.regularMarketPrice;
 if(price&&price>0){ s.price=price; updated++; }
 else failed.push(s.name);
 }catch(e){ failed.push(s.name); }
-await new Promise(r=>setTimeout(r,200));
+await new Promise(r=>setTimeout(r,300));
 }
 saveToCloud(); renderShare();
 alert('LIVE Done Raja! Updated: '+updated+' | Na aavya: '+failed.join(', '));
