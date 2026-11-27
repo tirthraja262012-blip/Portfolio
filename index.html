@@ -346,7 +346,7 @@ async function fetchFromStooq(sym){
   try{
     let stooqUrl='https://stooq.com/q/l/?s='+sym.toLowerCase()+'.ns&f=sd2t2ohlcv&h&e=csv';
     // Pehla allorigins thi try karo
-   let t=await fetchWithTimeout('https://corsproxy.io/?url='+encodeURIComponent(stooqUrl), 10000);
+   let t=await fetchWithTimeout('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(stooqUrl), 10000);
     if(!t){
       // Jo na aave to sidho try karo
       t=await fetchWithTimeout(stooqUrl, 8000);
