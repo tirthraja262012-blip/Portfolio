@@ -328,56 +328,18 @@ function setShareFilter(f){ shareFilter=f; ['All','Raj','Kom','Prof','Loss','Hol
 function renderShare(){ let search=(document.getElementById('shareSearch').value||'').toLowerCase(); let list=shares.filter(s=>{ if(search && !s.name.toLowerCase().includes(search)) return false; if(shareFilter==='Rajendra' && s.owner!=='Rajendra') return false; if(shareFilter==='Komal' && s.owner!=='Komal') return false; let c=shareCalc(s); if(shareFilter==='Profit' && (c.realised+c.unrealised)<0) return false; if(shareFilter==='Loss' && (c.realised+c.unrealised)>=0) return false; if(shareFilter==='Holding' && c.remQ<=0) return false; return true; }); let tB=0,tS=0,tR=0,tReal=0,tUn=0; shares.forEach(s=>{let c=shareCalc(s); tB+=c.bA; tS+=c.sA; tR+=c.remVal; tReal+=c.realised; tUn+=c.unrealised;}); document.getElementById('shareCount').textContent=shares.length; document.getElementById('shareBuyTot').textContent=Math.round(tB).toLocaleString('en-IN'); document.getElementById('shareSellTot').textContent=Math.round(tS).toLocaleString('en-IN'); document.getElementById('shareRemVal').textContent=Math.round(tR).toLocaleString('en-IN'); document.getElementById('shareRealised').textContent='Rs '+Math.round(tReal).toLocaleString('en-IN'); document.getElementById('shareUnrealised').textContent='Rs '+Math.round(tUn).toLocaleString('en-IN'); let sv=document.getElementById('tShareVal'); if(sv) sv.textContent='Rs '+Math.round(tR).toLocaleString('en-IN'); let sg=document.getElementById('tShareGain'); if(sg) sg.textContent='Gain Rs '+(Math.round(tReal+tUn)).toLocaleString('en-IN'); let html=''; list.forEach((s,idx)=>{ let realIdx=shares.indexOf(s); let c=shareCalc(s); let xirr=calcXIRR(s); let cls=(c.realised+c.unrealised)>=0?'green':'red'; let buyRows=s.buys.map(b=>`<tr><td>${b.date}</td><td>BUY</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); let sellRows=s.sells.map(b=>`<tr><td>${b.date}</td><td>SELL</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); html+=`<div class="card"><div class="item"><b>${s.name} - ${s.owner}</b><br>Buy: ${c.bQ} Qty | Rs ${Math.round(c.bA).toLocaleString('en-IN')}<br>Sell: ${c.sQ} Qty | Rs ${Math.round(c.sA).toLocaleString('en-IN')}<br>Remaining: <b>${c.remQ} Qty</b> | Avg Price: Rs ${c.avg.toFixed(2)} | CMP: Rs ${c.cmp}<br>Realised: Rs ${Math.round(c.realised).toLocaleString('en-IN')} | Unrealised: Rs ${Math.round(c.unrealised).toLocaleString('en-IN')}<br><b class="${cls}">Total Profit: Rs ${Math.round(c.realised+c.unrealised).toLocaleString('en-IN')} | XIRR: ${xirr.toFixed(1)}%</b><div class="scrollX"><table><tr><th>Date</th><th>Type</th><th>Qty</th><th>Price</th><th>Total</th></tr>${buyRows}${sellRows}</table></div><button class="btnEdit" onclick="editShare(${realIdx})">EDIT</button><button class="btnDel" onclick="deleteShare(${realIdx})">DELETE</button></div></div>`; }); if(!list.length) html='<div class="card">No Share Found. + ADD NEW SHARE dabavo.</div>'; document.getElementById('shareList').innerHTML=html; updateGrandTotal(); }
 window.SYMBOL_MAP={'TCS':'TCS','NSE':'NSE','Infosys':'INFY','Reliance':'RELIANCE','RELIANCE':'RELIANCE','HDFC Bank':'HDFCBANK','HDFCBANK':'HDFCBANK','ICICI Bank':'ICICIBANK','Tata Motors':'TATAMOTORS','Bajaj Finance':'BAJFINANCE','BAJAJHFL':'BAJAJHFL','Titan':'TITAN','Asian Paints':'ASIANPAINT','Hindustan Unilever':'HINDUNILVR','ITC':'ITC','L&T':'LT','Maruti':'MARUTI','Axis Bank':'AXISBANK','Kotak Bank':'KOTAKBANK','SBI':'SBIN','Tata Steel':'TATASTEEL','Wipro':'WIPRO','Tech Mahindra':'TECHM','HCL Tech':'HCLTECH','Sun Pharma':'SUNPHARMA','Tata Power':'TATAPOWER','TATAPOWER':'TATAPOWER','Adani Enterprises':'ADANIENT','Adani Ports':'ADANIPORTS','Gold ETF':'GOLDBEES','GOLDBEES':'GOLDBEES','Nifty 50 ETF':'NIFTYBEES','IREDA':'IREDA','NMDC':'NMDC','IRFC':'IRFC','CPSEETF':'CPSEETF','ALLCARGO':'ALLCARGO','HUDCO':'HUDCO','RECLTD':'RECLTD','IRB':'IRB','LANCER':'LANCER','IOC':'IOC','AGL':'AGL'};
 
-// ===== SHARE LIVE - FIXED V4 - RAJA =====
+// ===== SHARE LIVE - FIXED V5 - SHEET WAY - RAJA =====
 let shareLiveRunning=false;
-async function fetchText(url, ms){
-  let ctrl=new AbortController();
-  let to=setTimeout(()=>ctrl.abort(), ms);
-  try{ let r=await fetch(url,{signal:ctrl}); let t=await r.text(); return t; }
-  catch(e){ return ""; } finally{ clearTimeout(to); }
-}
-function parseYahooJson(t){
-  if(!t) return 0;
-  let data=null;
-  try{ data=JSON.parse(t); }catch(e){ return 0; }
-  if(data && data.contents){ try{ data=JSON.parse(data.contents); }catch(e){ return 0; } }
-  let p=data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta && data.chart.result[0].meta.regularMarketPrice;
-  p=Number(p||0); return p>0?p:0;
-}
-async function fetchFromStooq(sym){
-  try{
-    let stooqUrl='https://stooq.com/q/l/?s='+sym.toLowerCase()+'.in&f=sd2t2ohlcv&h&e=csv';
-    let t=await fetchText('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(stooqUrl), 10000);
-    if(!t) t=await fetchText(stooqUrl, 8000);
-    if(!t) return 0;
-    let lines=t.trim().split('\n');
-    if(lines.length<2) return 0;
-    let row=lines[1];
-    if(row.toLowerCase().includes('symbol')) return 0;
-    let parts=row.split(',');
-    let close=parseFloat(parts[6]);
-    if(close>0) return close;
-    let close2=parseFloat(parts[4]);
-    if(close2>0) return close2;
-    return 0;
-  }catch(e){ return 0; }
-}
-async function fetchFromYahoo(sym){
-  try{
-    let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS?interval=1d&range=1d';
-    let t1=await fetchText('https://api.allorigins.win/raw?url='+encodeURIComponent(yurl), 10000);
-    let p1=parseYahooJson(t1); if(p1>0) return p1;
-    let t2=await fetchText('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(yurl), 10000);
-    let p2=parseYahooJson(t2); if(p2>0) return p2;
-    let t3=await fetchText('https://corsproxy.io/?url='+encodeURIComponent(yurl), 10000);
-    let p3=parseYahooJson(t3); if(p3>0) return p3;
-    return 0;
-  }catch(e){ return 0; }
-}
 async function fetchSharePriceWithTimeout(sym){
-  let p1=await fetchFromStooq(sym); if(p1>0) return p1;
-  let p2=await fetchFromYahoo(sym); if(p2>0) return p2;
-  return 0;
+  try{
+    if(!SHEET_URL) return 0;
+    let url = SHEET_URL + "?price=" + encodeURIComponent(sym) + "&t=" + Date.now();
+    let r = await fetch(url);
+    let t = await r.text();
+    let p = parseFloat(t);
+    if(p>0) return p;
+    return 0;
+  }catch(e){ return 0; }
 }
 async function updateShareLive(){
   if(shareLiveRunning){ alert('SHARE LIVE already chalu che Raja, thodo wait karo'); return; }
