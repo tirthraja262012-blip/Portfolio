@@ -341,40 +341,49 @@ async function fetchWithTimeout(url, ms){
   }catch(e){ return ""; }
   finally{ clearTimeout(to); }
 }
-
-// Rasto 1 - STOOQ - Sauthi saral, key vagar
+// Rasto 1 - STOOQ via allorigins - Browser na atkaave
 async function fetchFromStooq(sym){
   try{
-    let url='https://stooq.com/q/l/?s='+sym.toLowerCase()+'.ns&f=sd2t2ohlcv&h&e=csv';
-    let t=await fetchWithTimeout(url, 8000);
+    let stooqUrl='https://stooq.com/q/l/?s='+sym.toLowerCase()+'.ns&f=sd2t2ohlcv&h&e=csv';
+    // Pehla allorigins thi try karo
+    let t=await fetchWithTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(stooqUrl), 10000);
+    if(!t){
+      // Jo na aave to sidho try karo
+      t=await fetchWithTimeout(stooqUrl, 8000);
+    }
     if(!t) return 0;
     let lines=t.trim().split('\n');
     if(lines.length<2) return 0;
     let parts=lines[1].split(',');
-    // stooq format: symbol,date,time,open,high,low,close,volume
     let close=parseFloat(parts[6]);
     if(close>0) return close;
+    // Kyaare kyaare stooq ma close 7ma nahi, 4tha hoy
+    let close2=parseFloat(parts[4]);
+    if(close2>0) return close2;
     return 0;
   }catch(e){ return 0; }
 }
 
-// Rasto 2 ane 3 - YAHOO
+// Rasto 2 ane 3 - YAHOO via allorigins GET
 async function fetchFromYahoo(sym, proxy){
   try{
     let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS';
     let full='';
     if(proxy==='corsproxy') full='https://corsproxy.io/?url='+encodeURIComponent(yurl);
-    if(proxy==='allorigins') full='https://api.allorigins.win/raw?url='+encodeURIComponent(yurl);
-    let t=await fetchWithTimeout(full, 8000);
+    if(proxy==='allorigins') full='https://api.allorigins.win/get?url='+encodeURIComponent(yurl);
+    let t=await fetchWithTimeout(full, 10000);
     if(!t) return 0;
-    let data=JSON.parse(t);
-    // allorigins raw aape direct JSON, corsproxy pan
+    let data;
+    try{ data=JSON.parse(t); }catch(e){ return 0; }
+    // allorigins GET ma andar contents ma hoy
+    if(data && data.contents){
+      try{ data=JSON.parse(data.contents); }catch(e){ return 0; }
+    }
     let price=data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta && data.chart.result[0].meta.regularMarketPrice;
     if(price>0) return price;
     return 0;
   }catch(e){ return 0; }
 }
-
 async function fetchSharePriceWithTimeout(sym){
   // 1. Stooq
   let p1=await fetchFromStooq(sym);
