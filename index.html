@@ -352,7 +352,8 @@ async function fetchFromStooq(sym){
       t=await fetchWithTimeout(stooqUrl, 8000);
     }
     if(!t) return 0;
-    let lines=t.trim().split('\n');
+    let txt=await t.text();
+let lines=txt.trim().split('\n');
     if(lines.length<2) return 0;
     let parts=lines[1].split(',');
     let close=parseFloat(parts[6]);
