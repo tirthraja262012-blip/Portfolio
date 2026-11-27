@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAJA PARIVAR - MF FINAL FIXED V2</title>
+<title>RAJA PARIVAR - MF FINAL FIXED V2 - SHARE LIVE FIXED</title>
 <link rel="icon" href="icon.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -122,6 +122,7 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <button class="btnAdd" onclick="showShareForm()">+ ADD NEW SHARE</button>
 <button class="btnExcel" onclick="exportShare()">EXPORT ONLY SHARE TO EXCEL</button>
 <button class="btnLive" onclick="updateShareLive()">UPDATE LIVE PRICE - SHARE</button>
+<p class="small" id="shareLiveStatus" style="background:#E8F5E9;padding:8px;border-radius:8px;margin-top:8px">SHARE LIVE OFF - Press button for LIVE PRICE.</p>
 <div style="margin-top:10px">
 <span class="chip active" id="shFAll" onclick="setShareFilter('All')">ALL</span>
 <span class="chip" id="shFRaj" onclick="setShareFilter('Rajendra')">RAJENDRA</span>
@@ -254,7 +255,7 @@ let FD = [
 {name:"Equitas FD", amt:73628, mat:"2027-02-18"},
 {name:"Shriram FD", amt:50000, mat:"2027-05-07"},
 {name:"Unity FD", amt:250000, mat:"2027-06-01"},
-  {name:"Unity FD", amt:200000, mat:"2027-06-10"},
+{name:"Unity FD", amt:200000, mat:"2027-06-10"},
 {name:"Unity FD", amt:200000, mat:"2027-06-11"},
 {name:"AU FD", amt:283367, mat:"2027-10-02"},
 {name:"Unity FD", amt:200000, mat:"2027-12-13"},
@@ -325,29 +326,49 @@ function editShare(i){ let s=shares[i]; shareEditIdx=i; document.getElementById(
 function deleteShare(i){ if(!confirm('Delete '+shares[i].name+' ?'))return; shares.splice(i,1); localStorage.setItem('shares_v2',JSON.stringify(shares)); renderShare(); saveToCloud(); }
 function setShareFilter(f){ shareFilter=f; ['All','Raj','Kom','Prof','Loss','Hold'].forEach(k=>{let e=document.getElementById('shF'+k); if(e) e.className='chip';}); let map={All:'shFAll',Rajendra:'shFRaj',Komal:'shFKom',Profit:'shFProf',Loss:'shFLoss',Holding:'shFHold'}; document.getElementById(map[f]).className='chip active'; renderShare(); }
 function renderShare(){ let search=(document.getElementById('shareSearch').value||'').toLowerCase(); let list=shares.filter(s=>{ if(search && !s.name.toLowerCase().includes(search)) return false; if(shareFilter==='Rajendra' && s.owner!=='Rajendra') return false; if(shareFilter==='Komal' && s.owner!=='Komal') return false; let c=shareCalc(s); if(shareFilter==='Profit' && (c.realised+c.unrealised)<0) return false; if(shareFilter==='Loss' && (c.realised+c.unrealised)>=0) return false; if(shareFilter==='Holding' && c.remQ<=0) return false; return true; }); let tB=0,tS=0,tR=0,tReal=0,tUn=0; shares.forEach(s=>{let c=shareCalc(s); tB+=c.bA; tS+=c.sA; tR+=c.remVal; tReal+=c.realised; tUn+=c.unrealised;}); document.getElementById('shareCount').textContent=shares.length; document.getElementById('shareBuyTot').textContent=Math.round(tB).toLocaleString('en-IN'); document.getElementById('shareSellTot').textContent=Math.round(tS).toLocaleString('en-IN'); document.getElementById('shareRemVal').textContent=Math.round(tR).toLocaleString('en-IN'); document.getElementById('shareRealised').textContent='Rs '+Math.round(tReal).toLocaleString('en-IN'); document.getElementById('shareUnrealised').textContent='Rs '+Math.round(tUn).toLocaleString('en-IN'); let sv=document.getElementById('tShareVal'); if(sv) sv.textContent='Rs '+Math.round(tR).toLocaleString('en-IN'); let sg=document.getElementById('tShareGain'); if(sg) sg.textContent='Gain Rs '+(Math.round(tReal+tUn)).toLocaleString('en-IN'); let html=''; list.forEach((s,idx)=>{ let realIdx=shares.indexOf(s); let c=shareCalc(s); let xirr=calcXIRR(s); let cls=(c.realised+c.unrealised)>=0?'green':'red'; let buyRows=s.buys.map(b=>`<tr><td>${b.date}</td><td>BUY</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); let sellRows=s.sells.map(b=>`<tr><td>${b.date}</td><td>SELL</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); html+=`<div class="card"><div class="item"><b>${s.name} - ${s.owner}</b><br>Buy: ${c.bQ} Qty | Rs ${Math.round(c.bA).toLocaleString('en-IN')}<br>Sell: ${c.sQ} Qty | Rs ${Math.round(c.sA).toLocaleString('en-IN')}<br>Remaining: <b>${c.remQ} Qty</b> | Avg Price: Rs ${c.avg.toFixed(2)} | CMP: Rs ${c.cmp}<br>Realised: Rs ${Math.round(c.realised).toLocaleString('en-IN')} | Unrealised: Rs ${Math.round(c.unrealised).toLocaleString('en-IN')}<br><b class="${cls}">Total Profit: Rs ${Math.round(c.realised+c.unrealised).toLocaleString('en-IN')} | XIRR: ${xirr.toFixed(1)}%</b><div class="scrollX"><table><tr><th>Date</th><th>Type</th><th>Qty</th><th>Price</th><th>Total</th></tr>${buyRows}${sellRows}</table></div><button class="btnEdit" onclick="editShare(${realIdx})">EDIT</button><button class="btnDel" onclick="deleteShare(${realIdx})">DELETE</button></div></div>`; }); if(!list.length) html='<div class="card">No Share Found. + ADD NEW SHARE dabavo.</div>'; document.getElementById('shareList').innerHTML=html; updateGrandTotal(); }
-window.SYMBOL_MAP={'TCS':'TCS','Infosys':'INFY','Reliance':'RELIANCE','HDFC Bank':'HDFCBANK','ICICI Bank':'ICICIBANK','Tata Motors':'TATAMOTORS','Bajaj Finance':'BAJFINANCE','Titan':'TITAN','Asian Paints':'ASIANPAINT','Hindustan Unilever':'HINDUNILVR','ITC':'ITC','L&T':'LT','Maruti':'MARUTI','Axis Bank':'AXISBANK','Kotak Bank':'KOTAKBANK','SBI':'SBIN','Tata Steel':'TATASTEEL','Wipro':'WIPRO','Tech Mahindra':'TECHM','HCL Tech':'HCLTECH','Sun Pharma':'SUNPHARMA','Tata Power':'TATAPOWER','Adani Enterprises':'ADANIENT','Adani Ports':'ADANIPORTS','Gold ETF':'GOLDBEES','Nifty 50 ETF':'NIFTYBEES'};
+window.SYMBOL_MAP={'TCS':'TCS','NSE':'NSE','Infosys':'INFY','Reliance':'RELIANCE','RELIANCE':'RELIANCE','HDFC Bank':'HDFCBANK','HDFCBANK':'HDFCBANK','ICICI Bank':'ICICIBANK','Tata Motors':'TATAMOTORS','Bajaj Finance':'BAJFINANCE','BAJAJHFL':'BAJAJHFL','Titan':'TITAN','Asian Paints':'ASIANPAINT','Hindustan Unilever':'HINDUNILVR','ITC':'ITC','L&T':'LT','Maruti':'MARUTI','Axis Bank':'AXISBANK','Kotak Bank':'KOTAKBANK','SBI':'SBIN','Tata Steel':'TATASTEEL','Wipro':'WIPRO','Tech Mahindra':'TECHM','HCL Tech':'HCLTECH','Sun Pharma':'SUNPHARMA','Tata Power':'TATAPOWER','TATAPOWER':'TATAPOWER','Adani Enterprises':'ADANIENT','Adani Ports':'ADANIPORTS','Gold ETF':'GOLDBEES','GOLDBEES':'GOLDBEES','Nifty 50 ETF':'NIFTYBEES','IREDA':'IREDA','NMDC':'NMDC','IRFC':'IRFC','CPSEETF':'CPSEETF','ALLCARGO':'ALLCARGO','HUDCO':'HUDCO','RECLTD':'RECLTD','IRB':'IRB','LANCER':'LANCER','IOC':'IOC','AGL':'AGL'};
 
-async function updateShareLive(){
-if(!confirm('LIVE PRICE lavu che?')) return;
-let updated=0, failed=[];
-for(let s of shares){
-let t=(s.type||'').toLowerCase();
-if(t.includes('bond')) continue;
-if(/^[0-9]/.test(s.name)) continue;
-let sym=(window.SYMBOL_MAP&&window.SYMBOL_MAP[s.name])||s.name.toUpperCase().replace(/[^A-Z0-9]/g,'');
-try{
-let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS';
-let r=await fetch('https://api.allorigins.win/get?url='+encodeURIComponent(yurl));
-let j=await r.json();
-let data=JSON.parse(j.contents);
-let price=data.chart.result[0].meta.regularMarketPrice;
-if(price&&price>0){ s.price=price; updated++; }
-else failed.push(s.name);
-}catch(e){ failed.push(s.name); }
-await new Promise(r=>setTimeout(r,300));
+// ===== SHARE LIVE - FIXED V2 =====
+let shareLiveRunning=false;
+async function fetchSharePriceWithTimeout(sym){
+  let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS';
+  let ctrl=new AbortController(); let to=setTimeout(()=>ctrl.abort(),8000);
+  try{
+    let r=await fetch('https://api.allorigins.win/get?url='+encodeURIComponent(yurl),{signal:ctrl});
+    let j=await r.json();
+    let data=JSON.parse(j.contents);
+    let price=data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta && data.chart.result[0].meta.regularMarketPrice;
+    return (price && price>0) ? price : 0;
+  }catch(e){ return 0; } finally{ clearTimeout(to); }
 }
-saveToCloud(); renderShare();
-alert('LIVE Done Raja! Updated: '+updated+' | Na aavya: '+failed.join(', '));
+async function updateShareLive(){
+  if(shareLiveRunning){ alert('SHARE LIVE already chalu che Raja, thodo wait karo'); return; }
+  if(!confirm('LIVE PRICE lavu che?')) return;
+  shareLiveRunning=true;
+  let st=document.getElementById('shareLiveStatus');
+  let updated=0, failed=[], skipped=[];
+  try{
+    for(let i=0;i<shares.length;i++){
+      let s=shares[i];
+      if(st) st.textContent='SHARE LIVE chalu che... '+(i+1)+'/'+shares.length+' - '+s.name;
+      let t=(s.type||'').toLowerCase();
+      if(t.includes('bond')){ skipped.push(s.name); continue; }
+      if(/^[0-9]/.test(s.name)){ skipped.push(s.name+' (BOND - SKIP)'); continue; }
+      if(s.name.toUpperCase()==='NSE'){ skipped.push('NSE (Unlisted - SKIP)'); continue; }
+      let sym=(window.SYMBOL_MAP && window.SYMBOL_MAP[s.name]) || s.name.toUpperCase().replace(/[^A-Z0-9]/g,'');
+      if(!sym){ failed.push(s.name); continue; }
+      let price=await fetchSharePriceWithTimeout(sym);
+      if(price>0){ s.cmp=price; s.price=price; updated++; }
+      else failed.push(s.name);
+      await new Promise(r=>setTimeout(r,300));
+    }
+  }catch(e){ failed.push('Error: '+e.message); }
+  shareLiveRunning=false;
+  try{ localStorage.setItem('shares_v2',JSON.stringify(shares)); }catch(e){}
+  try{ saveToCloud(); }catch(e){}
+  try{ renderShare(); }catch(e){}
+  if(st) st.textContent='SHARE LIVE Done: '+updated+' updated | Skip: '+skipped.length+' | Fail: '+failed.length;
+  alert('LIVE Done Raja! Updated: '+updated+' | Skip (BOND): '+skipped.join(', ')+' | Na aavya: '+failed.join(', '));
 }
 function exportShare(){ let csv='Share Name,Owner,Date,Type,Qty,Price,Total\n'; shares.forEach(s=>{ s.buys.forEach(b=>csv+=`"${s.name}",${s.owner},${b.date},BUY,${b.qty},${b.price},${b.qty*b.price}\n`); s.sells.forEach(b=>csv+=`"${s.name}",${s.owner},${b.date},SELL,${b.qty},${b.price},${b.qty*b.price}\n`); }); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='RAJA-SHARE-'+new Date().toISOString().slice(0,10)+'.csv'; a.click(); }
 let premTypes = JSON.parse(localStorage.getItem('premTypes')||'["ULIP","LIFE","MEDICLAIM","MONEY BACK","VEHICLE","RETIREMENT","SHORT TERM"]');
