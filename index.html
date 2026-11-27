@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAJA PARIVAR - MF FINAL FIXED V2 - SHARE LIVE FIXED</title>
+<title>RAJA PARIVAR - MF FINAL FIXED V2 - SHARE LIVE FIXED V4</title>
 <link rel="icon" href="icon.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -248,7 +248,7 @@ let MF = [
 {name:"Parag Parikh ELSS Tax Saver Fund - Direct Growth", folio:"Rajendra", units:896.29, inv:20000, nav:33.2557, daily:0},
 {name:"Parag Parikh Flexi Cap Fund - Direct Growth", folio:"Komalben", units:269.94, inv:25000, nav:94.6945, daily:0},
 {name:"DSP Small Cap Fund - Direct Growth", folio:"", units:809.87, inv:99716, nav:245.861, daily:0},
-{name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006, daily:0},
+  {name:"DSP Large and Mid Cap Fund - Direct Growth", folio:"", units:70.75, inv:16451, nav:729.006, daily:0},
 {name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213, daily:0}
 ];
 let FD = [
@@ -328,76 +328,57 @@ function setShareFilter(f){ shareFilter=f; ['All','Raj','Kom','Prof','Loss','Hol
 function renderShare(){ let search=(document.getElementById('shareSearch').value||'').toLowerCase(); let list=shares.filter(s=>{ if(search && !s.name.toLowerCase().includes(search)) return false; if(shareFilter==='Rajendra' && s.owner!=='Rajendra') return false; if(shareFilter==='Komal' && s.owner!=='Komal') return false; let c=shareCalc(s); if(shareFilter==='Profit' && (c.realised+c.unrealised)<0) return false; if(shareFilter==='Loss' && (c.realised+c.unrealised)>=0) return false; if(shareFilter==='Holding' && c.remQ<=0) return false; return true; }); let tB=0,tS=0,tR=0,tReal=0,tUn=0; shares.forEach(s=>{let c=shareCalc(s); tB+=c.bA; tS+=c.sA; tR+=c.remVal; tReal+=c.realised; tUn+=c.unrealised;}); document.getElementById('shareCount').textContent=shares.length; document.getElementById('shareBuyTot').textContent=Math.round(tB).toLocaleString('en-IN'); document.getElementById('shareSellTot').textContent=Math.round(tS).toLocaleString('en-IN'); document.getElementById('shareRemVal').textContent=Math.round(tR).toLocaleString('en-IN'); document.getElementById('shareRealised').textContent='Rs '+Math.round(tReal).toLocaleString('en-IN'); document.getElementById('shareUnrealised').textContent='Rs '+Math.round(tUn).toLocaleString('en-IN'); let sv=document.getElementById('tShareVal'); if(sv) sv.textContent='Rs '+Math.round(tR).toLocaleString('en-IN'); let sg=document.getElementById('tShareGain'); if(sg) sg.textContent='Gain Rs '+(Math.round(tReal+tUn)).toLocaleString('en-IN'); let html=''; list.forEach((s,idx)=>{ let realIdx=shares.indexOf(s); let c=shareCalc(s); let xirr=calcXIRR(s); let cls=(c.realised+c.unrealised)>=0?'green':'red'; let buyRows=s.buys.map(b=>`<tr><td>${b.date}</td><td>BUY</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); let sellRows=s.sells.map(b=>`<tr><td>${b.date}</td><td>SELL</td><td>${b.qty}</td><td>${b.price}</td><td>${(b.qty*b.price).toLocaleString('en-IN')}</td></tr>`).join(''); html+=`<div class="card"><div class="item"><b>${s.name} - ${s.owner}</b><br>Buy: ${c.bQ} Qty | Rs ${Math.round(c.bA).toLocaleString('en-IN')}<br>Sell: ${c.sQ} Qty | Rs ${Math.round(c.sA).toLocaleString('en-IN')}<br>Remaining: <b>${c.remQ} Qty</b> | Avg Price: Rs ${c.avg.toFixed(2)} | CMP: Rs ${c.cmp}<br>Realised: Rs ${Math.round(c.realised).toLocaleString('en-IN')} | Unrealised: Rs ${Math.round(c.unrealised).toLocaleString('en-IN')}<br><b class="${cls}">Total Profit: Rs ${Math.round(c.realised+c.unrealised).toLocaleString('en-IN')} | XIRR: ${xirr.toFixed(1)}%</b><div class="scrollX"><table><tr><th>Date</th><th>Type</th><th>Qty</th><th>Price</th><th>Total</th></tr>${buyRows}${sellRows}</table></div><button class="btnEdit" onclick="editShare(${realIdx})">EDIT</button><button class="btnDel" onclick="deleteShare(${realIdx})">DELETE</button></div></div>`; }); if(!list.length) html='<div class="card">No Share Found. + ADD NEW SHARE dabavo.</div>'; document.getElementById('shareList').innerHTML=html; updateGrandTotal(); }
 window.SYMBOL_MAP={'TCS':'TCS','NSE':'NSE','Infosys':'INFY','Reliance':'RELIANCE','RELIANCE':'RELIANCE','HDFC Bank':'HDFCBANK','HDFCBANK':'HDFCBANK','ICICI Bank':'ICICIBANK','Tata Motors':'TATAMOTORS','Bajaj Finance':'BAJFINANCE','BAJAJHFL':'BAJAJHFL','Titan':'TITAN','Asian Paints':'ASIANPAINT','Hindustan Unilever':'HINDUNILVR','ITC':'ITC','L&T':'LT','Maruti':'MARUTI','Axis Bank':'AXISBANK','Kotak Bank':'KOTAKBANK','SBI':'SBIN','Tata Steel':'TATASTEEL','Wipro':'WIPRO','Tech Mahindra':'TECHM','HCL Tech':'HCLTECH','Sun Pharma':'SUNPHARMA','Tata Power':'TATAPOWER','TATAPOWER':'TATAPOWER','Adani Enterprises':'ADANIENT','Adani Ports':'ADANIPORTS','Gold ETF':'GOLDBEES','GOLDBEES':'GOLDBEES','Nifty 50 ETF':'NIFTYBEES','IREDA':'IREDA','NMDC':'NMDC','IRFC':'IRFC','CPSEETF':'CPSEETF','ALLCARGO':'ALLCARGO','HUDCO':'HUDCO','RECLTD':'RECLTD','IRB':'IRB','LANCER':'LANCER','IOC':'IOC','AGL':'AGL'};
 
-// ===== SHARE LIVE - FIXED V3 - 3 RASTA =====
+// ===== SHARE LIVE - FIXED V4 - RAJA =====
 let shareLiveRunning=false;
-
-async function fetchWithTimeout(url, ms){
+async function fetchText(url, ms){
   let ctrl=new AbortController();
   let to=setTimeout(()=>ctrl.abort(), ms);
-  try{
-    let r=await fetch(url,{signal:ctrl});
-    let t=await r.text();
-    return t;
-  }catch(e){ return ""; }
-  finally{ clearTimeout(to); }
+  try{ let r=await fetch(url,{signal:ctrl}); let t=await r.text(); return t; }
+  catch(e){ return ""; } finally{ clearTimeout(to); }
 }
-// Rasto 1 - STOOQ via allorigins - Browser na atkaave
+function parseYahooJson(t){
+  if(!t) return 0;
+  let data=null;
+  try{ data=JSON.parse(t); }catch(e){ return 0; }
+  if(data && data.contents){ try{ data=JSON.parse(data.contents); }catch(e){ return 0; } }
+  let p=data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta && data.chart.result[0].meta.regularMarketPrice;
+  p=Number(p||0); return p>0?p:0;
+}
 async function fetchFromStooq(sym){
   try{
     let stooqUrl='https://stooq.com/q/l/?s='+sym.toLowerCase()+'.in&f=sd2t2ohlcv&h&e=csv';
-    // Pehla allorigins thi try karo
-   let t=await fetchWithTimeout('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(stooqUrl), 10000);
-    if(!t){
-      // Jo na aave to sidho try karo
-      t=await fetchWithTimeout(stooqUrl, 8000);
-    }
+    let t=await fetchText('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(stooqUrl), 10000);
+    if(!t) t=await fetchText(stooqUrl, 8000);
     if(!t) return 0;
-    let txt=await t.text();
-let lines=txt.trim().split('\n');
+    let lines=t.trim().split('\n');
     if(lines.length<2) return 0;
-    let parts=lines[1].split(',');
+    let row=lines[1];
+    if(row.toLowerCase().includes('symbol')) return 0;
+    let parts=row.split(',');
     let close=parseFloat(parts[6]);
     if(close>0) return close;
-    // Kyaare kyaare stooq ma close 7ma nahi, 4tha hoy
     let close2=parseFloat(parts[4]);
     if(close2>0) return close2;
     return 0;
   }catch(e){ return 0; }
 }
-
-// Rasto 2 ane 3 - YAHOO via allorigins GET
-async function fetchFromYahoo(sym, proxy){
+async function fetchFromYahoo(sym){
   try{
-    let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS';
-    let full='';
-    if(proxy==='corsproxy') full='https://corsproxy.io/?url='+encodeURIComponent(yurl);
-    if(proxy==='allorigins') full='https://api.allorigins.win/get?url='+encodeURIComponent(yurl);
-    let t=await fetchWithTimeout(full, 10000);
-    if(!t) return 0;
-    let data;
-    try{ data=JSON.parse(t); }catch(e){ return 0; }
-    // allorigins GET ma andar contents ma hoy
-    if(data && data.contents){
-      try{ data=JSON.parse(data.contents); }catch(e){ return 0; }
-    }
-    let price=data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta && data.chart.result[0].meta.regularMarketPrice;
-    if(price>0) return price;
+    let yurl='https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'.NS?interval=1d&range=1d';
+    let t1=await fetchText('https://api.allorigins.win/raw?url='+encodeURIComponent(yurl), 10000);
+    let p1=parseYahooJson(t1); if(p1>0) return p1;
+    let t2=await fetchText('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(yurl), 10000);
+    let p2=parseYahooJson(t2); if(p2>0) return p2;
+    let t3=await fetchText('https://corsproxy.io/?url='+encodeURIComponent(yurl), 10000);
+    let p3=parseYahooJson(t3); if(p3>0) return p3;
     return 0;
   }catch(e){ return 0; }
 }
 async function fetchSharePriceWithTimeout(sym){
-  // 1. Stooq
-  let p1=await fetchFromStooq(sym);
-  if(p1>0) return p1;
-  // 2. Yahoo via corsproxy
-  let p2=await fetchFromYahoo(sym,'corsproxy');
-  if(p2>0) return p2;
-  // 3. Yahoo via allorigins
-  let p3=await fetchFromYahoo(sym,'allorigins');
-  if(p3>0) return p3;
+  let p1=await fetchFromStooq(sym); if(p1>0) return p1;
+  let p2=await fetchFromYahoo(sym); if(p2>0) return p2;
   return 0;
 }
-
 async function updateShareLive(){
   if(shareLiveRunning){ alert('SHARE LIVE already chalu che Raja, thodo wait karo'); return; }
   if(!confirm('LIVE PRICE lavu che?')) return;
@@ -414,10 +395,12 @@ async function updateShareLive(){
       if(s.name.toUpperCase()==='NSE'){ skipped.push('NSE (Unlisted - SKIP)'); continue; }
       let sym=(window.SYMBOL_MAP && window.SYMBOL_MAP[s.name]) || s.name.toUpperCase().replace(/[^A-Z0-9]/g,'');
       if(!sym){ failed.push(s.name); continue; }
+      let oldCmp=Number(s.cmp||0);
       let price=await fetchSharePriceWithTimeout(sym);
-      if(price>0){ s.cmp=price; s.price=price; updated++; }
+      if(price>0 && oldCmp>0 && Math.abs(price-oldCmp)/oldCmp>0.5){ failed.push(s.name+' (Galat Bhav - Juvo Rakhyo)'); }
+      else if(price>0){ s.cmp=price; s.price=price; updated++; }
       else failed.push(s.name);
-      await new Promise(r=>setTimeout(r,200));
+      await new Promise(r=>setTimeout(r,250));
     }
   }catch(e){ failed.push('Error: '+e.message); }
   shareLiveRunning=false;
@@ -473,7 +456,7 @@ async function updateLive(){ if(liveRunning){alert('LIVE already chalu che Raja,
 function getAllData(){ return {MF:MF, MONTHLY:MONTHLY, FD:FD, ncds:ncds, shares:shares, prems:prems, premTypes:premTypes, familyMembers:familyMembers, fileAttachments:fileAttachments, time:Date.now()}; }
 function saveToCloud(){ try{ localStorage.setItem('RAJA_CLOUD', JSON.stringify(getAllData())); let el=document.getElementById('syncStatus'); if(el) el.textContent='SYNC: Saved - '+new Date().toLocaleTimeString(); if(SHEET_URL){ fetch(SHEET_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(getAllData())}).catch(()=>{}); } }catch(e){} }
 async function loadFromCloud(){ try{ if(SHEET_URL){ let r=await fetch(SHEET_URL+"?t="+Date.now()); let d=await r.json(); if(d && d.MF){ applyCloudData(d); return; } } }catch(e){} }
-function applyCloudData(d){ try{ if(!d.MF) return; let oldTime=Number(localStorage.getItem('RAJA_CLOUD_TIME')||0); if(d.time && d.time<=oldTime) return; MF=d.MF; if(d.MONTHLY) MONTHLY=d.MONTHLY; if(d.FD) FD=d.FD; if(d.ncds){ ncds=d.ncds; localStorage.setItem('ncds',JSON.stringify(ncds)); } if(d.shares){ shares=d.shares; localStorage.setItem('shares_v2',JSON.stringify(shares)); } if(d.prems){ prems=d.prems; localStorage.setItem('prems_v2',JSON.stringify(prems)); } if(d.premTypes){ premTypes=d.premTypes; localStorage.setItem('premTypes',JSON.stringify(premTypes)); } if(d.familyMembers){ familyMembers=d.familyMembers; localStorage.setItem('familyMembers',JSON.stringify(familyMembers)); } if(d.fileAttachments){ fileAttachments=d.fileAttachments; localStorage.setItem('fileAttachments',JSON.stringify(fileAttachments)); } if(d.time) localStorage.setItem('RAJA_CLOUD_TIME', d.time); render(); renderFD(); renderMonthly(); renderNCD(); renderShare(); renderPrem(); renderFamily(); renderFiles(); let el=document.getElementById('syncStatus'); if(el) el.textContent='SYNC: Loaded from Cloud - '+new Date().toLocaleTimeString(); }catch(e){} }
+function applyCloudData(d){ try{ if(!d.MF) return; let oldTime=Number(localStorage.getItem('RAJA_CLOUD_TIME')||0); if(d.time && d.time<=oldTime) return; if(d.MF && d.MF.length && Number(d.MF[0].nav||0)>0) MF=d.MF; if(d.MONTHLY) MONTHLY=d.MONTHLY; if(d.FD) FD=d.FD; if(d.ncds){ ncds=d.ncds; localStorage.setItem('ncds',JSON.stringify(ncds)); } if(d.shares){ shares=d.shares; localStorage.setItem('shares_v2',JSON.stringify(shares)); } if(d.prems){ prems=d.prems; localStorage.setItem('prems_v2',JSON.stringify(prems)); } if(d.premTypes){ premTypes=d.premTypes; localStorage.setItem('premTypes',JSON.stringify(premTypes)); } if(d.familyMembers){ familyMembers=d.familyMembers; localStorage.setItem('familyMembers',JSON.stringify(familyMembers)); } if(d.fileAttachments){ fileAttachments=d.fileAttachments; localStorage.setItem('fileAttachments',JSON.stringify(fileAttachments)); } if(d.time) localStorage.setItem('RAJA_CLOUD_TIME', d.time); render(); renderFD(); renderMonthly(); renderNCD(); renderShare(); renderPrem(); renderFamily(); renderFiles(); let el=document.getElementById('syncStatus'); if(el) el.textContent='SYNC: Loaded from Cloud - '+new Date().toLocaleTimeString(); }catch(e){} }
 function manualSync(){ let s=localStorage.getItem('RAJA_CLOUD'); if(s){ try{ applyCloudData(JSON.parse(s)); alert('SYNC Done Raja!'); return; }catch(e){} } loadFromCloud(); alert('SYNC Checking... 10 second pachi page refresh karo'); }
 function fdShowForm(idx){ let old=document.getElementById('fdEditBox'); if(old) old.remove(); let cur = (idx!==null && idx!==undefined && FD[idx]) ? FD[idx] : null; fdEditIdx = cur ? Number(idx) : -1; let box=document.createElement('div'); box.id='fdEditBox'; box.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px'; box.innerHTML='<div style="background:white;width:100%;max-width:420px;border-radius:18px;padding:16px;max-height:90vh;overflow:auto">'+'<b style="font-size:18px">'+(cur?'EDIT FD':'ADD NEW FD')+'</b><br><br>'+'<label>1. Bank Name</label><input id="f1" value="'+(cur?cur.name.replace(' FD',''):'Equitas')+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>2. કોના નામની?</label><input id="f2" value="'+(cur?(cur.owner||'Rajendra'):'Rajendra')+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>3. Investment Date</label><input id="f3" type="date" value="'+(cur?(cur.invDate||''):'2026-02-18')+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>4. Amount</label><input id="f4" type="number" value="'+(cur?cur.amt:73628)+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>5. Interest Rate %</label><input id="f5" type="number" step="0.1" value="'+(cur?(cur.rate||7.5):7.5)+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>6. Maturity Date</label><input id="f6" type="date" value="'+(cur?cur.mat:'2027-02-18')+'" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>7. Maturity Amount</label><input id="f7" type="number" value="'+(cur?(cur.matAmt||''):'')+'" placeholder="સર્ટિફિકેટમાં લખેલી રકમ" style="width:100%;padding:10px;margin:4px 0 10px;border:1px solid #ccc;border-radius:10px">'+'<label>8. Interest Type</label><select id="f8" style="width:100%;padding:10px;margin:4px 0 14px;border:1px solid #ccc;border-radius:10px"><option>Quarterly - દર 3 મહિને વ્યાજ</option><option>Monthly - દર મહિને વ્યાજ</option><option>Maturity - પાકે ત્યારે જ</option></select>'+'<div style="display:flex;gap:10px"><button id="fdSave" style="flex:1;background:#1565C0;color:white;padding:12px;border:none;border-radius:10px;font-weight:bold">SAVE</button><button id="fdCancel" style="flex:1;background:#eee;padding:12px;border:none;border-radius:10px;font-weight:bold">બંધ કરો</button></div></div>'; document.body.appendChild(box); document.getElementById('fdCancel').onclick=()=>box.remove(); document.getElementById('fdSave').onclick=()=>{ let nm=document.getElementById('f1').value, ow=document.getElementById('f2').value, id2=document.getElementById('f3').value, am=Number(document.getElementById('f4').value||0), rt=document.getElementById('f5').value, dt=document.getElementById('f6').value, ma=Number(document.getElementById('f7').value||am), tp=document.getElementById('f8').value; if(!nm||!am||!dt){alert('Bank + Amount + Maturity Date lakho');return;} let intr=ma-am; let note=tp.includes('Quarterly')?'Interest: QUARTERLY - દર 3 મહિને Rs '+Math.round(intr/4).toLocaleString('en-IN')+' આવશે':tp.includes('Monthly')?'Interest: MONTHLY - દર મહિને Rs '+Math.round(intr/12).toLocaleString('en-IN')+' આવશે':'Interest: MATURITY - પાકે ત્યારે જ Rs '+intr.toLocaleString('en-IN')+' મળશે'; let obj={name:nm+' FD',owner:ow,invDate:id2,amt:am,rate:rt,mat:dt,matAmt:ma,note:note}; if(fdEditIdx>=0) FD[fdEditIdx]=obj; else FD.push(obj); box.remove(); renderFD(); updateGrandTotal(); saveToCloud(); alert('સેવ થઈ ગયું રાજા'); }; }
 render(); renderFD(); renderMonthly(); renderNCD(); renderShare(); renderPrem(); renderFamily(); renderFiles();
