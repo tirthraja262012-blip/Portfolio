@@ -217,21 +217,69 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div id="fileList" style="margin-top:12px"></div></div>
 </div>
 <script>
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwf1kk02wiWpkiluJZuQY11Vo4jMFxltlepTyfrwLmFvHFbHdxqtWwdMSxetC5RtA6d/exec";
-  const NSE_LIST_URL = "https://raw.githubusercontent.com/dharanikota/nse-stocks/main/nse_stocks.json";
-let ALL_SHARES = [];
+// ===== NSE ALL SHARE LIST - RAJA - MF JEVU J =====
+let ALL_SHARES = [
+{name:"RELIANCE",symbol:"RELIANCE"},{name:"TCS",symbol:"TCS"},{name:"HDFC BANK",symbol:"HDFCBANK"},
+{name:"INFOSYS",symbol:"INFY"},{name:"ICICI BANK",symbol:"ICICIBANK"},{name:"TATA MOTORS",symbol:"TATAMOTORS"},
+{name:"TATA POWER",symbol:"TATAPOWER"},{name:"TATA STEEL",symbol:"TATASTEEL"},{name:"TITAN",symbol:"TITAN"},
+{name:"ASIAN PAINTS",symbol:"ASIANPAINT"},{name:"ITC",symbol:"ITC"},{name:"L&T",symbol:"LT"},
+{name:"MARUTI",symbol:"MARUTI"},{name:"AXIS BANK",symbol:"AXISBANK"},{name:"KOTAK BANK",symbol:"KOTAKBANK"},
+{name:"SBI",symbol:"SBIN"},{name:"WIPRO",symbol:"WIPRO"},{name:"TECH MAHINDRA",symbol:"TECHM"},
+{name:"HCL TECH",symbol:"HCLTECH"},{name:"SUN PHARMA",symbol:"SUNPHARMA"},{name:"ADANI ENTERPRISES",symbol:"ADANIENT"},
+{name:"ADANI PORTS",symbol:"ADANIPORTS"},{name:"GOLD ETF",symbol:"GOLDBEES"},{name:"IREDA",symbol:"IREDA"},
+{name:"NMDC",symbol:"NMDC"},{name:"IRFC",symbol:"IRFC"},{name:"CPSE ETF",symbol:"CPSEETF"},
+{name:"ALLCARGO",symbol:"ALLCARGO"},{name:"HUDCO",symbol:"HUDCO"},{name:"REC LTD",symbol:"RECLTD"},
+{name:"IRB",symbol:"IRB"},{name:"LANCER",symbol:"LANCER"},{name:"IOC - INDIAN OIL",symbol:"IOC"},
+{name:"AGL",symbol:"AGL"},{name:"BAJAJ FINANCE",symbol:"BAJFINANCE"},{name:"BAJAJ HOUSING",symbol:"BAJAJHFL"},
+{name:"NIFTY BEES",symbol:"NIFTYBEES"},{name:"HINDUNILVR",symbol:"HINDUNILVR"},{name:"NTPC",symbol:"NTPC"},
+{name:"ONGC",symbol:"ONGC"},{name:"COAL INDIA",symbol:"COALINDIA"},{name:"POWER GRID",symbol:"POWERGRID"},
+{name:"BPCL",symbol:"BPCL"},{name:"HPCL",symbol:"HPCL"},{name:"TATA CONSUMER",symbol:"TATACONSUM"},
+{name:"DMART",symbol:"DMART"},{name:"ZOMATO - ETERNAL",symbol:"ETERNAL"},{name:"PAYTM",symbol:"PAYTM"},
+{name:"HAL",symbol:"HAL"},{name:"BEL",symbol:"BEL"},{name:"SUZLON",symbol:"SUZLON"},
+{name:"YES BANK",symbol:"YESBANK"},{name:"PNB",symbol:"PNB"},{name:"BANK OF BARODA",symbol:"BANKBARODA"}
+];
 async function loadAllShares(){
-  if(ALL_SHARES.length) return ALL_SHARES;
-  try{
-    let r = await fetch(NSE_LIST_URL);
-    let j = await r.json();
-    ALL_SHARES = j.map(o=>({ name: o.name || o.company, symbol: o.symbol || o.ticker }));
-  }catch(e){
-    // જો ઈન્ટરનેટ ના ચાલે તો તારી Sheet વાળા નામ વાપરો
-    let live = await fetchLivePrices();
-    ALL_SHARES = live.map(o=>({ name: o.name, symbol: o.name }));
+  // તારા જૂના શેર + NSE લીસ્ટ બંને ભેગા
+  let mine = shares.map(o=>({name:o.name, symbol:(window.SYMBOL_MAP && window.SYMBOL_MAP[o.name]) || o.name}));
+  let all = [...ALL_SHARES, ...mine];
+  let seen = {};
+  return all.filter(o=>{ if(seen[o.symbol]) return false; seen[o.symbol]=1; return true; });
+}
+// નામ લખો એટલે લીસ્ટ આવશે - MF જેવું
+function initShareAutocomplete(){
+  let inp = document.getElementById('sName');
+  if(!inp || inp.dataset.done) return;
+  inp.dataset.done = "1";
+  inp.setAttribute('autocomplete','off');
+  inp.setAttribute('placeholder','Share નામ લખો - REL, TATA...');
+  // સજેશન બોક્સ બનાવો
+  let box = document.getElementById('sNameSuggest');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'sNameSuggest';
+    box.style.cssText = 'background:#fff;border:1px solid #ddd;border-radius:8px;max-height:220px;overflow:auto;display:none;position:relative;z-index:999';
+    inp.parentNode.insertBefore(box, inp.nextSibling);
   }
-  return ALL_SHARES;
+  inp.addEventListener('input', async ()=>{
+    let q = inp.value.trim().toUpperCase();
+    if(q.length < 2){ box.style.display='none'; box.innerHTML=''; return; }
+    let all = await loadAllShares();
+    let show = all.filter(o=> o.name.toUpperCase().includes(q) || o.symbol.toUpperCase().includes(q)).slice(0,10);
+    if(!show.length){ box.style.display='none'; return; }
+    box.style.display='block';
+    box.innerHTML = show.map(o=>`<div onclick="pickShareNSE('${o.symbol}','${o.name.replace(/'/g,'')}')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer"><b>${o.symbol}</b> - ${o.name}</div>`).join('');
+  });
+  // બહાર દબાવે તો બંધ
+  document.addEventListener('click', (e)=>{ if(e.target!==inp && e.target.parentNode!==box) box.style.display='none'; });
+}
+function pickShareNSE(sym, nm){
+  document.getElementById('sName').value = sym; // LIVE માટે Symbol જ સેવ થશે
+  let box = document.getElementById('sNameSuggest');
+  if(box){ box.style.display='none'; box.innerHTML=''; }
+  // SYMBOL_MAP માં પણ ઉમેરી દો એટલે LIVE ચાલે
+  if(!window.SYMBOL_MAP) window.SYMBOL_MAP = {};
+  window.SYMBOL_MAP[sym] = sym;
+  window.SYMBOL_MAP[nm] = sym;
 }
 let MF = [
 {name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655, daily:0, code:153859},
