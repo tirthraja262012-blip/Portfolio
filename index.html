@@ -218,6 +218,21 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 </div>
 <script>
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbwf1kk02wiWpkiluJZuQY11Vo4jMFxltlepTyfrwLmFvHFbHdxqtWwdMSxetC5RtA6d/exec";
+  const NSE_LIST_URL = "https://raw.githubusercontent.com/dharanikota/nse-stocks/main/nse_stocks.json";
+let ALL_SHARES = [];
+async function loadAllShares(){
+  if(ALL_SHARES.length) return ALL_SHARES;
+  try{
+    let r = await fetch(NSE_LIST_URL);
+    let j = await r.json();
+    ALL_SHARES = j.map(o=>({ name: o.name || o.company, symbol: o.symbol || o.ticker }));
+  }catch(e){
+    // જો ઈન્ટરનેટ ના ચાલે તો તારી Sheet વાળા નામ વાપરો
+    let live = await fetchLivePrices();
+    ALL_SHARES = live.map(o=>({ name: o.name, symbol: o.name }));
+  }
+  return ALL_SHARES;
+}
 let MF = [
 {name:"Jio Flexi Cap Fund - Direct Growth", folio:"", units:824.55, inv:8001, nav:10.2655, daily:0, code:153859},
 {name:"ICICI Prudential Value Fund - Direct Plan - Growth", folio:"RAJENDRA - 28065193", units:260.55, inv:100000, nav:537.75, daily:0},
