@@ -355,7 +355,7 @@ async function fetchFromStooq(sym){
     let lines=t.trim().split('\n');
     if(lines.length<2) return 0;
     let parts=lines[1].split(',');
-    let close=parseFloat(parts[6]);
+    let close=parseFloat(parts[5]);
     if(close>0) return close;
     // Kyaare kyaare stooq ma close 7ma nahi, 4tha hoy
     let close2=parseFloat(parts[4]);
