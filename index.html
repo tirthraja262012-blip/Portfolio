@@ -84,7 +84,7 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <div class="tabs">
 <div class="tab active" id="tTotal" onclick="show('Total')">TOTAL</div>
 <div class="tab" id="tMF" onclick="show('MF')">MF</div>
-<div class="tab" id="tFD" onclick="show('FD')">FD</div>
+<div class="tab" id="tFD" onclick="show('FD');fillFdDropdowns()">FD</div>
 <div class="tab" id="tNCD" onclick="show('NCD')">NCD</div>
 <div class="tab" id="tShare" onclick="show('Share')">SHARE</div>
 <div class="tab" id="tPrem" onclick="show('Prem')">PREMIUM</div>
@@ -115,11 +115,11 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 <button class="btnAdd" onclick="showFdForm()">+ ADD NEW FD</button>
 <br><br>
 <label>કોનાના નામની? - Filter</label>
-<select id="fdFilterOwner" onchange="renderFD()" style="width:100%;padding:12px;border:2px solid #6B0F1A;border-radius:8px"><option value="">ALL - બધા</option><option>Rajendra</option><option>Komal</option></select>
+<select id="fdFilterOwner" onchange="renderFD()" style="width:100%;padding:12px;border:2px solid #6B0F1A;border-radius:8px"><option value="">ALL - બધા</option></select>
 </div>
 <div id="fdForm" class="formBox">
 <h3 id="fdFormTitle">ADD NEW FD</h3>
-<label>કોનાના નામની?</label><select id="fdOwner"><option>Rajendra</option><option>Komal</option></select>
+<label>કોનાના નામની?</label><select id="fdOwner"></select>
 <label>FD નું નામ - e.g. Unity FD</label><input id="fdName" placeholder="e.g. Unity FD">
 <label>Amount</label><input id="fdAmt" type="number">
 <label>Maturity Date</label><input id="fdMat" type="date">
@@ -232,6 +232,22 @@ td{border:1px solid #FFE082;padding:8px 4px;text-align:center;background:#FFF8E1
 </div>
 <script>
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbyJDAOOljBX23mhrfaFWBcKEvL5dna4gMTpiO81upegEr1DfuXJhaBLAjuLGkea6eOa/exec";
+  function fillFdDropdowns(){
+  let names = ["Rajendra","Komal"];
+  try{
+    if(window.familyMembers && window.familyMembers.length) names = window.familyMembers;
+    else if(window.FAMILY && window.FAMILY.length) names = window.FAMILY;
+    else{
+      let saved = localStorage.getItem("familyMembers") || localStorage.getItem("FAMILY") || localStorage.getItem("family");
+      if(saved){ let p = JSON.parse(saved); if(p.length) names = p.map(x=> typeof x==="string"? x : x.name); }
+    }
+  }catch(e){}
+  names = [...new Set(names)];
+  let f1 = document.getElementById("fdFilterOwner");
+  if(f1){ let old = f1.value; f1.innerHTML = '<option value="">ALL - બધા</option>' + names.map(n=>'<option>'+n+'</option>').join(''); f1.value = old; }
+  let f2 = document.getElementById("fdOwner");
+  if(f2){ let old2 = f2.value; f2.innerHTML = names.map(n=>'<option>'+n+'</option>').join(''); if(old2) f2.value = old2; }
+}
 // ===== NSE ALL SHARE LIST - RAJA - MF JEVU J =====
 let ALL_SHARES = [
 {name:"RELIANCE",symbol:"RELIANCE"},{name:"TCS",symbol:"TCS"},{name:"HDFC BANK",symbol:"HDFCBANK"},
