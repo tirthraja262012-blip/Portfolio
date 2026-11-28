@@ -326,9 +326,9 @@ let MF = [
 {name:"SBI Small Cap Fund - Direct Growth", folio:"", units:1184.88, inv:156000, nav:210.0213, daily:0}
 ];
 let FD = [
-{name:"Equitas FD", owner:"Rajendra", amt:73628,
+{name:"Equitas FD", owner:"Rajendra", amt:73628, mat:"2027-02-18"},
 {name:"Shriram FD", owner:"Rajendra", amt:50000, mat:"2027-05-07"},
-{name:"Unity FD", owner:"Rajendra", amt:250000, mat:"2027-06-01"},
+{name:"Unity FD", owner:"Rajendra", amt:250000, mat:"2027-06-10"},
 {name:"Unity FD", owner:"Rajendra", amt:200000, mat:"2027-06-10"},
 {name:"Unity FD", owner:"Rajendra", amt:200000, mat:"2027-06-11"},
 {name:"AU FD", owner:"Rajendra", amt:283367, mat:"2027-10-02"},
@@ -493,20 +493,6 @@ function editFD(i){
 function deleteFD(i){
   if(!confirm('Delete '+FD[i].name+' ?'))return;
   FD.splice(i,1); renderFD(); updateGrandTotal(); saveToCloud();
-}
-function renderFD(){
-  let f=document.getElementById('fdFilterOwner') ? document.getElementById('fdFilterOwner').value : '';
-  let list=FD.filter(x=>!f||x.owner===f);
-  let tot=list.reduce((s,x)=>s+Number(x.amt||0),0);
-  document.getElementById('fdCount').textContent=FD.length;
-  document.getElementById('fdTotalInvested').textContent=tot.toLocaleString('en-IN');
-  let html='';
-  list.forEach((x)=>{
-    let realIdx=FD.indexOf(x);
-    html+='<div class="card"><div class="item"><b>'+x.name+' - '+(x.owner||'Rajendra')+'</b><br>Amount: Rs '+Number(x.amt).toLocaleString('en-IN')+'<br>Maturity: '+x.mat+'<br><button class="btnEdit" onclick="editFD('+realIdx+')">EDIT</button><button class="btnDel" onclick="deleteFD('+realIdx+')">DELETE</button></div></div>';
-  });
-  if(!list.length) html='<div class="card">No FD Found.</div>';
-  document.getElementById('fdListBox').innerHTML=html;
 }
 function show(t){ ['Total','MF','FD','NCD','Share','Prem','Monthly','Analysis','Family','Files'].forEach(x=>{ var p=document.getElementById('p'+x); if(p) p.style.display = x===t ? 'block':'none'; var tb=document.getElementById('t'+x); if(tb) tb.className = x===t ? 'tab active':'tab'; }); if(t==='Monthly') renderMonthly(); if(t==='Analysis') renderAnalysis(); if(t==='Share') renderShare(); if(t==='Prem') renderPrem(); if(t==='NCD') renderNCD(); if(t==='FD') renderFD(); if(t==='Family') renderFamily(); if(t==='Files') renderFiles(); if(t==='Total') renderChart(); }
 function calcTotals(){ let tot=0, invTot=0, daily=0; MF.forEach(m=>{ tot+=m.units*m.nav; invTot+=m.inv; daily+=(m.daily||0); }); return {tot:Math.round(tot), inv:invTot, gain:Math.round(tot-invTot), daily:Math.round(daily)}; }
